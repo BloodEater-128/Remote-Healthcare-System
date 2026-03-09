@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, provider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "./src/firebaseConfig";
 
 /* ── ECG Canvas ── */
 const ECGCanvas = ({ color = "#00ff9d", glowColor = "#00ff9d" }) => {
@@ -253,17 +255,132 @@ const SignupLeftPanel = () => {
 
 /* ══════════════ MAIN ══════════════ */
 export default function App() {
+  const navigate = useNavigate();
   const [page, setPage] = useState("login");
   const [portal, setPortal] = useState("patient");
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [animKey, setAnimKey] = useState(0);
-  const [form, setForm] = useState({ email: "", pw: "" });
+  const [form, setForm] = useState({ email: "", pw: "", name: "", patientId: "", confirmPw: "" });
   const isP = portal === "patient";
   const isLogin = page === "login";
 
-  const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "" }); setShowPw(false); };
-  const submit = () => { setLoading(true); setTimeout(() => setLoading(false), 1800); };
+  const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); };
+
+  const validateEmailPassword = () => {
+    if (!form.email.endsWith("@gmail.com")) {
+      alert("Only @gmail.com email addresses are allowed.");
+      return false;
+    }
+    if (form.pw.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return false;
+    }
+    return true;
+  }
+
+  const handleLogin = async () => {
+    if (!validateEmailPassword()) return;
+
+    try {
+      setLoading(true);
+      const userCredential = await signInWithEmailAndPassword(auth, form.email, form.pw);
+      const user = userCredential.user;
+      const idToken = await user.getIdToken();
+
+      // Verify token with our Python backend
+      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      console.log('Backend Verification Success:', data);
+
+      setLoading(false);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login Error:", error);
+      setLoading(false);
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        alert("Invalid email or password. If you don't have an account, please sign up.");
+      } else {
+        alert("Failed to sign in: " + error.message);
+      }
+    }
+  };
+
+  const handleSignup = async () => {
+    if (!validateEmailPassword()) return;
+
+    if (form.pw !== form.confirmPw) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.pw);
+      const user = userCredential.user;
+      const idToken = await user.getIdToken();
+
+      // Verify token with our Python backend
+      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      console.log('Backend Verification Success:', data);
+
+      setLoading(false);
+      alert("Account created successfully!");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Signup Error:", error);
+      setLoading(false);
+      if (error.code === 'auth/email-already-in-use') {
+        alert("This email is already registered. Please sign in instead.");
+      } else {
+        alert("Failed to create account: " + error.message);
+      }
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+
+      // Verify token with our Python backend
+      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      console.log('Backend Verification Success:', data);
+
+      setLoading(false);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Authentication Error:", error);
+      setLoading(false);
+      alert("Failed to authenticate. Please try again.");
+    }
+  };
+
   const goSignup = () => { setPage("signup"); setAnimKey(k => k + 1); setShowPw(false); };
   const goLogin = () => { setPage("login"); setAnimKey(k => k + 1); setShowPw(false); };
 
@@ -471,13 +588,13 @@ export default function App() {
                     </div>
                     <span className="forgot">Forgot password?</span>
                   </div>
-                  <button className="sbtn" onClick={submit}>
+                  <button className="sbtn" onClick={handleLogin}>
                     <div className="shimmer" />
                     {loading ? <div className="dots"><span /><span /><span /></div> : "Sign In"}
                   </button>
                   <div className="divrow">or continue with</div>
                   <div className="srow">
-                    <button className="soc soc-g"><GoogleSVG /> Google</button>
+                    <button className="soc soc-g" onClick={handleGoogleSignIn}><GoogleSVG /> Google</button>
                     <button className="soc soc-f"><FacebookSVG /> Facebook</button>
                   </div>
                   <div className="switch-row">
@@ -495,38 +612,38 @@ export default function App() {
                     <label className="flbl">Full Name</label>
                     <div className="fwrap">
                       <span className="fico">👤</span>
-                      <input className="finp" type="text" placeholder="John Doe" />
+                      <input className="finp" type="text" placeholder="John Doe" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
                     </div>
                   </div>
                   <div className="field">
                     <label className="flbl">Patient ID</label>
                     <div className="fwrap">
                       <span className="fico">🪪</span>
-                      <input className="finp" type="text" placeholder="PAT-XXXX" />
+                      <input className="finp" type="text" placeholder="PAT-XXXX" value={form.patientId} onChange={e => setForm({ ...form, patientId: e.target.value })} />
                     </div>
                   </div>
                   <div className="field">
                     <label className="flbl">Email</label>
                     <div className="fwrap">
                       <span className="fico">📧</span>
-                      <input className="finp" type="email" placeholder="patient@email.com" />
+                      <input className="finp" type="email" placeholder="patient@gmail.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                     </div>
                   </div>
                   <div className="field">
                     <label className="flbl">Password</label>
                     <div className="fwrap">
                       <span className="fico">🔒</span>
-                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" />
+                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" value={form.pw} onChange={e => setForm({ ...form, pw: e.target.value })} />
                       <button className="ptoggle" onClick={() => setShowPw(!showPw)}>{showPw ? "🙈" : "👁️"}</button>
                     </div>
                   </div>
                   <div className="field">
                     <label className="flbl">Confirm Password</label>
-                    <div className="fwrap"><span className="fico">🔐</span><input className="finp" type="password" placeholder="••••••••" /></div>
+                    <div className="fwrap"><span className="fico">🔐</span><input className="finp" type="password" placeholder="••••••••" value={form.confirmPw} onChange={e => setForm({ ...form, confirmPw: e.target.value })} /></div>
                   </div>
-                  <button className="sbtn" onClick={submit}>
+                  <button className="sbtn" onClick={handleSignup}>
                     <div className="shimmer" />
-                    {loading ? <div className="dots"><span /><span /><span /></div> : "Create Patient Account"}
+                    {loading ? <div className="dots"><span /><span /><span /></div> : "Create Account"}
                   </button>
                   <div className="switch-row" style={{ marginTop: ".9rem" }}>
                     Already have an account?<span className="switch-link" onClick={goLogin}> Sign In</span>
