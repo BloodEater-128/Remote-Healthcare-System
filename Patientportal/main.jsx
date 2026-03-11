@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import HealthLogin from './login.jsx'
 import PatientDashboard from './patient-dashboard.jsx'
 import VitalsPage from './vitals.jsx'
@@ -13,7 +13,7 @@ import Settings from './settings.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path="/" element={<HealthLogin />} />
                 <Route path="/dashboard" element={<PatientDashboard />} />
@@ -25,6 +25,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/settings" element={<Settings />} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     </React.StrictMode>,
 )
