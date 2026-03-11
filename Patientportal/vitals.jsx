@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-/* ══ LIVE ECG CANVAS ══ */
+import Sidebar from "./Sidebar.jsx";
+
 const ECGCanvas = ({ color = "#00ff9d", height = 90 }) => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -202,11 +203,9 @@ const DayGroup = ({ date, day, badge, avg, rows, defaultOpen }) => {
 export default function VitalsPage() {
   const navigate = useNavigate();
   const [heartRate, setHeartRate] = useState(72);
-  const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [time, setTime] = useState(new Date());
   const [showAIChat, setShowAIChat] = useState(false);
-  const [navClicked, setNavClicked] = useState(null);
 
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 1000);
@@ -382,70 +381,7 @@ export default function VitalsPage() {
 
       <div className="vp">
 
-        {/* ══ SIDEBAR ══ */}
-        <div className={`sidebar${expanded ? " expanded" : ""}`}>
-
-          {/* Profile top */}
-          <div className="sb-profile">
-            <div className="sb-avatar">👤</div>
-            <div className="sb-profile-info">
-              <span className="sb-name">Alex Johnson</span>
-              <span className="sb-role">Patient · ID: PAT-0042</span>
-            </div>
-          </div>
-
-          {/* Expand / Collapse toggle */}
-          <button className="sb-toggle" onClick={() => setExpanded(e => !e)}>
-            {!expanded && (
-              <div className="sb-toggle-lines">
-                <span className="sb-toggle-line" />
-                <span className="sb-toggle-line" />
-                <span className="sb-toggle-line" />
-              </div>
-            )}
-            {expanded && <span style={{ fontSize: ".9rem", fontWeight: 700, color: "rgba(255,255,255,.5)" }}>←</span>}
-          </button>
-
-          {/* Nav items */}
-          <div className="sb-nav">
-            {[
-              { icon: "📊", label: "Dashboard", key: "dashboard" },
-              { icon: "❤️", label: "Vitals", key: "vitals" },
-              { icon: "🔔", label: "Alerts", key: "alerts" },
-              { icon: "💊", label: "Medications", key: "meds" },
-              { icon: "📋", label: "Reports", key: "reports" },
-              { icon: "💬", label: "AI Chat", key: "chat" },
-              { icon: "⚙️", label: "Settings", key: "settings" },
-            ].map(({ icon, label, key }) => (
-              <button key={key}
-                className={`sb-item${key === "vitals" ? " active" : ""}${navClicked === key ? " clicked" : ""}`}
-                onClick={(e) => {
-                  // ripple origin
-                  setNavClicked(key);
-                  setTimeout(() => setNavClicked(null), 560);
-                  if (key === "dashboard") navigate("/dashboard");
-                  if (key === "alerts") navigate("/alerts");
-                }}>
-                {navClicked === key && (
-                  <span className="sb-ripple" style={{ left: "50%", top: "50%" }} />
-                )}
-                <span className="sb-item-icon">{icon}</span>
-                <span className="sb-item-label">{label}</span>
-                <span className="sb-active-bar" />
-              </button>
-            ))}
-          </div>
-
-          <div className="sb-divider" />
-
-          <div className="sb-bottom">
-            <button className="sb-logout" onClick={() => navigate("/")}>
-              <span className="sb-item-icon">🚪</span>
-              <span className="sb-logout-label">Log Out</span>
-            </button>
-          </div>
-
-        </div>
+        <Sidebar active="vitals" />
 
         {/* ══ MAIN ══ */}
         <div className="vp-main">

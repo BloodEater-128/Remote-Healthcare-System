@@ -412,11 +412,12 @@ export default function PatientDashboard() {
             ].map(({ icon, label, key }) => (
               <button key={key} className={`sb-item${activeNav === key ? " active" : ""}`} onClick={() => {
                 setActiveNav(key);
-                if (key === "vitals") {
-                  navigate("/vitals");
-                } else if (key === "alerts") {
-                  navigate("/alerts");
-                }
+                if (key === "vitals") navigate("/vitals");
+                else if (key === "alerts") navigate("/alerts");
+                else if (key === "reports") navigate("/reports");
+                else if (key === "chat") navigate("/jarvis-chat");
+                else if (key === "settings") navigate("/settings");
+                else if (key === "meds") navigate("/medication");
               }}>
                 <span className="sb-item-icon">
                   {icon}
@@ -427,11 +428,12 @@ export default function PatientDashboard() {
             ))}
           </div>
 
+
           <div className="sb-divider" />
 
           {/* Bottom — logout */}
           <div className="sb-bottom">
-            <button className="sb-logout" onClick={() => navigate("/")}>
+            <button className="sb-logout" onClick={() => navigate("/logout")}>
               <span className="sb-item-icon">🚪</span>
               <span className="sb-logout-label">Log Out</span>
             </button>

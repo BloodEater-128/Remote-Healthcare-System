@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, provider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "./src/firebaseConfig";
+// Firebase removed – using local mock auth
 
 /* ── ECG Canvas ── */
 const ECGCanvas = ({ color = "#00ff9d", glowColor = "#00ff9d" }) => {
@@ -267,118 +267,35 @@ export default function App() {
 
   const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); };
 
-  const validateEmailPassword = () => {
-    if (!form.email.endsWith("@gmail.com")) {
-      alert("Only @gmail.com email addresses are allowed.");
-      return false;
-    }
-    if (form.pw.length < 6) {
-      alert("Password must be at least 6 characters long.");
-      return false;
-    }
-    return true;
-  }
-
   const handleLogin = async () => {
-    if (!validateEmailPassword()) return;
-
-    try {
-      setLoading(true);
-      const userCredential = await signInWithEmailAndPassword(auth, form.email, form.pw);
-      const user = userCredential.user;
-      const idToken = await user.getIdToken();
-
-      // Verify token with our Python backend
-      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${idToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const data = await response.json();
-      console.log('Backend Verification Success:', data);
-
+    setLoading(true);
+    // Mock auth – navigate directly to dashboard
+    setTimeout(() => {
       setLoading(false);
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Login Error:", error);
-      setLoading(false);
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-        alert("Invalid email or password. If you don't have an account, please sign up.");
-      } else {
-        alert("Failed to sign in: " + error.message);
-      }
-    }
+    }, 800);
   };
 
   const handleSignup = async () => {
-    if (!validateEmailPassword()) return;
-
     if (form.pw !== form.confirmPw) {
       alert("Passwords do not match!");
       return;
     }
-
-    try {
-      setLoading(true);
-      const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.pw);
-      const user = userCredential.user;
-      const idToken = await user.getIdToken();
-
-      // Verify token with our Python backend
-      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${idToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const data = await response.json();
-      console.log('Backend Verification Success:', data);
-
+    setLoading(true);
+    // Mock signup – navigate directly to dashboard
+    setTimeout(() => {
       setLoading(false);
-      alert("Account created successfully!");
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Signup Error:", error);
-      setLoading(false);
-      if (error.code === 'auth/email-already-in-use') {
-        alert("This email is already registered. Please sign in instead.");
-      } else {
-        alert("Failed to create account: " + error.message);
-      }
-    }
+    }, 800);
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      setLoading(true);
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const idToken = await user.getIdToken();
-
-      // Verify token with our Python backend
-      const response = await fetch('http://127.0.0.1:8000/api/auth/verify', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${idToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const data = await response.json();
-      console.log('Backend Verification Success:', data);
-
+    setLoading(true);
+    // Mock Google sign-in – navigate directly to dashboard
+    setTimeout(() => {
       setLoading(false);
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Authentication Error:", error);
-      setLoading(false);
-      alert("Failed to authenticate. Please try again.");
-    }
+    }, 800);
   };
 
   const goSignup = () => { setPage("signup"); setAnimKey(k => k + 1); setShowPw(false); };
