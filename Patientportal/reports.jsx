@@ -4,9 +4,7 @@ import jsPDF from "jspdf";
 import Sidebar from "./Sidebar.jsx";
 
 
-/* ════════════════════════════════════════
-   HOSPITAL & PATIENT (single system)
-════════════════════════════════════════ */
+
 const HOSPITAL = {
   name: "City General Hospital",
   address: "14, MG Road, New Delhi – 110001",
@@ -28,9 +26,7 @@ const PATIENT = {
   ward: "Outpatient – OPD 4",
 };
 
-/* ════════════════════════════════════════
-   TEST REPORTS (all taken at this hospital)
-════════════════════════════════════════ */
+
 const REPORTS = [
   {
     id: "CGH-LAB-2026-0312",
@@ -347,9 +343,7 @@ const REPORTS = [
   },
 ];
 
-/* ════════════════════════════════════════
-   HELPERS
-════════════════════════════════════════ */
+
 const statusMeta = (s) => ({
   Normal: { color: "#00ff9d", bg: "rgba(0,255,157,.12)", border: "rgba(0,255,157,.25)" },
   Borderline: { color: "#fbbf24", bg: "rgba(251,191,36,.12)", border: "rgba(251,191,36,.25)" },
@@ -363,9 +357,7 @@ const flagMeta = (f) => ({
   N: { color: "rgba(255,255,255,.4)", label: "NORM" },
 }[f] || { color: "rgba(255,255,255,.4)", label: "—" });
 
-/* ════════════════════════════════════════
-   DOWNLOAD
-════════════════════════════════════════ */
+
 const downloadReport = (r) => {
   const bar = "─".repeat(56);
   const linesText = [
@@ -468,9 +460,7 @@ const downloadReport = (r) => {
   doc.save(`${r.id}.pdf`);
 };
 
-/* ════════════════════════════════════════
-   VIEW MODAL
-════════════════════════════════════════ */
+
 const ReportModal = ({ r, onClose }) => {
   const sm = statusMeta(r.status);
   return (
@@ -478,10 +468,10 @@ const ReportModal = ({ r, onClose }) => {
       onClick={e => e.target === e.currentTarget && onClose()}>
       <div style={{ background: "linear-gradient(155deg,#0c1d34,#060f1e)", border: `1px solid ${r.color}30`, borderRadius: 22, width: "100%", maxWidth: 720, maxHeight: "92vh", overflowY: "auto", position: "relative" }}>
 
-        {/* glow blob */}
+        {}
         <div style={{ position: "absolute", top: -50, right: -50, width: 220, height: 220, borderRadius: "50%", background: r.color, filter: "blur(90px)", opacity: .07, pointerEvents: "none" }} />
 
-        {/* ─ sticky title bar ─ */}
+        {}
         <div style={{ position: "sticky", top: 0, zIndex: 2, background: "#0c1d34", borderBottom: "1px solid rgba(255,255,255,.07)", padding: "1.3rem 1.8rem 1rem", borderRadius: "22px 22px 0 0" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -501,7 +491,7 @@ const ReportModal = ({ r, onClose }) => {
 
         <div style={{ padding: "1.4rem 1.8rem" }}>
 
-          {/* ─ hospital + patient ─ */}
+          {}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".8rem", marginBottom: "1.2rem" }}>
             <div style={{ padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)" }}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".58rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 8 }}>🏥 Conducted At</div>
@@ -528,7 +518,7 @@ const ReportModal = ({ r, onClose }) => {
             </div>
           </div>
 
-          {/* ─ sample + timing ─ */}
+          {}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: ".7rem", marginBottom: "1.1rem" }}>
             {[
               { label: "Sample Type", value: r.sampleType },
@@ -542,7 +532,7 @@ const ReportModal = ({ r, onClose }) => {
             ))}
           </div>
 
-          {/* ─ X-ray technical info ─ */}
+          {}
           {r.xrayMeta && (
             <div style={{ padding: "12px 14px", borderRadius: 12, background: "rgba(0,200,255,.05)", border: "1px solid rgba(0,200,255,.18)", marginBottom: "1.1rem" }}>
               <div style={{ fontSize: ".58rem", color: "#00c8ff", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".09em", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
@@ -566,20 +556,20 @@ const ReportModal = ({ r, onClose }) => {
             </div>
           )}
 
-          {/* ─ summary ─ */}
+          {}
           <div style={{ padding: "12px 15px", borderRadius: 12, background: `${r.color}0b`, border: `1px solid ${r.color}22`, marginBottom: "1.2rem" }}>
             <div style={{ fontSize: ".58rem", color: r.color, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".09em", marginBottom: 5 }}>📝 Clinical Summary</div>
             <div style={{ fontSize: ".8rem", color: "rgba(255,255,255,.72)", lineHeight: 1.75 }}>{r.summary}</div>
           </div>
 
-          {/* ─ parameters table ─ */}
+          {}
           {r.parameters && (
             <>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".6rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 7, display: "flex", alignItems: "center", gap: 6 }}>
                 🧬 Test Parameters
                 <span style={{ marginLeft: "auto", fontSize: ".58rem", color: "rgba(255,107,107,.6)", fontWeight: 600 }}>🔴 = High &nbsp; 🟡 = Low</span>
               </div>
-              {/* col headers */}
+              {}
               <div style={{ display: "grid", gridTemplateColumns: "2.2fr 80px 110px 130px 62px", gap: 8, padding: "5px 12px", marginBottom: 4 }}>
                 {["Parameter", "Value", "Unit", "Reference", "Flag"].map(h => (
                   <span key={h} style={{ fontSize: ".56rem", fontWeight: 700, color: "rgba(255,255,255,.2)", textTransform: "uppercase", letterSpacing: ".08em" }}>{h}</span>
@@ -603,7 +593,7 @@ const ReportModal = ({ r, onClose }) => {
             </>
           )}
 
-          {/* ─ findings table (radiology) ─ */}
+          {}
           {r.findings && (
             <>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".6rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 7 }}>
@@ -623,7 +613,7 @@ const ReportModal = ({ r, onClose }) => {
             </>
           )}
 
-          {/* ─ download ─ */}
+          {}
           <button onClick={() => downloadReport(r)}
             style={{ width: "100%", padding: "11px", borderRadius: 11, background: "rgba(0,200,255,.09)", border: "1px solid rgba(0,200,255,.25)", color: "#00c8ff", cursor: "pointer", fontFamily: "'Syne',sans-serif", fontSize: ".76rem", fontWeight: 700, letterSpacing: ".05em", display: "flex", alignItems: "center", justifyContent: "center", gap: 7, transition: "all .2s" }}
             onMouseOver={e => e.currentTarget.style.background = "rgba(0,200,255,.18)"}
@@ -636,9 +626,7 @@ const ReportModal = ({ r, onClose }) => {
   );
 };
 
-/* ════════════════════════════════════════
-   REPORT CARD (grid tile)
-════════════════════════════════════════ */
+
 const ReportCard = ({ r, idx, onView }) => {
   const sm = statusMeta(r.status);
   return (
@@ -646,10 +634,10 @@ const ReportCard = ({ r, idx, onView }) => {
       onMouseOver={e => { e.currentTarget.style.borderColor = `${r.color}35`; e.currentTarget.style.boxShadow = `0 0 26px ${r.color}10`; }}
       onMouseOut={e => { e.currentTarget.style.borderColor = `${r.color}18`; e.currentTarget.style.boxShadow = "none"; }}>
 
-      {/* glow */}
+      {}
       <div style={{ position: "absolute", top: -25, right: -25, width: 110, height: 110, borderRadius: "50%", background: r.color, filter: "blur(48px)", opacity: .1, pointerEvents: "none" }} />
 
-      {/* top row */}
+      {}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: ".85rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
           <div style={{ width: 46, height: 46, borderRadius: 13, background: `${r.color}18`, border: `1px solid ${r.color}28`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", flexShrink: 0 }}>{r.icon}</div>
@@ -661,7 +649,7 @@ const ReportCard = ({ r, idx, onView }) => {
         <span style={{ padding: "3px 9px", borderRadius: 50, background: sm.bg, color: sm.color, border: `1px solid ${sm.border}`, fontSize: ".6rem", fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0 }}>● {r.status}</span>
       </div>
 
-      {/* info grid */}
+      {}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".45rem", marginBottom: ".8rem" }}>
         {[
           { l: "Report ID", v: r.id },
@@ -678,12 +666,12 @@ const ReportCard = ({ r, idx, onView }) => {
         ))}
       </div>
 
-      {/* summary snippet */}
+      {}
       <div style={{ padding: "8px 10px", borderRadius: 9, background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.05)", marginBottom: ".85rem" }}>
         <div style={{ fontSize: ".68rem", color: "rgba(255,255,255,.45)", lineHeight: 1.55, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.summary}</div>
       </div>
 
-      {/* X-ray tech badge */}
+      {}
       {r.xrayMeta && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: ".7rem" }}>
           {[
@@ -698,7 +686,7 @@ const ReportCard = ({ r, idx, onView }) => {
         </div>
       )}
 
-      {/* abnormal flags hint */}
+      {}
       {r.parameters && r.parameters.some(p => p.flag !== "N") && (
         <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: ".75rem" }}>
           {r.parameters.filter(p => p.flag !== "N").map(p => (
@@ -709,7 +697,7 @@ const ReportCard = ({ r, idx, onView }) => {
         </div>
       )}
 
-      {/* action buttons */}
+      {}
       <div style={{ display: "flex", gap: 7 }}>
         <button onClick={() => onView(r)}
           style={{ flex: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "8px 0", borderRadius: 10, background: `${r.color}0f`, border: `1px solid ${r.color}28`, color: r.color, cursor: "pointer", fontFamily: "'Syne',sans-serif", fontSize: ".7rem", fontWeight: 700, letterSpacing: ".04em", transition: "all .18s" }}
@@ -728,9 +716,7 @@ const ReportCard = ({ r, idx, onView }) => {
   );
 };
 
-/* ════════════════════════════════════════
-   MAIN PAGE
-════════════════════════════════════════ */
+
 export default function ReportsPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [search, setSearch] = useState("");
@@ -834,10 +820,10 @@ export default function ReportsPage() {
 
         <Sidebar active="reports" />
 
-        {/* ══ MAIN ══ */}
+        {}
         <div className="vp-main">
 
-          {/* topbar */}
+          {}
           <div className="vp-topbar">
             <div>
               <div className="vp-title">📋 My Test Reports</div>
@@ -849,7 +835,7 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          {/* hospital banner */}
+          {}
           <div className="hosp-bar">
             <div style={{ width: 36, height: 36, borderRadius: 9, background: "rgba(0,200,255,.1)", border: "1px solid rgba(0,200,255,.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }}>🏥</div>
             <div>
@@ -862,7 +848,7 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          {/* tabs */}
+          {}
           <div className="vp-tabs">
             {[
               { key: "all", label: `All (${REPORTS.length})` },
@@ -881,10 +867,10 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          {/* content */}
+          {}
           <div className="vp-content">
 
-            {/* summary row */}
+            {}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: ".75rem", marginBottom: "1.3rem" }}>
               {[
                 { icon: "📋", label: "Total Reports", value: REPORTS.length, color: "#00c8ff" },
@@ -903,7 +889,7 @@ export default function ReportsPage() {
               ))}
             </div>
 
-            {/* report cards grid */}
+            {}
             {filtered.length > 0
               ? <div className="report-grid">
                 {filtered.map((r, i) => <ReportCard key={r.id} r={r} idx={i} onView={setViewRpt} />)}

@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME (Patient Portal)
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#050f1f",
   sidebar: "rgba(5,12,28,.95)",
@@ -35,9 +33,7 @@ const NAV = [
   { key: "settings",  icon: "⚙️", label: "Settings" },
 ];
 
-/* ══════════════════════════════════════
-   CONVERSATIONS DATA (Patient View)
-══════════════════════════════════════ */
+
 const CONVERSATIONS = [
   {
     id: 1, name: "Dr. Priya Sharma", role: "Cardiologist",
@@ -85,26 +81,24 @@ const CONVERSATIONS = [
   }
 ];
 
-/* ══════════════════════════════════════
-   CONVERSATION LIST ITEM
-══════════════════════════════════════ */
+
 const ConvItem = ({ conv, isActive, onClick }) => (
   <div onClick={onClick}
     style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",borderRadius:12,cursor:"pointer",transition:"all .2s",background:isActive?"rgba(0,200,255,.1)":"transparent",border:isActive?"1px solid rgba(0,200,255,.2)":"1px solid transparent",position:"relative"}}
     onMouseOver={e=>{ if(!isActive){ e.currentTarget.style.background="rgba(255,255,255,.04)"; e.currentTarget.style.borderColor="rgba(255,255,255,.06)"; }}}
     onMouseOut={e=>{ if(!isActive){ e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="transparent"; }}}
   >
-    {/* urgent indicator */}
+    {}
     {conv.urgent && <div style={{position:"absolute",left:5,top:"50%",transform:"translateY(-50%)",width:3,height:24,borderRadius:99,background:C.red,boxShadow:`0 0 6px ${C.red}`}}/>}
 
-    {/* avatar */}
+    {}
     <div style={{width:40,height:40,borderRadius:12,background:`linear-gradient(135deg,${conv.color}33,${conv.color}66)`,border:`1.5px solid ${conv.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Syne',sans-serif",fontSize:"1.1rem",fontWeight:800,color:conv.color,flexShrink:0,position:"relative"}}>
       {conv.avatar}
-      {/* online dot */}
+      {}
       <div style={{position:"absolute",bottom:-2,right:-2,width:10,height:10,borderRadius:"50%",background:conv.unread>0?C.green:"rgba(255,255,255,.15)",border:`2px solid ${C.bg}`,boxShadow:conv.unread>0?`0 0 6px ${C.green}`:"none"}}/>
     </div>
 
-    {/* info */}
+    {}
     <div style={{flex:1,minWidth:0}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:2}}>
         <span style={{fontFamily:"'Syne',sans-serif",fontSize:".74rem",fontWeight:700,color:conv.unread>0?"#fff":"rgba(255,255,255,.65)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{conv.name}</span>
@@ -121,9 +115,7 @@ const ConvItem = ({ conv, isActive, onClick }) => (
   </div>
 );
 
-/* ══════════════════════════════════════
-   CHAT BUBBLE
-══════════════════════════════════════ */
+
 const Bubble = ({ msg, conv }) => {
   const isPat = msg.from === "patient";
   return (
@@ -146,9 +138,7 @@ const Bubble = ({ msg, conv }) => {
   );
 };
 
-/* ══════════════════════════════════════
-   MAIN EXPORT
-══════════════════════════════════════ */
+
 export default function PatientMessages() {
   const navigate = useNavigate();
   const [expanded,   setExpanded]   = useState(false);
@@ -164,13 +154,13 @@ export default function PatientMessages() {
     return ()=>clearInterval(id);
   },[]);
 
-  // scroll chat to bottom when active conv changes or new message
+  
   useEffect(()=>{
     if(chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
   },[activeConv]);
 
   const handleNav = (key) => {
-    setActiveConv(activeConv); // Keeps it active for re-renders
+    setActiveConv(activeConv); 
     if (key === "dashboard") navigate("/dashboard");
     else if (key === "vitals") navigate("/vitals");
     else if (key === "alerts") navigate("/alerts");
@@ -182,7 +172,7 @@ export default function PatientMessages() {
   };
 
   const openConv=(conv)=>{
-    // mark as read
+    
     setConvs(prev=>prev.map(c=>c.id===conv.id?{...c,unread:0}:c));
     setActiveConv({...conv,unread:0});
   };
@@ -209,7 +199,7 @@ export default function PatientMessages() {
     [c.name,c.role,c.hospital].some(f=>f.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // group messages by date
+  
   const groupedMsgs=activeConv.messages.reduce((acc,msg)=>{
     acc[msg.date]=acc[msg.date]||[];
     acc[msg.date].push(msg);
@@ -288,7 +278,7 @@ export default function PatientMessages() {
 
       <div className="dp">
 
-        {/* ══════════ SIDEBAR ══════════ */}
+        {}
         <div className={`sidebar${expanded?" exp":""}`}>
           <div className="sb-profile" style={{position:"relative",zIndex:1}}>
             <div className="sb-avatar">{PATIENT.initials}</div>
@@ -304,7 +294,7 @@ export default function PatientMessages() {
           
           <div className="sb-nav" style={{position:"relative",zIndex:1}}>
             {NAV.map(({key,icon,label})=>(
-              <button key={key} className={`sb-item${key==="messages"?" act":""}`} // Changed isActive condition
+              <button key={key} className={`sb-item${key==="messages"?" act":""}`} 
                 onClick={() => handleNav(key)}
                 style={{ cursor: "pointer" }}>
                 <span className="sb-item-icon">{icon}</span>
@@ -319,10 +309,10 @@ export default function PatientMessages() {
           </div>
         </div>
 
-        {/* ══════════ MAIN ══════════ */}
+        {}
         <div className="dm">
 
-          {/* topbar */}
+          {}
           <div className="dtb">
             <div>
               <h1 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.2rem",fontWeight:800,color:"#fff"}}>Messages</h1>
@@ -342,15 +332,15 @@ export default function PatientMessages() {
             </div>
           </div>
 
-          {/* ══════════ MESSAGES LAYOUT ══════════ */}
+          {}
           <div className="msg-layout">
 
-            {/* ── LEFT: CONVERSATION LIST ── */}
+            {}
             <div className="conv-list">
 
-              {/* list header */}
+              {}
               <div style={{padding:"14px 14px 10px",borderBottom:`1px solid rgba(255,255,255,.05)`}}>
-                {/* search */}
+                {}
                 <div style={{display:"flex",alignItems:"center",gap:7,padding:"8px 12px",borderRadius:10,background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)",transition:"border-color .2s",marginBottom:10}}
                   onFocusCapture={e=>e.currentTarget.style.borderColor="rgba(0,200,255,.3)"}
                   onBlurCapture={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.06)"}>
@@ -359,14 +349,14 @@ export default function PatientMessages() {
                     style={{background:"transparent",border:"none",outline:"none",color:"#fff",fontSize:".75rem",fontFamily:"'DM Sans',sans-serif",width:"100%"}}/>
                   {search&&<button onClick={()=>setSearch("")} style={{background:"transparent",border:"none",color:"rgba(255,255,255,.3)",cursor:"pointer",fontSize:".75rem",padding:0}}>✕</button>}
                 </div>
-                {/* filters */}
+                {}
                 <div style={{display:"flex",gap:8}}>
                   <div style={{padding:"4px 12px",borderRadius:50,background:"rgba(0,200,255,.1)",border:"1px solid rgba(0,200,255,.2)",color:C.ring,fontSize:".68rem",fontFamily:"'Syne',sans-serif",fontWeight:700,cursor:"pointer"}}>All</div>
                   <div style={{padding:"4px 12px",borderRadius:50,background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",color:"rgba(255,255,255,.4)",fontSize:".68rem",fontFamily:"'Syne',sans-serif",fontWeight:700,cursor:"pointer"}}>Unread</div>
                 </div>
               </div>
 
-              {/* conversation list */}
+              {}
               <div style={{flex:1,overflowY:"auto",padding:"8px"}}>
                 {filteredConvs.length===0?(
                   <div style={{padding:"2rem",textAlign:"center",color:"rgba(255,255,255,.3)",fontSize:".8rem"}}>No conversations found</div>
@@ -377,7 +367,7 @@ export default function PatientMessages() {
                 )}
               </div>
 
-              {/* new message btn */}
+              {}
               <div style={{padding:"14px",borderTop:"1px solid rgba(255,255,255,.05)"}}>
                  <button style={{width:"100%",padding:"12px",borderRadius:12,background:`linear-gradient(135deg,${C.accent},${C.ring})`,border:"none",color:"#fff",fontFamily:"'Syne',sans-serif",fontSize:".8rem",fontWeight:700,cursor:"pointer",boxShadow:`0 4px 12px ${C.ring}30`}}>
                     New Message
@@ -385,11 +375,11 @@ export default function PatientMessages() {
               </div>
             </div>
 
-            {/* ── RIGHT: CHAT AREA ── */}
+            {}
             <div className="chat-area">
               {activeConv ? (
                 <>
-                  {/* chat header */}
+                  {}
                   <div style={{padding:"16px 20px",borderBottom:"1px solid rgba(255,255,255,.05)",background:"rgba(255,255,255,.01)",display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
                     <div style={{display:"flex",alignItems:"center",gap:14}}>
                       <div style={{width:44,height:44,borderRadius:12,background:`linear-gradient(135deg,${activeConv.color}33,${activeConv.color}66)`,border:`1.5px solid ${activeConv.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.3rem",position:"relative"}}>
@@ -403,7 +393,7 @@ export default function PatientMessages() {
                         </div>
                       </div>
                     </div>
-                    {/* action buttons */}
+                    {}
                     <div style={{display:"flex",gap:8}}>
                       {[{icon:"📞",tip:"Call"},{icon:"📹",tip:"Video"}].map(({icon,tip})=>(
                         <button key={tip} title={tip} style={{width:38,height:38,borderRadius:10,background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",color:"rgba(255,255,255,.6)",cursor:"pointer",fontSize:"1rem",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}
@@ -415,11 +405,11 @@ export default function PatientMessages() {
                     </div>
                   </div>
 
-                  {/* messages */}
+                  {}
                   <div ref={chatRef} style={{flex:1,overflowY:"auto",padding:"20px",display:"flex",flexDirection:"column",gap:0}}>
                     {Object.entries(groupedMsgs).map(([date,msgs])=>(
                       <div key={date}>
-                        {/* date divider */}
+                        {}
                         <div style={{display:"flex",alignItems:"center",gap:10,margin:"10px 0 16px"}}>
                           <div style={{flex:1,height:1,background:"rgba(255,255,255,.05)"}}/>
                           <span style={{fontSize:".65rem",color:"rgba(255,255,255,.3)",fontFamily:"'Syne',sans-serif",fontWeight:700,padding:"4px 12px",borderRadius:50,background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)",textTransform:"uppercase",letterSpacing:".05em"}}>{date}</span>
@@ -431,7 +421,7 @@ export default function PatientMessages() {
                     <div style={{height:10}}/>
                   </div>
 
-                  {/* quick reply chips */}
+                  {}
                   <div style={{padding:"8px 20px 8px",display:"flex",gap:8,overflowX:"auto",flexShrink:0}}>
                     {["Thank you, Doctor!","I am feeling much better","Can I reschedule my appointment?","When should I take my test?","Okay, understood."].map(q=>(
                       <button key={q} onClick={()=>setInput(q)}
@@ -443,7 +433,7 @@ export default function PatientMessages() {
                     ))}
                   </div>
 
-                  {/* input bar */}
+                  {}
                   <div style={{padding:"10px 20px 20px",flexShrink:0}}>
                     <div style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",borderRadius:16,background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",transition:"border-color .2s",boxShadow:"0 8px 32px rgba(0,0,0,.2)"}}
                       onFocusCapture={e=>e.currentTarget.style.borderColor="rgba(0,200,255,.3)"}
@@ -478,9 +468,9 @@ export default function PatientMessages() {
               )}
             </div>
 
-          </div>{/* .msg-layout */}
-        </div>{/* .dm */}
-      </div>{/* .dp */}
+          </div>{}
+        </div>{}
+      </div>{}
     </>
   );
 }

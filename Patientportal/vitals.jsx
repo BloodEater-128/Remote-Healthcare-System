@@ -42,7 +42,7 @@ const ECGCanvas = ({ color = "#00ff9d", height = 90 }) => {
   return <canvas ref={ref} style={{ width: "100%", height, display: "block" }} />;
 };
 
-/* ══ SPARKLINE CANVAS ══ */
+
 const Sparkline = ({ data, color, height = 50, filled = true }) => {
   const ref = useRef(null);
   useEffect(() => {
@@ -68,7 +68,7 @@ const Sparkline = ({ data, color, height = 50, filled = true }) => {
   return <canvas ref={ref} style={{ width: "100%", height, display: "block" }} />;
 };
 
-/* ══ ANIMATED RING ══ */
+
 const RingGauge = ({ value, max, color, size = 110, label, unit }) => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -103,7 +103,7 @@ const RingGauge = ({ value, max, color, size = 110, label, unit }) => {
   );
 };
 
-/* ══ VITAL STAT CARD ══ */
+
 const VitalCard = ({ icon, label, value, unit, color, status, statusColor, data, trend, delay }) => (
   <div style={{ background: "rgba(255,255,255,.03)", border: `1px solid ${color}22`, borderRadius: 18, padding: "1.2rem", position: "relative", overflow: "hidden", animation: "fadeUp .4s both", animationDelay: delay }}>
     <div style={{ position: "absolute", top: -30, right: -30, width: 100, height: 100, borderRadius: "50%", background: color, filter: "blur(45px)", opacity: .18, pointerEvents: "none" }} />
@@ -129,7 +129,7 @@ const VitalCard = ({ icon, label, value, unit, color, status, statusColor, data,
   </div>
 );
 
-/* ══ HISTORY ROW ══ */
+
 const HistoryRow = ({ date, hr, spo2, temp, bp, note }) => (
   <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1fr 1fr 1.8fr", gap: ".5rem", alignItems: "center", padding: "10px 14px", borderRadius: 11, background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.05)", marginBottom: 6 }}>
     <span style={{ fontSize: ".72rem", color: "rgba(255,255,255,.5)" }}>{date}</span>
@@ -141,24 +141,24 @@ const HistoryRow = ({ date, hr, spo2, temp, bp, note }) => (
   </div>
 );
 
-/* ══ DAY GROUP ══ */
+
 const DayGroup = ({ date, day, badge, avg, rows, defaultOpen }) => {
   const [open, setOpen] = useState(defaultOpen || false);
   return (
     <div style={{ marginBottom: ".6rem" }}>
-      {/* Day header — clickable */}
+      {}
       <div onClick={() => setOpen(o => !o)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", borderRadius: 12, background: "rgba(255,255,255,.04)", border: `1px solid rgba(255,255,255,.07)`, cursor: "pointer", transition: "background .18s", userSelect: "none" }}
         onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,.07)"}
         onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,.04)"}>
-        {/* chevron */}
+        {}
         <span style={{ fontSize: ".7rem", color: "rgba(255,255,255,.3)", transition: "transform .2s", display: "inline-block", transform: open ? "rotate(90deg)" : "rotate(0deg)", flexShrink: 0 }}>▶</span>
-        {/* date + day badge */}
+        {}
         <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }}>
           <span style={{ fontFamily: "'Syne',sans-serif", fontSize: ".82rem", fontWeight: 700, color: "#fff" }}>{date}</span>
           <span style={{ padding: "2px 9px", borderRadius: 50, background: `${badge}15`, color: badge, border: `1px solid ${badge}28`, fontSize: ".6rem", fontWeight: 700 }}>{day}</span>
           <span style={{ fontSize: ".65rem", color: "rgba(255,255,255,.28)", marginLeft: 4 }}>{rows.length} readings</span>
         </div>
-        {/* daily averages summary */}
+        {}
         <div style={{ display: "flex", gap: "1.2rem", flexShrink: 0 }}>
           {[
             { label: "HR", value: `${avg.hr}`, unit: "BPM", color: "#ff6b6b" },
@@ -174,10 +174,10 @@ const DayGroup = ({ date, day, badge, avg, rows, defaultOpen }) => {
         </div>
       </div>
 
-      {/* Expanded rows */}
+      {}
       {open && (
         <div style={{ marginTop: 4, paddingLeft: 12, borderLeft: `2px solid ${badge}40` }}>
-          {/* column headers */}
+          {}
           <div style={{ display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 1fr 1.6fr", gap: ".5rem", padding: "6px 14px", marginBottom: 2 }}>
             {["Time", "Heart Rate", "SpO₂", "Temp", "BP", "Note"].map(h => (
               <span key={h} style={{ fontSize: ".58rem", fontWeight: 700, color: "rgba(255,255,255,.22)", textTransform: "uppercase", letterSpacing: ".08em" }}>{h}</span>
@@ -199,7 +199,7 @@ const DayGroup = ({ date, day, badge, avg, rows, defaultOpen }) => {
   );
 };
 
-/* ══ MAIN VITALS PAGE ══ */
+
 export default function VitalsPage() {
   const navigate = useNavigate();
   const [heartRate, setHeartRate] = useState(72);
@@ -383,10 +383,10 @@ export default function VitalsPage() {
 
         <Sidebar active="vitals" />
 
-        {/* ══ MAIN ══ */}
+        {}
         <div className="vp-main">
 
-          {/* TOPBAR */}
+          {}
           <div className="vp-topbar">
             <div>
               <div className="vp-title">Vitals Monitor</div>
@@ -401,7 +401,7 @@ export default function VitalsPage() {
             </div>
           </div>
 
-          {/* TABS */}
+          {}
           <div className="vp-tabs">
             {tabs.map(t => (
               <button key={t.key} className={`vp-tab${activeTab === t.key ? " active" : ""}`} onClick={() => setActiveTab(t.key)}>
@@ -410,14 +410,14 @@ export default function VitalsPage() {
             ))}
           </div>
 
-          {/* CONTENT */}
+          {}
           <div className="vp-content">
 
-            {/* ══ OVERVIEW TAB ══ */}
+            {}
             {activeTab === "overview" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-                {/* Live rings row */}
+                {}
                 <div className="card" style={{ animationDelay: ".05s" }}>
                   <div className="card-hd">
                     <span>Live Vitals</span>
@@ -435,7 +435,7 @@ export default function VitalsPage() {
                   </div>
                 </div>
 
-                {/* 4 vital trend cards */}
+                {}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                   <VitalCard icon="❤️" label="Heart Rate" value={heartRate} unit="BPM" color="#ff6b6b" status="Normal" statusColor="#00ff9d" data={hrData} trend={2.1} delay=".1s" />
                   <VitalCard icon="🩸" label="SpO₂" value={98} unit="%" color="#00c8ff" status="Excellent" statusColor="#00c8ff" data={spo2Data} trend={0} delay=".16s" />
@@ -443,7 +443,7 @@ export default function VitalsPage() {
                   <VitalCard icon="💉" label="Blood Pressure" value="118/76" unit="mmHg" color="#a78bfa" status="Optimal" statusColor="#a78bfa" data={bpSysData} trend={1.2} delay=".28s" />
                 </div>
 
-                {/* ECG preview */}
+                {}
                 <div className="card" style={{ animationDelay: ".34s" }}>
                   <div className="card-hd">
                     <span>ECG Signal Preview</span>
@@ -463,7 +463,7 @@ export default function VitalsPage() {
               </div>
             )}
 
-            {/* ══ ECG LIVE TAB ══ */}
+            {}
             {activeTab === "ecg" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div className="card" style={{ animationDelay: ".05s" }}>
@@ -485,7 +485,7 @@ export default function VitalsPage() {
                   </div>
                 </div>
 
-                {/* Lead comparisons */}
+                {}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                   {[["Lead I", "#00c8ff", 1.0], ["Lead III", "#a78bfa", 0.8], ["aVR", "#ffd93d", 1.1], ["aVF", "#f472b6", 0.9]].map(([lead, color, scale]) => (
                     <div key={lead} className="card" style={{ animationDelay: ".15s" }}>
@@ -495,7 +495,7 @@ export default function VitalsPage() {
                   ))}
                 </div>
 
-                {/* ECG interpretation */}
+                {}
                 <div className="card" style={{ animationDelay: ".25s" }}>
                   <div className="card-hd"><span>AI Interpretation</span></div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: ".8rem" }}>
@@ -520,11 +520,11 @@ export default function VitalsPage() {
               </div>
             )}
 
-            {/* ══ HISTORY TAB ══ */}
+            {}
             {activeTab === "history" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-                {/* Day-wise grouped history */}
+                {}
                 <div className="card" style={{ animationDelay: ".05s" }}>
                   <div className="card-hd">
                     <span>Vitals History Log</span>
@@ -579,7 +579,7 @@ export default function VitalsPage() {
                   ))}
                 </div>
 
-                {/* Trend charts */}
+                {}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                   {[
                     { label: "Heart Rate — 7 Day Trend", data: [69, 72, 70, 74, 76, 73, heartRate], color: "#ff6b6b" },
@@ -600,11 +600,11 @@ export default function VitalsPage() {
               </div>
             )}
 
-            {/* ══ ANALYSIS TAB ══ */}
+            {}
             {activeTab === "analysis" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-                {/* Health Score */}
+                {}
                 <div className="card" style={{ animationDelay: ".05s" }}>
                   <div className="card-hd"><span>Overall Health Score</span></div>
                   <div style={{ display: "flex", alignItems: "center", gap: "2rem", flexWrap: "wrap" }}>
@@ -631,7 +631,7 @@ export default function VitalsPage() {
                   </div>
                 </div>
 
-                {/* AI Insights */}
+                {}
                 <div className="card" style={{ animationDelay: ".12s" }}>
                   <div className="card-hd">
                     <span>AI Health Insights</span>
@@ -642,7 +642,7 @@ export default function VitalsPage() {
                     </button>
                   </div>
 
-                  {/* AI Chat panel */}
+                  {}
                   {showAIChat && (
                     <div style={{ marginBottom: "1rem", padding: "12px 14px", borderRadius: 12, background: "rgba(0,200,255,.04)", border: "1px solid rgba(0,200,255,.14)", animation: "fadeUp .25s both" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>

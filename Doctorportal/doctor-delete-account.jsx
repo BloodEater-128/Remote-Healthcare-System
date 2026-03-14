@@ -1,19 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ════════════════════════════════════════
-   DOCTOR (shown in the confirmation card)
-   In a real app, this would be from context
-════════════════════════════════════════ */
+
 const DOCTOR = {
   name: "Dr. Sarah Mitchell",
   id: "DOC-8942",
   department: "Cardiology",
 };
 
-/* ════════════════════════════════════════
-   PARTICLE FIELD BACKGROUND (Purple)
-════════════════════════════════════════ */
+
 const ParticleCanvas = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -59,7 +54,7 @@ const ParticleCanvas = () => {
 
 export default function DoctorDeleteAccount() {
   const navigate = useNavigate();
-  const [step, setStep] = useState("confirm"); // "confirm" | "deleting" | "done"
+  const [step, setStep] = useState("confirm"); 
   const [progress, setProgress] = useState(0);
   const [confirmText, setConfirmText] = useState("");
 
@@ -104,7 +99,7 @@ export default function DoctorDeleteAccount() {
       }}>
         <ParticleCanvas />
 
-        {/* Ambient Glows */}
+        {}
         <div style={{ position: "fixed", top: "-10%", right: "-10%", width: 500, height: 500, background: "radial-gradient(circle,rgba(220,38,38,.08),transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "fixed", bottom: "-10%", left: "-10%", width: 500, height: 500, background: "radial-gradient(circle,rgba(168,85,247,.08),transparent 70%)", pointerEvents: "none" }} />
 
@@ -116,7 +111,7 @@ export default function DoctorDeleteAccount() {
             overflow: "hidden", animation: "scaleIn .4s cubic-bezier(.16,1,.3,1) both",
             boxShadow: "0 40px 100px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.03)",
           }}>
-            {/* Danger header */}
+            {}
             <div style={{ height: 4, background: "linear-gradient(90deg,transparent,#dc2626,#ef4444,transparent)" }} />
             
             <div style={{ padding: "2.5rem 2rem" }}>
@@ -133,7 +128,7 @@ export default function DoctorDeleteAccount() {
                 </p>
               </div>
 
-              {/* Account Card */}
+              {}
               <div style={{
                 background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)",
                 borderRadius: 16, padding: "1rem", marginBottom: "1.5rem",
@@ -199,7 +194,7 @@ export default function DoctorDeleteAccount() {
               RM -RF /USERS/DR_SARAH_MITCHELL...
             </p>
 
-            {/* Progress */}
+            {}
             <div style={{ width: "100%", height: 6, background: "rgba(255,255,255,.05)", borderRadius: 10, overflow: "hidden", marginBottom: "1rem" }}>
               <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#dc2626,#f97316)", transition: "width .2s ease-out", boxShadow: "0 0 15px rgba(220,38,38,.4)" }} />
             </div>

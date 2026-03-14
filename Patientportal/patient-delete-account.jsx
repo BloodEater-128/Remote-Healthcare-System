@@ -1,18 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ════════════════════════════════════════
-   PATIENT (shown in the confirmation card)
-════════════════════════════════════════ */
+
 const PATIENT = {
   name: "Alex Johnson",
   id: "PAT-0042",
   doctor: "Dr. Sarah Mitchell",
 };
 
-/* ════════════════════════════════════════
-   PARTICLE FIELD BACKGROUND (Blue)
-════════════════════════════════════════ */
+
 const ParticleCanvas = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -58,7 +54,7 @@ const ParticleCanvas = () => {
 
 export default function PatientDeleteAccount() {
   const navigate = useNavigate();
-  const [step, setStep] = useState("confirm"); // "confirm" | "deleting" | "done"
+  const [step, setStep] = useState("confirm"); 
   const [progress, setProgress] = useState(0);
   const [confirmText, setConfirmText] = useState("");
 
@@ -100,7 +96,7 @@ export default function PatientDeleteAccount() {
       }}>
         <ParticleCanvas />
 
-        {/* Ambient Glows */}
+        {}
         <div style={{ position: "fixed", top: "-10%", right: "-10%", width: 500, height: 500, background: "radial-gradient(circle,rgba(220,38,38,.08),transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "fixed", bottom: "-10%", left: "-10%", width: 500, height: 500, background: "radial-gradient(circle,rgba(0,180,255,.08),transparent 70%)", pointerEvents: "none" }} />
 
@@ -128,7 +124,7 @@ export default function PatientDeleteAccount() {
                 </p>
               </div>
 
-              {/* Account Card */}
+              {}
               <div style={{
                 background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)",
                 borderRadius: 16, padding: "1rem", marginBottom: "1.5rem",

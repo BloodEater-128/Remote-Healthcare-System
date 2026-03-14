@@ -2,18 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-/* ════════════════════════════════════════
-   PATIENT (shown in the confirmation card)
-════════════════════════════════════════ */
+
 const PATIENT = {
   name: "Alex Johnson",
   id: "PAT-0042",
   doctor: "Dr. Sarah Mitchell",
 };
 
-/* ════════════════════════════════════════
-   PARTICLE FIELD BACKGROUND
-════════════════════════════════════════ */
+
 const ParticleCanvas = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -61,15 +57,13 @@ const ParticleCanvas = () => {
   return <canvas ref={ref} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }} />;
 };
 
-/* ════════════════════════════════════════
-   LOGOUT PAGE
-════════════════════════════════════════ */
+
 export default function LogoutPage({ onLogout, onStay }) {
   const navigate = useNavigate();
-  const [step, setStep] = useState("confirm"); // "confirm" | "loading" | "done"
+  const [step, setStep] = useState("confirm"); 
   const [progress, setProgress] = useState(0);
 
-  // Simulate navigate to login
+  
   const navigateToLogin = () => {
     if (typeof onLogout === "function") { onLogout(); return; }
     navigate("/");
@@ -77,7 +71,7 @@ export default function LogoutPage({ onLogout, onStay }) {
 
   const handleConfirm = () => {
     setStep("loading");
-    // Animate progress bar then redirect
+    
     let p = 0;
     const iv = setInterval(() => {
       p += Math.random() * 18 + 8;
@@ -120,7 +114,7 @@ export default function LogoutPage({ onLogout, onStay }) {
         ::-webkit-scrollbar-thumb { background:rgba(0,200,255,.2); border-radius:99px }
       `}</style>
 
-      {/* full-screen backdrop */}
+      {}
       <div style={{
         position: "fixed", inset: 0, background: "#050f1f",
         display: "flex", alignItems: "center", justifyContent: "center",
@@ -128,11 +122,11 @@ export default function LogoutPage({ onLogout, onStay }) {
       }}>
         <ParticleCanvas />
 
-        {/* radial glow blobs */}
+        {}
         <div style={{ position: "fixed", top: "15%", left: "20%", width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,80,80,.07),transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "fixed", bottom: "20%", right: "15%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,100,255,.08),transparent 70%)", pointerEvents: "none" }} />
 
-        {/* ── CONFIRM STEP ── */}
+        {}
         {step === "confirm" && (
           <div style={{
             position: "relative", zIndex: 2, width: "100%", maxWidth: 440,
@@ -142,13 +136,13 @@ export default function LogoutPage({ onLogout, onStay }) {
             boxShadow: "0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04)",
           }}>
 
-            {/* top accent line */}
+            {}
             <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#ff6b6b,#fbbf24,transparent)" }} />
 
-            {/* content */}
+            {}
             <div style={{ padding: "2rem 2rem 1.6rem" }}>
 
-              {/* icon */}
+              {}
               <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.4rem" }}>
                 <div style={{
                   width: 72, height: 72, borderRadius: "50%",
@@ -158,7 +152,7 @@ export default function LogoutPage({ onLogout, onStay }) {
                 }}>🚪</div>
               </div>
 
-              {/* text */}
+              {}
               <div style={{ textAlign: "center", marginBottom: "1.6rem" }}>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "1.3rem", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
                   Log Out?
@@ -207,7 +201,7 @@ export default function LogoutPage({ onLogout, onStay }) {
                 </div>
               </div>
 
-              {/* buttons */}
+              {}
               <div style={{ display: "flex", gap: 10 }}>
                 <button
                   onClick={handleStay}
@@ -245,13 +239,13 @@ export default function LogoutPage({ onLogout, onStay }) {
           </div>
         )}
 
-        {/* ── LOADING STEP ── */}
+        {}
         {step === "loading" && (
           <div style={{
             position: "relative", zIndex: 2, width: "100%", maxWidth: 400,
             textAlign: "center", animation: "fadeUp .3s both",
           }}>
-            {/* spinner ring */}
+            {}
             <div style={{ position: "relative", width: 90, height: 90, margin: "0 auto 1.8rem" }}>
               <div style={{
                 position: "absolute", inset: 0, borderRadius: "50%",
@@ -278,7 +272,7 @@ export default function LogoutPage({ onLogout, onStay }) {
               Clearing session data securely
             </div>
 
-            {/* progress bar */}
+            {}
             <div style={{ height: 4, borderRadius: 99, background: "rgba(255,255,255,.07)", overflow: "hidden", maxWidth: 260, margin: "0 auto" }}>
               <div style={{
                 height: "100%", borderRadius: 99,
@@ -292,7 +286,7 @@ export default function LogoutPage({ onLogout, onStay }) {
               {Math.round(progress)}%
             </div>
 
-            {/* steps */}
+            {}
             <div style={{ marginTop: "1.6rem", display: "flex", flexDirection: "column", gap: 7, alignItems: "flex-start", maxWidth: 240, margin: "1.6rem auto 0" }}>
               {[
                 { label: "Saving preferences", threshold: 20 },
@@ -320,7 +314,7 @@ export default function LogoutPage({ onLogout, onStay }) {
           </div>
         )}
 
-        {/* ── DONE STEP ── */}
+        {}
         {step === "done" && (
           <div style={{
             position: "relative", zIndex: 2, textAlign: "center",

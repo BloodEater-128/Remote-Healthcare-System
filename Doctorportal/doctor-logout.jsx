@@ -1,18 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ════════════════════════════════════════
-   DOCTOR (shown in the confirmation card)
-════════════════════════════════════════ */
+
 const DOCTOR = {
   name: "Dr. Sarah Mitchell",
   id: "DOC-8942",
   department: "Cardiology",
 };
 
-/* ════════════════════════════════════════
-   PARTICLE FIELD BACKGROUND
-════════════════════════════════════════ */
+
 const ParticleCanvas = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -39,7 +35,7 @@ const ParticleCanvas = () => {
         if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        // Using purple tones for doctor portal
+        
         ctx.fillStyle = `rgba(168,85,247,${d.alpha})`;
         ctx.fill();
       });
@@ -48,7 +44,7 @@ const ParticleCanvas = () => {
         if (dist < 100) {
           ctx.beginPath();
           ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-          // Connecting lines in faint purple
+          
           ctx.strokeStyle = `rgba(168,85,247,${.08 * (1 - dist / 100)})`;
           ctx.lineWidth = .6;
           ctx.stroke();
@@ -62,15 +58,13 @@ const ParticleCanvas = () => {
   return <canvas ref={ref} style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }} />;
 };
 
-/* ════════════════════════════════════════
-   LOGOUT PAGE
-════════════════════════════════════════ */
+
 export default function DoctorLogout({ onLogout, onStay }) {
   const navigate = useNavigate();
-  const [step, setStep] = useState("confirm"); // "confirm" | "loading" | "done"
+  const [step, setStep] = useState("confirm"); 
   const [progress, setProgress] = useState(0);
 
-  // Simulate navigate to login
+  
   const navigateToLogin = () => {
     if (typeof onLogout === "function") { onLogout(); return; }
     navigate("/");
@@ -78,7 +72,7 @@ export default function DoctorLogout({ onLogout, onStay }) {
 
   const handleConfirm = () => {
     setStep("loading");
-    // Animate progress bar then redirect
+    
     let p = 0;
     const iv = setInterval(() => {
       p += Math.random() * 18 + 8;
@@ -121,7 +115,7 @@ export default function DoctorLogout({ onLogout, onStay }) {
         ::-webkit-scrollbar-thumb { background:rgba(168,85,247,.2); border-radius:99px }
       `}</style>
 
-      {/* full-screen backdrop */}
+      {}
       <div style={{
         position: "fixed", inset: 0, background: "#040109",
         display: "flex", alignItems: "center", justifyContent: "center",
@@ -129,11 +123,11 @@ export default function DoctorLogout({ onLogout, onStay }) {
       }}>
         <ParticleCanvas />
 
-        {/* radial glow blobs */}
+        {}
         <div style={{ position: "fixed", top: "15%", left: "20%", width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,80,80,.07),transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "fixed", bottom: "20%", right: "15%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(168,85,247,.08),transparent 70%)", pointerEvents: "none" }} />
 
-        {/* ── CONFIRM STEP ── */}
+        {}
         {step === "confirm" && (
           <div style={{
             position: "relative", zIndex: 2, width: "100%", maxWidth: 440,
@@ -143,13 +137,13 @@ export default function DoctorLogout({ onLogout, onStay }) {
             boxShadow: "0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04)",
           }}>
 
-            {/* top accent line */}
+            {}
             <div style={{ height: 3, background: "linear-gradient(90deg,transparent,#c084fc,#fbbf24,transparent)" }} />
 
-            {/* content */}
+            {}
             <div style={{ padding: "2rem 2rem 1.6rem" }}>
 
-              {/* icon */}
+              {}
               <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.4rem" }}>
                 <div style={{
                   width: 72, height: 72, borderRadius: "50%",
@@ -159,7 +153,7 @@ export default function DoctorLogout({ onLogout, onStay }) {
                 }}>🚪</div>
               </div>
 
-              {/* text */}
+              {}
               <div style={{ textAlign: "center", marginBottom: "1.6rem" }}>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "1.3rem", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
                   End Session?

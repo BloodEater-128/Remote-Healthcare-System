@@ -25,7 +25,7 @@ export default function Sidebar({ active }) {
         setClickedItem({ key, x, y });
         setTimeout(() => {
             navigate(path);
-        }, 350); // wait for animation before navigating
+        }, 350); 
     };
 
     return (
@@ -107,7 +107,7 @@ export default function Sidebar({ active }) {
 
             <div className={`sidebar${expanded ? " expanded" : ""}`}>
 
-                {/* Profile */}
+                {}
                 <div className="sb-profile">
                     <div className="sb-avatar">👤</div>
                     <div className="sb-profile-info">
@@ -116,7 +116,7 @@ export default function Sidebar({ active }) {
                     </div>
                 </div>
 
-                {/* Expand toggle */}
+                {}
                 <button className="sb-toggle" onClick={() => setExpanded(e => !e)}>
                     {!expanded ? (
                         <div className="sb-toggle-lines">
@@ -127,7 +127,7 @@ export default function Sidebar({ active }) {
                     ) : <span style={{ fontSize: ".9rem", fontWeight: 700, color: "rgba(255,255,255,.5)" }}>←</span>}
                 </button>
 
-                {/* Nav items */}
+                {}
                 <div className="sb-nav">
                     {NAV_ITEMS.map(({ icon, label, key, path }) => {
                         const isClicked = clickedItem.key === key;
@@ -150,7 +150,7 @@ export default function Sidebar({ active }) {
 
                 <div className="sb-divider" />
 
-                {/* Logout */}
+                {}
                 <div className="sb-bottom">
                     <button className="sb-logout" onClick={() => navigate("/logout")}>
                         <span className="sb-item-icon">🚪</span>

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar.jsx";
 
 
-/* ══ TOGGLE SWITCH ══ */
+
 const Toggle = ({ on, onChange, color = "#00c8ff" }) => (
   <div onClick={() => onChange(!on)} style={{ width: 40, height: 22, borderRadius: 99, background: on ? color : "rgba(255,255,255,.1)", border: `1px solid ${on ? color : "rgba(255,255,255,.15)"}`, cursor: "pointer", position: "relative", transition: "all .25s", flexShrink: 0, boxShadow: on ? `0 0 10px ${color}55` : "none" }}>
     <div style={{ position: "absolute", top: 2, left: on ? 20 : 2, width: 16, height: 16, borderRadius: "50%", background: on ? "#fff" : "rgba(255,255,255,.4)", transition: "left .25s", boxShadow: on ? `0 0 6px ${color}` : "none" }} />
   </div>
 );
 
-/* ══ NUMBER INPUT ══ */
+
 const NumInput = ({ value, onChange, min, max, unit, color }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
     <button onClick={() => onChange(Math.max(min, value - 1))} style={{ width: 22, height: 22, borderRadius: 6, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.6)", cursor: "pointer", fontSize: ".8rem", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
@@ -18,7 +18,7 @@ const NumInput = ({ value, onChange, min, max, unit, color }) => (
   </div>
 );
 
-/* ══ ALERT LOG ITEM ══ */
+
 const AlertLogItem = ({ icon, title, desc, time, color, severity, unread }) => (
   <div style={{ display: "flex", gap: 12, padding: "11px 14px", borderRadius: 12, background: unread ? `${color}08` : "rgba(255,255,255,.02)", border: `1px solid ${unread ? color + "28" : "rgba(255,255,255,.05)"}`, marginBottom: 6, position: "relative" }}>
     {unread && <div style={{ position: "absolute", top: 10, right: 12, width: 6, height: 6, borderRadius: "50%", background: color, boxShadow: `0 0 6px ${color}` }} />}
@@ -36,7 +36,7 @@ const AlertLogItem = ({ icon, title, desc, time, color, severity, unread }) => (
   </div>
 );
 
-/* ══ SECTION HEADER ══ */
+
 const SectionHd = ({ icon, title, count, color }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: ".7rem", marginTop: ".3rem" }}>
     <div style={{ width: 32, height: 32, borderRadius: 9, background: `${color}18`, border: `1px solid ${color}28`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem" }}>{icon}</div>
@@ -45,12 +45,12 @@ const SectionHd = ({ icon, title, count, color }) => (
   </div>
 );
 
-/* ══ ALERT CONFIG ROW ══ */
+
 const AlertRow = ({ cfg, onChange }) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ borderRadius: 13, background: cfg.enabled ? `${cfg.color}06` : "rgba(255,255,255,.02)", border: `1px solid ${cfg.enabled ? cfg.color + "22" : "rgba(255,255,255,.06)"}`, marginBottom: 6, overflow: "hidden", transition: "all .2s" }}>
-      {/* Main row */}
+      {}
       <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", cursor: "pointer" }} onClick={() => setOpen(o => !o)}>
         <div style={{ width: 36, height: 36, borderRadius: 10, background: `${cfg.color}18`, border: `1px solid ${cfg.color}28`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", flexShrink: 0, opacity: cfg.enabled ? 1 : .4 }}>{cfg.icon}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -60,7 +60,7 @@ const AlertRow = ({ cfg, onChange }) => {
           </div>
           <div style={{ fontSize: ".66rem", color: "rgba(255,255,255,.3)" }}>{cfg.desc}</div>
         </div>
-        {/* threshold preview */}
+        {}
         {cfg.threshold && (
           <div style={{ textAlign: "center", flexShrink: 0, marginRight: 8 }}>
             <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".72rem", fontWeight: 700, color: cfg.color }}>{cfg.threshold.low}–{cfg.threshold.high} <span style={{ fontSize: ".58rem", color: "rgba(255,255,255,.3)" }}>{cfg.threshold.unit}</span></div>
@@ -71,11 +71,11 @@ const AlertRow = ({ cfg, onChange }) => {
         <span style={{ fontSize: ".65rem", color: "rgba(255,255,255,.2)", marginLeft: 2, transition: "transform .2s", display: "inline-block", transform: open ? "rotate(90deg)" : "none" }}>▶</span>
       </div>
 
-      {/* Expanded settings */}
+      {}
       {open && (
         <div style={{ padding: "0 14px 14px", borderTop: "1px solid rgba(255,255,255,.05)", marginTop: 2, animation: "fadeUp .2s both" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" }}>
-            {/* Threshold sliders */}
+            {}
             {cfg.threshold && (
               <>
                 <div>
@@ -90,7 +90,7 @@ const AlertRow = ({ cfg, onChange }) => {
                 </div>
               </>
             )}
-            {/* Notify channels */}
+            {}
             <div>
               <div style={{ fontSize: ".6rem", color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 6 }}>Notify via</div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -100,7 +100,7 @@ const AlertRow = ({ cfg, onChange }) => {
                 ))}
               </div>
             </div>
-            {/* Severity */}
+            {}
             <div>
               <div style={{ fontSize: ".6rem", color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 6 }}>Alert Severity</div>
               <div style={{ display: "flex", gap: 6 }}>
@@ -111,7 +111,7 @@ const AlertRow = ({ cfg, onChange }) => {
               </div>
             </div>
           </div>
-          {/* tip */}
+          {}
           <div style={{ marginTop: "1rem", padding: "8px 12px", borderRadius: 9, background: "rgba(255,255,255,.03)", fontSize: ".66rem", color: "rgba(255,255,255,.35)", lineHeight: 1.6 }}>
             💡 <span style={{ color: cfg.color }}>{cfg.tip}</span>
           </div>
@@ -123,7 +123,7 @@ const AlertRow = ({ cfg, onChange }) => {
 
 import { useNavigate } from "react-router-dom";
 
-/* ══ MAIN ALERTS PAGE ══ */
+
 export default function AlertsPage() {
   const navigate = useNavigate();
   const [expanded, setSbExpanded] = useState(false);
@@ -158,9 +158,9 @@ export default function AlertsPage() {
     return () => clearInterval(id);
   }, []);
 
-  /* ── ALL ALERT CONFIGS ── */
+  
   const [alerts, setAlerts] = useState([
-    /* ── HEART / CARDIAC ── */
+    
     { id: "hr_high", icon: "❤️", label: "High Heart Rate", category: "Cardiac", color: "#ff6b6b", desc: "Triggers when resting HR exceeds threshold. Indicates stress, arrhythmia, or fever.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "Doctor"], tip: "Persistent high HR above 100 BPM at rest may indicate tachycardia. Doctor will be notified immediately.", threshold: { low: 60, high: 100, unit: "BPM", minLow: 40, maxLow: 80, minHigh: 80, maxHigh: 180 } },
     { id: "hr_low", icon: "💔", label: "Low Heart Rate", category: "Cardiac", color: "#f472b6", desc: "Triggers when resting HR drops below threshold. May indicate bradycardia.", enabled: true, severity: "High", notifyChannels: ["App", "Doctor"], tip: "HR below 50 BPM at rest in non-athletes can be dangerous. Seek medical attention if symptomatic.", threshold: { low: 50, high: 100, unit: "BPM", minLow: 30, maxLow: 60, minHigh: 60, maxHigh: 100 } },
     { id: "hr_spike", icon: "📈", label: "Sudden HR Spike", category: "Cardiac", color: "#fbbf24", desc: "AI detects a rapid rise of >20 BPM in under 30 seconds without movement.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "Doctor"], tip: "Sudden spikes may indicate panic attack, SVT or severe stress. AI monitors rate-of-change continuously.", threshold: undefined },
@@ -168,30 +168,30 @@ export default function AlertsPage() {
     { id: "ecg_st", icon: "🫀", label: "ECG ST Elevation", category: "Cardiac", color: "#ff4444", desc: "Detects ST segment elevation in real-time ECG — potential myocardial infarction sign.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "SMS", "Doctor"], tip: "ST elevation is a critical cardiac emergency. This alert bypasses all mute settings and calls the doctor.", threshold: undefined },
     { id: "ecg_qtlong", icon: "📉", label: "Prolonged QT Interval", category: "Cardiac", color: "#fbbf24", desc: "Flags QT interval >440ms which can predict dangerous ventricular arrhythmias.", enabled: true, severity: "Medium", notifyChannels: ["App", "Doctor"], tip: "Long QT can be drug-induced or congenital. Medication review may be required.", threshold: undefined },
 
-    /* ── OXYGEN / RESPIRATORY ── */
+    
     { id: "spo2_low", icon: "🩸", label: "Low SpO₂", category: "Respiratory", color: "#00c8ff", desc: "Triggers when blood oxygen drops below threshold. Risk of hypoxia.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "Doctor"], tip: "SpO₂ below 94% is clinically concerning. Below 90% is an emergency. Ensure sensor is properly fitted.", threshold: { low: 94, high: 100, unit: "%", minLow: 80, maxLow: 96, minHigh: 97, maxHigh: 100 } },
     { id: "spo2_drop", icon: "📉", label: "Rapid SpO₂ Drop", category: "Respiratory", color: "#00c8ff", desc: "AI detects drop of >3% in SpO₂ within 60 seconds.", enabled: true, severity: "High", notifyChannels: ["App", "Doctor"], tip: "Rapid desaturation may indicate respiratory distress, mucus plugging, or worsening asthma.", threshold: undefined },
     { id: "apnea", icon: "😴", label: "Sleep Apnea Detected", category: "Respiratory", color: "#a78bfa", desc: "AI detects prolonged breathing pauses during sleep via HR pattern analysis.", enabled: true, severity: "Medium", notifyChannels: ["App"], tip: "Sleep apnea episodes >10 seconds are flagged. Frequent episodes should be reported to your doctor.", threshold: undefined },
 
-    /* ── TEMPERATURE ── */
+    
     { id: "temp_high", icon: "🌡️", label: "High Temperature / Fever", category: "Temperature", color: "#ffd93d", desc: "Triggers when body temperature exceeds fever threshold.", enabled: true, severity: "Medium", notifyChannels: ["App", "WhatsApp"], tip: "Fever above 38.5°C requires medical assessment. Above 40°C is a critical emergency.", threshold: { low: 36.0, high: 38.5, unit: "°C", minLow: 34, maxLow: 37, minHigh: 37, maxHigh: 41 } },
     { id: "temp_low", icon: "🥶", label: "Hypothermia Warning", category: "Temperature", color: "#00c8ff", desc: "Triggers when temperature drops below normal range.", enabled: true, severity: "Medium", notifyChannels: ["App", "Doctor"], tip: "Body temp below 35°C is clinical hypothermia. Device may detect peripheral cooling first.", threshold: { low: 35.0, high: 37.5, unit: "°C", minLow: 32, maxLow: 36, minHigh: 36, maxHigh: 39 } },
 
-    /* ── BLOOD PRESSURE ── */
+    
     { id: "bp_high", icon: "💉", label: "Hypertension Alert", category: "BP", color: "#a78bfa", desc: "Triggers when systolic BP exceeds threshold consistently.", enabled: true, severity: "Medium", notifyChannels: ["App", "WhatsApp"], tip: "Sustained systolic >140 mmHg is Stage 2 hypertension. Lifestyle changes and medication review needed.", threshold: { low: 90, high: 140, unit: "mmHg", minLow: 70, maxLow: 100, minHigh: 120, maxHigh: 180 } },
     { id: "bp_low", icon: "💊", label: "Hypotension Alert", category: "BP", color: "#f472b6", desc: "Triggers when systolic BP drops below threshold — risk of fainting.", enabled: false, severity: "Medium", notifyChannels: ["App"], tip: "Systolic below 90 mmHg may cause dizziness or fainting, especially when standing quickly.", threshold: { low: 90, high: 120, unit: "mmHg", minLow: 60, maxLow: 95, minHigh: 100, maxHigh: 140 } },
     { id: "bp_crisis", icon: "🚨", label: "Hypertensive Crisis", category: "BP", color: "#ff4444", desc: "Systolic >180 or diastolic >120 — a life-threatening emergency.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "SMS", "Doctor"], tip: "This is a medical emergency. Alert cannot be disabled. Emergency contacts notified automatically.", threshold: undefined },
 
-    /* ── ACTIVITY ── */
+    
     { id: "fall", icon: "🤸", label: "Fall Detection", category: "Activity", color: "#fbbf24", desc: "AI detects sudden motion change and stillness indicating a possible fall.", enabled: true, severity: "High", notifyChannels: ["App", "WhatsApp", "Doctor"], tip: "Fall detection uses accelerometer + HR spike pattern. Response window is 30 seconds before auto-alerting doctor.", threshold: undefined },
     { id: "inactivity", icon: "🪑", label: "Prolonged Inactivity", category: "Activity", color: "#ffd93d", desc: "Alert if no movement detected for a set duration.", enabled: false, severity: "Low", notifyChannels: ["App"], tip: "Sitting too long increases DVT risk. Set a reminder every 1–2 hours.", threshold: { low: 60, high: 120, unit: "min", minLow: 30, maxLow: 90, minHigh: 60, maxHigh: 240 } },
     { id: "steps", icon: "👟", label: "Daily Step Goal", category: "Activity", color: "#00ff9d", desc: "Notifies if daily step count is below your goal by a set time.", enabled: true, severity: "Low", notifyChannels: ["App"], tip: "Step goals improve cardiovascular health. Default goal is 8,000 steps/day.", threshold: { low: 5000, high: 10000, unit: "steps", minLow: 1000, maxLow: 8000, minHigh: 5000, maxHigh: 20000 } },
 
-    /* ── MEDICATION ── */
+    
     { id: "med_remind", icon: "💊", label: "Medication Reminder", category: "Medication", color: "#00ff9d", desc: "Timed reminder for each scheduled medication dose.", enabled: true, severity: "Low", notifyChannels: ["App", "WhatsApp"], tip: "Medication reminders sync with your prescription schedule. Snooze up to 3 times per dose.", threshold: undefined },
     { id: "med_miss", icon: "⚠️", label: "Missed Dose Alert", category: "Medication", color: "#fbbf24", desc: "Triggers when a dose is 30+ minutes overdue.", enabled: true, severity: "Medium", notifyChannels: ["App", "WhatsApp", "Doctor"], tip: "Missing doses of cardiac medications like Metoprolol can cause rebound hypertension. Doctor is notified.", threshold: undefined },
 
-    /* ── DEVICE / SYSTEM ── */
+    
     { id: "dev_low", icon: "🔋", label: "Device Low Battery", category: "Device", color: "#ffd93d", desc: "Alert when ESP32 wearable battery drops below 20%.", enabled: true, severity: "Low", notifyChannels: ["App"], tip: "Charge device when prompted to avoid monitoring gaps. Battery lasts ~18 hours on full charge.", threshold: { low: 20, high: 100, unit: "%", minLow: 5, maxLow: 30, minHigh: 30, maxHigh: 100 } },
     { id: "dev_off", icon: "📡", label: "Device Disconnected", category: "Device", color: "#ff6b6b", desc: "Triggers when wearable loses Bluetooth or WiFi connection.", enabled: true, severity: "Medium", notifyChannels: ["App", "WhatsApp"], tip: "Monitoring stops when device disconnects. Reconnect within 5 minutes to avoid data gaps.", threshold: undefined },
     { id: "dev_loose", icon: "🔧", label: "Sensor Loose / Poor Signal", category: "Device", color: "#fbbf24", desc: "AI detects abnormal readings that suggest poor sensor contact.", enabled: true, severity: "Low", notifyChannels: ["App"], tip: "Dry or loose sensor contact causes false readings. Clean sensor area and reposition.", threshold: undefined },
@@ -287,17 +287,17 @@ export default function AlertsPage() {
         <Sidebar active="alerts" />
 
 
-        {/* ══ MAIN ══ */}
+        {}
         <div className="ap-main">
 
-          {/* TOPBAR */}
+          {}
           <div className="ap-topbar">
             <div>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "1.15rem", fontWeight: 800, color: "#fff" }}>Alert Center</div>
               <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.32)", marginTop: 1 }}>Alex Johnson · PAT-0042 · AI-powered health monitoring</div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              {/* Global alert master toggle */}
+              {}
               <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "7px 14px", borderRadius: 50, background: globalAlerts ? "rgba(255,107,107,.08)" : "rgba(255,255,255,.04)", border: `1px solid ${globalAlerts ? "rgba(255,107,107,.25)" : "rgba(255,255,255,.1)"}` }}>
                 <span style={{ fontSize: ".7rem", fontFamily: "'Syne',sans-serif", fontWeight: 700, color: globalAlerts ? "#ff6b6b" : "rgba(255,255,255,.3)" }}>All Alerts</span>
                 <Toggle on={globalAlerts} onChange={setGlobalAlerts} color="#ff6b6b" />
@@ -310,21 +310,21 @@ export default function AlertsPage() {
             </div>
           </div>
 
-          {/* TABS */}
+          {}
           <div className="ap-tabs">
             {tabs.map(t => (
               <button key={t.key} className={`ap-tab${activeTab === t.key ? " active" : ""}`} onClick={() => setActiveTab(t.key)}>{t.label}</button>
             ))}
           </div>
 
-          {/* CONTENT */}
+          {}
           <div className="ap-content">
 
-            {/* ══ LIVE ALERTS ══ */}
+            {}
             {activeTab === "live" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
-                {/* Stats row */}
+                {}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1rem" }}>
                   {[
                     { label: "Total Today", value: logItems.length, color: "#00c8ff", icon: "📊", onClick: undefined },
@@ -343,7 +343,7 @@ export default function AlertsPage() {
                   ))}
                 </div>
 
-                {/* Log */}
+                {}
                 <div className="card" style={{ animationDelay: ".1s" }}>
                   <div className="card-hd">
                     <span>Alert Log</span>
@@ -354,11 +354,11 @@ export default function AlertsPage() {
               </div>
             )}
 
-            {/* ══ ALERT SETTINGS ══ */}
+            {}
             {activeTab === "settings" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
 
-                {/* Shortcut banner */}
+                {}
                 <div className="card" style={{ animationDelay: ".05s", background: "rgba(255,107,107,.05)", border: "1px solid rgba(255,107,107,.15)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                     <div style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(255,107,107,.15)", border: "1px solid rgba(255,107,107,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem", flexShrink: 0 }}>⚡</div>
@@ -386,14 +386,14 @@ export default function AlertsPage() {
                   </div>
                 </div>
 
-                {/* Search */}
+                {}
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: ".85rem" }}>🔍</span>
                   <input value={searchQ} onChange={e => setSearchQ(e.target.value)} placeholder="Search alert types…"
                     style={{ width: "100%", padding: "10px 14px 10px 38px", borderRadius: 11, background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.09)", color: "#fff", fontSize: ".78rem", fontFamily: "'DM Sans',sans-serif", outline: "none" }} />
                 </div>
 
-                {/* Grouped by category */}
+                {}
                 {categories.map(cat => {
                   const catAlerts = filtered.filter(a => a.category === cat);
                   if (!catAlerts.length) return null;
@@ -409,7 +409,7 @@ export default function AlertsPage() {
               </div>
             )}
 
-            {/* ══ ALERT TYPES GUIDE ══ */}
+            {}
             {activeTab === "types" && (
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
 
@@ -461,13 +461,13 @@ export default function AlertsPage() {
               </div>
             )}
 
-          </div>{/* ap-content */}
+          </div>{}
 
-          {/* ══ UNREAD FULL PAGE OVERLAY ══ */}
+          {}
           {showUnread && (
             <div style={{ position: "absolute", inset: 0, zIndex: 50, background: "#050f1f", display: "flex", flexDirection: "column", animation: "fadeUp .25s both" }}>
 
-              {/* Header */}
+              {}
               <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "1rem 1.8rem", background: "rgba(5,15,31,.98)", borderBottom: "1px solid rgba(255,255,255,.06)", flexShrink: 0 }}>
                 <button onClick={() => setShowUnread(false)} style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)", color: "rgba(255,255,255,.7)", cursor: "pointer", fontSize: "1rem", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>←</button>
                 <div style={{ flex: 1 }}>
@@ -481,7 +481,7 @@ export default function AlertsPage() {
                 )}
               </div>
 
-              {/* Body */}
+              {}
               <div style={{ flex: 1, overflowY: "auto", padding: "1.4rem 1.8rem" }}>
                 {unreadItems.length === 0 ? (
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "60%", gap: 16 }}>
@@ -492,7 +492,7 @@ export default function AlertsPage() {
                   </div>
                 ) : (
                   <>
-                    {/* Urgent section */}
+                    {}
                     {unreadItems.filter(a => a.severity === "High" || a.severity === "Medium").length > 0 && (
                       <div style={{ marginBottom: "1.2rem" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: ".7rem" }}>
@@ -519,7 +519,7 @@ export default function AlertsPage() {
                       </div>
                     )}
 
-                    {/* Info / Low section */}
+                    {}
                     {unreadItems.filter(a => a.severity !== "High" && a.severity !== "Medium").length > 0 && (
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: ".7rem" }}>
@@ -547,8 +547,8 @@ export default function AlertsPage() {
             </div>
           )}
 
-        </div>{/* ap-main */}
-      </div>{/* ap */}
+        </div>{}
+      </div>{}
     </>
   );
 }

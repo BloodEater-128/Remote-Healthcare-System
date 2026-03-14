@@ -122,7 +122,7 @@ export default function DoctorSidebar({ active }) {
             <div className={`sidebar${expanded ? " expanded" : ""}`}>
                 <div style={{ position: "absolute", top: -50, left: -50, width: 180, height: 180, borderRadius: "50%", background: "radial-gradient(circle,rgba(150,40,255,.14),transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
 
-                {/* Profile */}
+                {}
                 <div className="sb-profile" style={{ position: "relative", zIndex: 1 }}>
                     <div className="sb-avatar">{DOCTOR.initials}</div>
                     <div className="sb-profile-info">
@@ -131,7 +131,7 @@ export default function DoctorSidebar({ active }) {
                     </div>
                 </div>
 
-                {/* Expand toggle */}
+                {}
                 <button className="sb-toggle" onClick={() => setExpanded(e => !e)} style={{ position: "relative", zIndex: 1 }}>
                     {!expanded ? (
                         <div className="sb-toggle-lines">
@@ -142,7 +142,7 @@ export default function DoctorSidebar({ active }) {
                     ) : <span style={{ fontSize: ".9rem", fontWeight: 700, color: "rgba(255,255,255,.5)" }}>←</span>}
                 </button>
 
-                {/* Nav items */}
+                {}
                 <div className="sb-nav" style={{ position: "relative", zIndex: 1 }}>
                     {NAV_ITEMS.map(({ icon, label, key, path }) => {
                         const isClicked = clickedItem.key === key;
@@ -165,7 +165,7 @@ export default function DoctorSidebar({ active }) {
 
                 <div className="sb-divider" />
 
-                {/* Logout */}
+                {}
                 <div className="sb-bottom" style={{ position: "relative", zIndex: 1 }}>
                     <button className="sb-logout" onClick={() => navigate("/doctor-logout")}>
                         <span className="sb-item-icon">🚪</span>

@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -39,9 +37,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"      },
 ];
 
-/* ══════════════════════════════════════
-   CONVERSATIONS DATA
-══════════════════════════════════════ */
+
 const CONVERSATIONS = [
   {
     id:1, name:"Rajan Mehta", uhid:"CGH-0231", age:54, g:"M",
@@ -158,9 +154,7 @@ const CONVERSATIONS = [
   },
 ];
 
-/* ══════════════════════════════════════
-   PARTICLE BACKGROUND
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -187,26 +181,24 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{position:"fixed",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:0}}/>;
 };
 
-/* ══════════════════════════════════════
-   CONVERSATION LIST ITEM
-══════════════════════════════════════ */
+
 const ConvItem = ({ conv, isActive, onClick }) => (
   <div onClick={onClick}
     style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",borderRadius:12,cursor:"pointer",transition:"all .2s",background:isActive?"rgba(147,51,234,.13)":"transparent",border:isActive?"1px solid rgba(168,85,247,.25)":"1px solid transparent",position:"relative"}}
     onMouseOver={e=>{ if(!isActive){ e.currentTarget.style.background="rgba(255,255,255,.04)"; e.currentTarget.style.borderColor="rgba(255,255,255,.06)"; }}}
     onMouseOut={e=>{ if(!isActive){ e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="transparent"; }}}
   >
-    {/* urgent indicator */}
+    {}
     {conv.urgent && <div style={{position:"absolute",left:5,top:"50%",transform:"translateY(-50%)",width:3,height:24,borderRadius:99,background:C.red,boxShadow:`0 0 6px ${C.red}`}}/>}
 
-    {/* avatar */}
+    {}
     <div style={{width:40,height:40,borderRadius:12,background:`linear-gradient(135deg,${conv.color}33,${conv.color}66)`,border:`1.5px solid ${conv.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Syne',sans-serif",fontSize:".7rem",fontWeight:800,color:conv.color,flexShrink:0,position:"relative"}}>
       {conv.avatar}
-      {/* online dot */}
+      {}
       <div style={{position:"absolute",bottom:-2,right:-2,width:10,height:10,borderRadius:"50%",background:conv.unread>0?C.green:"rgba(255,255,255,.15)",border:`2px solid ${C.bg}`,boxShadow:conv.unread>0?`0 0 6px ${C.green}`:"none"}}/>
     </div>
 
-    {/* info */}
+    {}
     <div style={{flex:1,minWidth:0}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:2}}>
         <span style={{fontFamily:"'Syne',sans-serif",fontSize:".74rem",fontWeight:700,color:conv.unread>0?"#fff":"rgba(255,255,255,.65)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{conv.name}</span>
@@ -223,9 +215,7 @@ const ConvItem = ({ conv, isActive, onClick }) => (
   </div>
 );
 
-/* ══════════════════════════════════════
-   CHAT BUBBLE
-══════════════════════════════════════ */
+
 const Bubble = ({ msg, conv }) => {
   const isDoc = msg.from === "doctor";
   return (
@@ -253,13 +243,11 @@ const Bubble = ({ msg, conv }) => {
   );
 };
 
-/* ══════════════════════════════════════
-   MAIN EXPORT
-══════════════════════════════════════ */
+
 import DoctorSidebar from "./DoctorSidebar";
 
 export default function DoctorMessages() {
-  const navigate = useNavigate(); // Added
+  const navigate = useNavigate(); 
   const [time,       setTime]       = useState(new Date());
   const [activeConv, setActiveConv] = useState(CONVERSATIONS[0]);
   const [convs,      setConvs]      = useState(CONVERSATIONS);
@@ -272,13 +260,13 @@ export default function DoctorMessages() {
     return ()=>clearInterval(id);
   },[]);
 
-  // scroll chat to bottom when active conv changes or new message
+  
   useEffect(()=>{
     if(chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
   },[activeConv]);
 
   const openConv=(conv)=>{
-    // mark as read
+    
     setConvs(prev=>prev.map(c=>c.id===conv.id?{...c,unread:0}:c));
     setActiveConv({...conv,unread:0});
   };
@@ -305,7 +293,7 @@ export default function DoctorMessages() {
     [c.name,c.uhid,c.diagnosis].some(f=>f.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // group messages by date
+  
   const groupedMsgs=activeConv.messages.reduce((acc,msg)=>{
     acc[msg.date]=acc[msg.date]||[];
     acc[msg.date].push(msg);

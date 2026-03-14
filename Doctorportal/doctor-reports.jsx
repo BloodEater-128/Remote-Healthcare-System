@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME — identical to doctor-dashboard
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -44,9 +42,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"      },
 ];
 
-/* ══════════════════════════════════════
-   REPORTS DATA
-══════════════════════════════════════ */
+
 const ALL_REPORTS = [
   {
     id:"RPT-001", name:"Vikram Choudhry", uhid:"CGH-0501", age:48, g:"M",
@@ -169,9 +165,7 @@ const FLAG = {
   normal:  { color:C.green },
 };
 
-/* ══════════════════════════════════════
-   PARTICLE BACKGROUND
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null);
   const raf = useRef(null);
@@ -200,9 +194,7 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{position:"fixed",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:0}}/>;
 };
 
-/* ══════════════════════════════════════
-   REPORT DETAIL MODAL
-══════════════════════════════════════ */
+
 const ReportModal = ({ report, onClose, onMarkReviewed }) => {
   if (!report) return null;
   const pm = PRIO[report.priority] || PRIO.normal;
@@ -211,7 +203,7 @@ const ReportModal = ({ report, onClose, onMarkReviewed }) => {
     <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(7,4,16,.88)",backdropFilter:"blur(10px)",display:"flex",alignItems:"center",justifyContent:"center",padding:"1.5rem"}}>
       <div onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:540,background:"rgba(11,7,24,.99)",border:`1px solid rgba(168,85,247,.25)`,borderRadius:22,boxShadow:`0 0 60px rgba(147,51,234,.2),0 24px 48px rgba(0,0,0,.7)`,overflow:"hidden",animation:"fadeUp .28s both"}}>
 
-        {/* modal header */}
+        {}
         <div style={{padding:"1.2rem 1.4rem",borderBottom:"1px solid rgba(255,255,255,.05)",background:"rgba(147,51,234,.06)",display:"flex",alignItems:"flex-start",justifyContent:"space-between"}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <div style={{width:44,height:44,borderRadius:13,background:`${pm.color}14`,border:`1px solid ${pm.color}28`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.3rem"}}>
@@ -225,7 +217,7 @@ const ReportModal = ({ report, onClose, onMarkReviewed }) => {
           <button onClick={onClose} style={{width:30,height:30,borderRadius:8,background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.08)",color:"rgba(255,255,255,.4)",cursor:"pointer",fontSize:".85rem",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>✕</button>
         </div>
 
-        {/* modal body */}
+        {}
         <div style={{padding:"1.2rem 1.4rem",display:"flex",flexDirection:"column",gap:"1rem",maxHeight:"70vh",overflowY:"auto"}}>
           <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
             <div style={{fontFamily:"'Syne',sans-serif",fontSize:".92rem",fontWeight:800,color:"#fff"}}>{report.test}</div>
@@ -294,9 +286,7 @@ const ReportModal = ({ report, onClose, onMarkReviewed }) => {
   );
 };
 
-/* ══════════════════════════════════════
-   REPORT ROW
-══════════════════════════════════════ */
+
 const ReportRow = ({ r, idx, onView }) => {
   const pm     = PRIO[r.priority] || PRIO.normal;
   const sm     = RSTAT[r.status]  || RSTAT.pending;
@@ -334,9 +324,7 @@ const ReportRow = ({ r, idx, onView }) => {
   );
 };
 
-/* ══════════════════════════════════════
-   MAIN EXPORT
-══════════════════════════════════════ */
+
 import DoctorSidebar from "./DoctorSidebar";
 
 export default function DoctorReports() {
@@ -424,10 +412,10 @@ export default function DoctorReports() {
 
         <DoctorSidebar active="reports" />
 
-        {/* ══════════ MAIN ══════════ */}
+        {}
         <div className="dm">
 
-          {/* topbar */}
+          {}
           <div className="dtb">
             <div>
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:700,color:`${C.glow}70`,textTransform:"uppercase",letterSpacing:".09em"}}>{greeting}, Doctor</div>
@@ -449,10 +437,10 @@ export default function DoctorReports() {
             </div>
           </div>
 
-          {/* ── REPORTS PAGE CONTENT ── */}
+          {}
           <div className="dc" style={{animation:"slideIn .36s cubic-bezier(.16,1,.3,1) both"}}>
 
-            {/* page heading */}
+            {}
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
               <div>
                 <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.05rem",fontWeight:800,color:"#fff",display:"flex",alignItems:"center",gap:10}}>
@@ -470,7 +458,7 @@ export default function DoctorReports() {
               </div>
             </div>
 
-            {/* stat cards */}
+            {}
             <div>
               <div className="sh">Reports Overview — March 2026</div>
               <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:".75rem"}}>
@@ -495,7 +483,7 @@ export default function DoctorReports() {
               </div>
             </div>
 
-            {/* filter + search */}
+            {}
             <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",padding:"10px 14px",borderRadius:13,background:"rgba(255,255,255,.02)",border:"1px solid rgba(255,255,255,.05)"}}>
               <div style={{display:"flex",gap:3}}>
                 {[
@@ -521,7 +509,7 @@ export default function DoctorReports() {
               </div>
             </div>
 
-            {/* table */}
+            {}
             <div>
               <div style={{display:"grid",gridTemplateColumns:"40px 1.7fr 1.3fr 90px 100px 110px 100px",gap:10,padding:"5px 14px",marginBottom:".4rem"}}>
                 {["","Patient","Test / Investigation","Date","Priority","Status","Action"].map((hd,i) => (
@@ -541,7 +529,7 @@ export default function DoctorReports() {
               )}
             </div>
 
-            {/* footer */}
+            {}
             <div style={{padding:"9px 15px",borderRadius:12,background:"rgba(255,255,255,.015)",border:`1px solid ${C.faint}`,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
               <div style={{display:"flex",alignItems:"center",gap:9}}>
                 <div style={{width:28,height:28,borderRadius:8,background:`${C.ring}10`,border:`1px solid ${C.ring}20`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:".85rem"}}>🏥</div>
@@ -558,9 +546,9 @@ export default function DoctorReports() {
               )}
             </div>
 
-          </div>{/* .dc */}
-        </div>{/* .dm */}
-      </div>{/* .dp */}
+          </div>{}
+        </div>{}
+      </div>{}
     </>
   );
 }

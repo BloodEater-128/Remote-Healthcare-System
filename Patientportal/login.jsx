@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// Firebase removed – using local mock auth
 
-/* ── ECG Canvas ── */
+
+
 const ECGCanvas = ({ color = "#00ff9d", glowColor = "#00ff9d" }) => {
   const ref = useRef(null); const rafRef = useRef(null);
   useEffect(() => {
@@ -35,7 +35,7 @@ const ECGCanvas = ({ color = "#00ff9d", glowColor = "#00ff9d" }) => {
   return <canvas ref={ref} style={{ width: "100%", height: "62px", display: "block" }} />;
 };
 
-/* ── Brain Wave Canvas ── */
+
 const BrainWaveCanvas = () => {
   const ref = useRef(null); const rafRef = useRef(null);
   useEffect(() => {
@@ -60,7 +60,7 @@ const BrainWaveCanvas = () => {
   return <canvas ref={ref} style={{ width: "100%", height: "62px", display: "block" }} />;
 };
 
-/* ── Particles ── */
+
 const ParticleField = () => {
   const ref = useRef(null); const rafRef = useRef(null);
   useEffect(() => {
@@ -107,7 +107,7 @@ const FloatingHeader = ({ accent }) => (
   </div>
 );
 
-/* ── Signup animated vitals canvas ── */
+
 const VitalsCanvas = () => {
   const ref = useRef(null); const rafRef = useRef(null);
   useEffect(() => {
@@ -118,7 +118,7 @@ const VitalsCanvas = () => {
     const W = c.offsetWidth, H = c.offsetHeight;
     let t = 0;
 
-    // Particles
+    
     const pts = Array.from({ length: 28 }, () => ({
       x: Math.random() * W, y: Math.random() * H,
       r: Math.random() * 1.8 + .5,
@@ -126,7 +126,7 @@ const VitalsCanvas = () => {
       hue: Math.random() > .5 ? "0,200,255" : "0,255,160",
     }));
 
-    // ECG path
+    
     const ecgCycle = [
       [0, .0], [.06, .0], [.10, -.04], [.12, .04], [.14, .0],
       [.20, .0], [.23, -.28], [.26, .44], [.29, -.14], [.32, .0],
@@ -141,7 +141,7 @@ const VitalsCanvas = () => {
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
 
-      // Particles
+      
       pts.forEach(p => {
         p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
         const a = .15 + .25 * Math.abs(Math.sin(Date.now() * .0008 + p.x));
@@ -149,7 +149,7 @@ const VitalsCanvas = () => {
         ctx.fillStyle = `rgba(${p.hue},${a})`; ctx.shadowColor = `rgba(${p.hue},.6)`; ctx.shadowBlur = 6; ctx.fill();
       });
 
-      // ECG strip at bottom third
+      
       const EY = H * .72, EH = H * .22;
       ctx.save(); ctx.beginPath();
       for (let rep = -1; rep <= 1; rep++) {
@@ -165,15 +165,15 @@ const VitalsCanvas = () => {
       ctx.shadowColor = "#00ff9d"; ctx.shadowBlur = 14; ctx.stroke(); ctx.restore();
       ecgOff = (ecgOff + 1.2) % W;
 
-      // Glowing dot on ECG peak
+      
       const dotX = ((0.26 * W - ecgOff) % W + W) % W;
       ctx.save(); ctx.beginPath(); ctx.arc(dotX, EY + .44 * EH, 5, 0, Math.PI * 2);
       ctx.fillStyle = "#00ff9d"; ctx.shadowColor = "#00ff9d"; ctx.shadowBlur = 20; ctx.fill(); ctx.restore();
 
-      // Central body silhouette glow
+      
       const cx = W * .5, cy = H * .36;
       const pulse = 1 + .04 * Math.sin(t * 2.8);
-      // Body glow rings
+      
       [60, 90, 120].forEach((r, i) => {
         const a = (.12 - i * .035) * Math.abs(Math.sin(t * .8 + i * .6));
         const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * pulse);
@@ -182,7 +182,7 @@ const VitalsCanvas = () => {
         ctx.fillStyle = g; ctx.fill();
       });
 
-      // Heart icon in center (drawn as arcs)
+      
       const hs = 22 * pulse, hx = cx, hy = cy + 2;
       ctx.save();
       ctx.beginPath();
@@ -192,7 +192,7 @@ const VitalsCanvas = () => {
       ctx.fillStyle = `rgba(255,100,120,${.7 + .3 * Math.abs(Math.sin(t * 2.8))})`;
       ctx.shadowColor = "#ff6b6b"; ctx.shadowBlur = 18 + 10 * Math.abs(Math.sin(t * 2.8)); ctx.fill(); ctx.restore();
 
-      // Orbital data rings around body
+      
       const orbitals = [
         { r: 90, speed: .4, offset: 0, label: "❤ 72 BPM", color: "#ff6b6b" },
         { r: 118, speed: -.28, offset: 1.2, label: "SpO₂ 98%", color: "#00c8ff" },
@@ -230,13 +230,13 @@ const VitalsCanvas = () => {
   return <canvas ref={ref} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} />;
 };
 
-/* ── Sign-up left panel – patient animation ── */
+
 const SignupLeftPanel = () => {
   return (
     <div style={{ position: "relative", zIndex: 2, width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-start", padding: "0 2.5rem 2.5rem" }}>
       <VitalsCanvas />
 
-      {/* Text overlay at bottom */}
+      {}
       <div style={{ position: "relative", zIndex: 3 }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 16px", borderRadius: 50, background: "rgba(0,150,255,.1)", border: "1px solid rgba(0,150,255,.22)", marginBottom: "1rem" }}>
           <span style={{ display: "flex", animation: "hb 1.8s ease-in-out infinite" }}><HeartSVG color="#00c8ff" /></span>
@@ -253,7 +253,7 @@ const SignupLeftPanel = () => {
   );
 };
 
-/* ══════════════ MAIN ══════════════ */
+
 export default function App() {
   const navigate = useNavigate();
   const [page, setPage] = useState("login");
@@ -273,7 +273,7 @@ export default function App() {
     setErrorMsg("");
     setPwErrorMsg("");
     
-    // Strict email format checking
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email.trim()) {
       setErrorMsg("Please enter your email.");
@@ -294,7 +294,7 @@ export default function App() {
     }
 
     setLoading(true);
-    // Mock auth – navigate directly to dashboard
+    
     setTimeout(() => {
       setLoading(false);
       navigate(isP ? "/dashboard" : "/doctor-dashboard");
@@ -309,7 +309,7 @@ export default function App() {
       setErrorMsg("Please fill in all required fields.");
       return;
     }
-    // Strict email format checking
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(form.email.trim())) {
       setErrorMsg("Please enter a valid email address.");
@@ -328,7 +328,7 @@ export default function App() {
       return;
     }
     setLoading(true);
-    // Mock signup – navigate directly to dashboard
+    
     setTimeout(() => {
       setLoading(false);
       navigate(isP ? "/dashboard" : "/doctor-dashboard");
@@ -337,7 +337,7 @@ export default function App() {
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
-    // Mock Google sign-in – navigate directly to dashboard
+    
     setTimeout(() => {
       setLoading(false);
       navigate(isP ? "/dashboard" : "/doctor-dashboard");
@@ -471,7 +471,7 @@ export default function App() {
 
         <FloatingHeader accent={T.accent} key={portal} />
 
-        {/* ══ LEFT PANEL ══ */}
+        {}
         <div className="lp">
           <div className="lp-bg" style={{ background: T.lpBg }} />
           <div className="lp-grid" style={{ backgroundImage: `linear-gradient(${T.grid} 1px,transparent 1px),linear-gradient(90deg,${T.grid} 1px,transparent 1px)`, backgroundSize: "40px 40px" }} />
@@ -482,7 +482,7 @@ export default function App() {
           {isLogin && T.cards.map((c, i) => <FCard key={i} {...c} />)}
 
           {isLogin ? (
-            /* LOGIN left panel – original content */
+            
             <div className="lp-inner">
               <div className="logo-pill" style={{ background: T.logoBg, border: `1px solid ${T.logoBorder}` }}>
                 <span className="logo-icon">{isP ? <HeartSVG color={T.logoC} /> : <StethSVG color={T.logoC} />}</span>
@@ -514,18 +514,18 @@ export default function App() {
               </div>
             </div>
           ) : (
-            /* SIGNUP left panel – feature list */
+            
             <SignupLeftPanel key="su" />
           )}
         </div>
 
-        {/* ══ RIGHT PANEL ══ */}
+        {}
         <div className="rp" style={{ background: T.rpBg }}>
           <div className="form-card">
             <div className="form-anim" key={animKey}>
 
               {isLogin ? (
-                /* ── LOGIN FORM ── */
+                
                 <>
                   <div className="fhead">
                     <span className="greeting" style={{ color: T.greet }}>Welcome Back</span>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-/* ── Live ECG Canvas ── */
+
 const ECGCanvas = ({ color = "#00ff9d", height = 70 }) => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -41,7 +41,7 @@ const ECGCanvas = ({ color = "#00ff9d", height = 70 }) => {
   return <canvas ref={ref} style={{ width: "100%", height, display: "block" }} />;
 };
 
-/* ── Mini Sparkline ── */
+
 const Sparkline = ({ data, color, height = 40 }) => {
   const ref = useRef(null);
   useEffect(() => {
@@ -57,7 +57,7 @@ const Sparkline = ({ data, color, height = 40 }) => {
     pts.forEach(([x, y], i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
     ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineJoin = "round";
     ctx.shadowColor = color; ctx.shadowBlur = 8; ctx.stroke();
-    // fill under
+    
     ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
     const g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0, `${color}33`); g.addColorStop(1, `${color}00`);
@@ -66,7 +66,7 @@ const Sparkline = ({ data, color, height = 40 }) => {
   return <canvas ref={ref} style={{ width: "100%", height, display: "block" }} />;
 };
 
-/* ── Animated Donut ── */
+
 const Donut = ({ pct, color, size = 90 }) => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -92,14 +92,14 @@ const Donut = ({ pct, color, size = 90 }) => {
   return <canvas ref={ref} style={{ width: size, height: size }} />;
 };
 
-/* ── Heart Beat Icon ── */
+
 const HeartSVG = ({ color = "#ff6b6b", size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ filter: `drop-shadow(0 0 4px ${color}88)` }}>
     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
   </svg>
 );
 
-/* ── Alert Item ── */
+
 const AlertItem = ({ icon, title, desc, time, color, urgent }) => (
   <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "11px 14px", borderRadius: 12, background: urgent ? "rgba(255,80,80,.06)" : "rgba(255,255,255,.03)", border: `1px solid ${urgent ? "rgba(255,80,80,.2)" : "rgba(255,255,255,.06)"}`, marginBottom: 8 }}>
     <div style={{ width: 36, height: 36, borderRadius: 9, background: `${color}18`, border: `1px solid ${color}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", flexShrink: 0 }}>{icon}</div>
@@ -113,7 +113,7 @@ const AlertItem = ({ icon, title, desc, time, color, urgent }) => (
   </div>
 );
 
-/* ── Prescription Card ── */
+
 const RxCard = ({ name, dose, freq, days, color }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 12, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)", marginBottom: 8 }}>
     <div style={{ width: 34, height: 34, borderRadius: 8, background: `${color}18`, border: `1px solid ${color}28`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".95rem", flexShrink: 0 }}>💊</div>
@@ -130,7 +130,7 @@ const RxCard = ({ name, dose, freq, days, color }) => (
   </div>
 );
 
-/* ── Nav Item ── */
+
 const NavItem = ({ icon, label, active, onClick }) => (
   <button onClick={onClick} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, padding: "10px 16px", borderRadius: 12, border: "none", cursor: "pointer", background: active ? "rgba(0,200,255,.1)" : "transparent", transition: "all .2s", color: active ? "#00c8ff" : "rgba(255,255,255,.35)" }}>
     <span style={{ fontSize: "1.2rem" }}>{icon}</span>
@@ -141,7 +141,7 @@ const NavItem = ({ icon, label, active, onClick }) => (
 
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════ MAIN DASHBOARD ══════════════ */
+
 export default function PatientDashboard() {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState("dashboard");
@@ -162,13 +162,13 @@ export default function PatientDashboard() {
   const [temp] = useState(36.6);
   const [bp] = useState("118/76");
 
-  // Tick clock
+  
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  // Simulate live HR fluctuation
+  
   useEffect(() => {
     const id = setInterval(() => setHeartRate(70 + Math.floor(Math.random() * 8)), 2000);
     return () => clearInterval(id);
@@ -375,10 +375,10 @@ export default function PatientDashboard() {
       `}</style>
 
       <div className="dash">
-        {/* ══ SIDEBAR ══ */}
+        {}
         <div className={`sidebar${expanded ? " expanded" : ""}`}>
 
-          {/* Profile top */}
+          {}
           <div className="sb-profile">
             <div className="sb-avatar">👤</div>
             <div className="sb-profile-info">
@@ -387,7 +387,7 @@ export default function PatientDashboard() {
             </div>
           </div>
 
-          {/* Expand / Collapse toggle */}
+          {}
           <button className="sb-toggle" onClick={() => setExpanded(e => !e)}>
             {!expanded && (
               <div className="sb-toggle-lines">
@@ -399,7 +399,7 @@ export default function PatientDashboard() {
             {expanded && <span style={{ fontSize: ".9rem", fontWeight: 700, color: "rgba(255,255,255,.5)" }}>←</span>}
           </button>
 
-          {/* Nav items */}
+          {}
           <div className="sb-nav">
             {[
               { icon: "📊", label: "Dashboard", key: "dashboard" },
@@ -433,7 +433,7 @@ export default function PatientDashboard() {
 
           <div className="sb-divider" />
 
-          {/* Bottom — logout */}
+          {}
           <div className="sb-bottom">
             <button className="sb-logout" onClick={() => navigate("/logout")}>
               <span className="sb-item-icon">🚪</span>
@@ -443,10 +443,10 @@ export default function PatientDashboard() {
 
         </div>
 
-        {/* ══ MAIN AREA ══ */}
+        {}
         <div className="main">
 
-          {/* TOPBAR */}
+          {}
           <div className="topbar" style={{ position: "relative" }}>
             <div className="topbar-left">
               <h1>Good Morning, Alex 👋</h1>

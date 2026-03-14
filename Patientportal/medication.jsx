@@ -4,9 +4,7 @@ import jsPDF from "jspdf";
 import Sidebar from "./Sidebar.jsx";
 
 
-/* ══════════════════════════════════════
-   HOSPITAL & PATIENT INFO (single system)
-══════════════════════════════════════ */
+
 const HOSPITAL = {
   name: "City General Hospital",
   address: "14, MG Road, New Delhi – 110001",
@@ -28,9 +26,7 @@ const PATIENT = {
   uhid: "UHID-CGH-20240042",
 };
 
-/* ══════════════════════════════════════
-   ALL BILLS — from same hospital
-══════════════════════════════════════ */
+
 const BILLS = [
   {
     billNo: "CGH-RX-2026-0312",
@@ -107,9 +103,7 @@ const BILLS = [
 const statusColor = (s) => ({ "Paid": "#00ff9d", "Pending": "#fbbf24", "Cancelled": "#ff6b6b" }[s] || "#00ff9d");
 const billTotal = (bill) => bill.items.reduce((s, i) => s + i.qty * i.unitPrice, 0);
 
-/* ══════════════════════════════════════
-   DOWNLOAD BILL
-══════════════════════════════════════ */
+
 const downloadBill = (bill) => {
   const total = billTotal(bill);
   const tax = total * 0.05;
@@ -175,7 +169,7 @@ const downloadBill = (bill) => {
   doc.setFont("courier", "normal");
   doc.setFontSize(10);
 
-  // To handle multiple pages if text is too long
+  
   const splitText = doc.splitTextToSize(linesText.join("\n"), 180);
   let y = 15;
   for (let i = 0; i < splitText.length; i++) {
@@ -191,9 +185,7 @@ const downloadBill = (bill) => {
 };
 
 
-/* ══════════════════════════════════════
-   VIEW BILL MODAL with AI
-══════════════════════════════════════ */
+
 const ViewModal = ({ bill, onClose }) => {
   const [loadingItem, setLoadingItem] = useState(null);
   const [aiResults, setAiResults] = useState({});
@@ -256,7 +248,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
       onClick={e => e.target === e.currentTarget && onClose()}>
       <div style={{ background: "linear-gradient(160deg,#0b1a30,#060f1e)", border: `1px solid ${bill.color}30`, borderRadius: 22, width: "100%", maxWidth: 700, maxHeight: "90vh", overflowY: "auto", position: "relative" }}>
 
-        {/* ── BILL HEADER ── */}
+        {}
         <div style={{ padding: "1.6rem 1.8rem 1.2rem", borderBottom: "1px solid rgba(255,255,255,.07)", position: "sticky", top: 0, background: "#0b1a30", zIndex: 2, borderRadius: "22px 22px 0 0" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -273,9 +265,9 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 
         <div style={{ padding: "1.4rem 1.8rem" }}>
 
-          {/* ── BILL + PATIENT INFO ── */}
+          {}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".8rem", marginBottom: "1.2rem" }}>
-            {/* Bill info */}
+            {}
             <div style={{ padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)" }}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".6rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 8 }}>Bill Details</div>
               {[
@@ -292,7 +284,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
                 </div>
               ))}
             </div>
-            {/* Patient info */}
+            {}
             <div style={{ padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)" }}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".6rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 8 }}>Patient Details</div>
               {[
@@ -311,13 +303,13 @@ Respond ONLY with valid JSON (no markdown, no backticks):
             </div>
           </div>
 
-          {/* ── MEDICINES ── */}
+          {}
           <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".65rem", fontWeight: 700, color: "rgba(255,255,255,.35)", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: ".7rem", display: "flex", alignItems: "center", gap: 8 }}>
             <span>💊</span> Medicines Dispensed
             <span style={{ marginLeft: "auto", fontSize: ".6rem", color: "rgba(0,200,255,.55)", fontWeight: 600, textTransform: "none", letterSpacing: 0 }}>🤖 Click "AI Explain" for medicine details</span>
           </div>
 
-          {/* column headers */}
+          {}
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 80px", gap: 8, padding: "6px 12px", marginBottom: 4 }}>
             {["Medicine", "Dosage", "Qty", "Amount", ""].map(h => (
               <span key={h} style={{ fontSize: ".58rem", fontWeight: 700, color: "rgba(255,255,255,.22)", textTransform: "uppercase", letterSpacing: ".08em" }}>{h}</span>
@@ -332,7 +324,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
 
               return (
                 <div key={item.name} style={{ borderRadius: 12, border: `1px solid ${isOpen ? bill.color + "35" : "rgba(255,255,255,.07)"}`, overflow: "hidden", transition: "border-color .2s" }}>
-                  {/* row */}
+                  {}
                   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 80px", gap: 8, alignItems: "center", padding: "10px 12px", background: "rgba(255,255,255,.025)" }}>
                     <div>
                       <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".78rem", fontWeight: 700, color: "#fff" }}>{item.name}</div>
@@ -349,7 +341,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
                     </button>
                   </div>
 
-                  {/* AI explanation panel */}
+                  {}
                   {isOpen && ai && (
                     <div style={{ padding: "14px 16px", background: "linear-gradient(135deg,rgba(0,200,255,.03),rgba(167,139,250,.03))", borderTop: "1px solid rgba(0,200,255,.1)", animation: "fadeUp .22s both" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
@@ -357,7 +349,7 @@ Respond ONLY with valid JSON (no markdown, no backticks):
                         <span style={{ fontFamily: "'Syne',sans-serif", fontSize: ".7rem", fontWeight: 700, color: "#00c8ff" }}>AI Pharmacist Explanation</span>
                         <span style={{ marginLeft: "auto", padding: "2px 8px", borderRadius: 50, background: "rgba(0,255,157,.1)", border: "1px solid rgba(0,255,157,.2)", color: "#00ff9d", fontSize: ".56rem", fontWeight: 700 }}>AI</span>
                       </div>
-                      {/* Purpose */}
+                      {}
                       <div style={{ marginBottom: 8 }}>
                         <div style={{ fontSize: ".58rem", color: "#00c8ff", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4, display: "flex", alignItems: "center", gap: 4 }}>🎯 Purpose &amp; Why It's Prescribed</div>
                         <div style={{ fontSize: ".76rem", color: "rgba(255,255,255,.7)", lineHeight: 1.7, padding: "9px 11px", borderRadius: 9, background: "rgba(255,255,255,.03)" }}>{ai.purpose}</div>

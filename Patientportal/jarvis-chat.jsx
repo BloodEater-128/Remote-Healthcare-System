@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "./Sidebar.jsx";
 
 
-/* ════════════════════════════════════════
-   PATIENT CONTEXT (shared across dashboard)
-════════════════════════════════════════ */
+
 const PATIENT = {
   name: "Alex Johnson",
   id: "PAT-0042",
@@ -18,9 +16,7 @@ const PATIENT = {
   hospital: "City General Hospital",
 };
 
-/* ════════════════════════════════════════
-   QUICK PROMPTS
-════════════════════════════════════════ */
+
 const QUICK_PROMPTS = [
   { icon: "💊", label: "My medications", text: "What are my current medications and what does each one do?" },
   { icon: "🩸", label: "Blood sugar tips", text: "My HbA1c is 7.2%. What can I do to improve my blood sugar control?" },
@@ -32,9 +28,7 @@ const QUICK_PROMPTS = [
   { icon: "🚨", label: "Warning signs", text: "What symptoms should I watch out for with my current conditions?" },
 ];
 
-/* ════════════════════════════════════════
-   SYSTEM PROMPT for Jarvis AI
-════════════════════════════════════════ */
+
 const buildSystemPrompt = () => `
 You are Jarvis AI — an advanced, empathetic healthcare assistant integrated into the City General Hospital patient portal for ${PATIENT.name}.
 
@@ -73,9 +67,7 @@ You are a caring, knowledgeable healthcare assistant. You:
 Warm, professional, reassuring. Like a knowledgeable friend who happens to be a doctor. Use the patient's first name "Alex" naturally in responses.
 `;
 
-/* ════════════════════════════════════════
-   TYPING INDICATOR
-════════════════════════════════════════ */
+
 const TypingIndicator = () => (
   <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "1rem", animation: "fadeUp .3s both" }}>
     <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#0066ff,#00c8ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, border: "2px solid rgba(0,200,255,.4)", boxShadow: "0 0 18px rgba(0,200,255,.25)" }}>⚕</div>
@@ -89,16 +81,14 @@ const TypingIndicator = () => (
   </div>
 );
 
-/* ════════════════════════════════════════
-   MESSAGE BUBBLE
-════════════════════════════════════════ */
+
 const MessageBubble = ({ msg }) => {
   const isUser = msg.role === "user";
 
   const renderMarkdown = (text) => {
-    // Bold
+    
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff;font-weight:700">$1</strong>');
-    // Bullet points
+    
     const lines = text.split("\n");
     let html = "";
     let inList = false;
@@ -118,7 +108,7 @@ const MessageBubble = ({ msg }) => {
 
   return (
     <div style={{ display: "flex", alignItems: "flex-end", gap: 10, marginBottom: ".9rem", flexDirection: isUser ? "row-reverse" : "row", animation: "fadeUp .3s both" }}>
-      {/* avatar */}
+      {}
       {!isUser && (
         <div style={{ width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#0066ff,#00c8ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, border: "2px solid rgba(0,200,255,.4)", boxShadow: "0 0 18px rgba(0,200,255,.22)", marginBottom: 2 }}>⚕</div>
       )}
@@ -127,11 +117,11 @@ const MessageBubble = ({ msg }) => {
       )}
 
       <div style={{ maxWidth: "72%", display: "flex", flexDirection: "column", alignItems: isUser ? "flex-end" : "flex-start" }}>
-        {/* name tag */}
+        {}
         <div style={{ fontSize: ".57rem", fontFamily: "'Syne',sans-serif", fontWeight: 700, color: isUser ? "rgba(167,139,250,.6)" : "rgba(0,200,255,.6)", textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 4 }}>
           {isUser ? PATIENT.name : "Jarvis AI"}
         </div>
-        {/* bubble */}
+        {}
         <div style={{
           padding: "13px 18px",
           borderRadius: isUser ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
@@ -146,7 +136,7 @@ const MessageBubble = ({ msg }) => {
         }}
           dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
         />
-        {/* timestamp */}
+        {}
         <div style={{ fontSize: ".55rem", color: "rgba(255,255,255,.2)", marginTop: 4 }}>
           {msg.time}
         </div>
@@ -155,9 +145,7 @@ const MessageBubble = ({ msg }) => {
   );
 };
 
-/* ════════════════════════════════════════
-   MAIN PAGE
-════════════════════════════════════════ */
+
 export default function JarvisChat() {
   const [messages, setMessages] = useState([
     {
@@ -172,7 +160,7 @@ export default function JarvisChat() {
   const [showQuick, setShowQuick] = useState(true);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
-  const historyRef = useRef([]);   // keeps full API history
+  const historyRef = useRef([]);   
 
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 1000);
@@ -195,7 +183,7 @@ export default function JarvisChat() {
     setLoading(true);
     setShowQuick(false);
 
-    // Build API history (no timestamps)
+    
     historyRef.current = [...historyRef.current, { role: "user", content: userText }];
 
     try {
@@ -444,10 +432,10 @@ export default function JarvisChat() {
 
         <Sidebar active="chat" />
 
-        {/* ══════════════ CHAT MAIN ══════════════ */}
+        {}
         <div className="chat-main">
 
-          {/* ── topbar ── */}
+          {}
           <div className="chat-topbar">
             <div className="jarvis-logo">
               <div className="jarvis-orb">⚕</div>
@@ -466,7 +454,7 @@ export default function JarvisChat() {
             </div>
           </div>
 
-          {/* ── patient context strip ── */}
+          {}
           <div className="ctx-strip">
             <div className="ctx-label">Context:</div>
             <span className="ctx-chip" style={{ background: "rgba(0,200,255,.1)", border: "1px solid rgba(0,200,255,.22)", color: "#00c8ff" }}>👤 {PATIENT.name}</span>
@@ -478,10 +466,10 @@ export default function JarvisChat() {
             ))}
           </div>
 
-          {/* ── messages ── */}
+          {}
           <div className="chat-messages">
 
-            {/* welcome hero (shown only when quick prompts visible) */}
+            {}
             {showQuick && (
               <div className="welcome-card">
                 <div className="welcome-orb">⚕</div>

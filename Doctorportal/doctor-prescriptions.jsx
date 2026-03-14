@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME — identical to doctor-dashboard
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -44,9 +42,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"      },
 ];
 
-/* ══════════════════════════════════════
-   PRESCRIPTIONS DATA
-══════════════════════════════════════ */
+
 const ALL_PRESCRIPTIONS = [
   {
     id:"RX-2026-001",
@@ -170,7 +166,7 @@ const ALL_PRESCRIPTIONS = [
   },
 ];
 
-/* ── drug type colour map ── */
+
 const DRUG_TYPE = {
   antibiotic:       { color:"#f87171", bg:"rgba(248,113,113,.09)" },
   antidiabetic:     { color:"#c084fc", bg:"rgba(192,132,252,.09)" },
@@ -190,9 +186,7 @@ const STAT_COLOR = {
 };
 const ROUTE_ICON = { Oral:"💊", IV:"💉", SC:"💉", Topical:"🧴" };
 
-/* ══════════════════════════════════════
-   PARTICLE BACKGROUND
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null);
   const raf = useRef(null);
@@ -221,9 +215,7 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{position:"fixed",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:0}}/>;
 };
 
-/* ══════════════════════════════════════
-   PRESCRIPTION DETAIL MODAL
-══════════════════════════════════════ */
+
 const PrescriptionModal = ({ rx, onClose }) => {
   if (!rx) return null;
   const sc = STAT_COLOR[rx.status] || STAT_COLOR.active;
@@ -231,7 +223,7 @@ const PrescriptionModal = ({ rx, onClose }) => {
     <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(7,4,16,.88)",backdropFilter:"blur(10px)",display:"flex",alignItems:"center",justifyContent:"center",padding:"1.5rem"}}>
       <div onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:600,background:"rgba(11,7,24,.99)",border:`1px solid rgba(168,85,247,.25)`,borderRadius:22,boxShadow:`0 0 60px rgba(147,51,234,.2),0 24px 48px rgba(0,0,0,.7)`,overflow:"hidden",animation:"fadeUp .28s both"}}>
 
-        {/* modal header */}
+        {}
         <div style={{padding:"1.2rem 1.4rem",borderBottom:"1px solid rgba(255,255,255,.05)",background:"rgba(147,51,234,.06)",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
             <div style={{width:44,height:44,borderRadius:13,background:"rgba(168,85,247,.14)",border:"1px solid rgba(168,85,247,.28)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.3rem"}}>💊</div>
@@ -246,16 +238,16 @@ const PrescriptionModal = ({ rx, onClose }) => {
           </div>
         </div>
 
-        {/* modal body */}
+        {}
         <div style={{padding:"1.2rem 1.4rem",display:"flex",flexDirection:"column",gap:"1rem",maxHeight:"72vh",overflowY:"auto"}}>
 
-          {/* diagnosis banner */}
+          {}
           <div style={{padding:"10px 13px",borderRadius:11,background:"rgba(168,85,247,.05)",border:"1px solid rgba(168,85,247,.12)"}}>
             <div style={{fontSize:".58rem",fontFamily:"'Syne',sans-serif",fontWeight:700,color:`${C.glow}70`,textTransform:"uppercase",letterSpacing:".1em",marginBottom:4}}>Diagnosis</div>
             <div style={{fontSize:".78rem",fontFamily:"'Syne',sans-serif",fontWeight:700,color:"#fff"}}>{rx.diagnosis}</div>
           </div>
 
-          {/* meta row */}
+          {}
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
             {[
               { label:"Prescribed On",  value:rx.date       },
@@ -272,7 +264,7 @@ const PrescriptionModal = ({ rx, onClose }) => {
             ))}
           </div>
 
-          {/* drug list */}
+          {}
           <div>
             <div style={{fontSize:".58rem",fontFamily:"'Syne',sans-serif",fontWeight:700,color:"rgba(255,255,255,.25)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:".6rem"}}>Medications ({rx.drugs.length})</div>
             <div style={{display:"flex",flexDirection:"column",gap:7}}>
@@ -305,7 +297,7 @@ const PrescriptionModal = ({ rx, onClose }) => {
             </div>
           </div>
 
-          {/* notes */}
+          {}
           <div style={{padding:"10px 13px",borderRadius:11,background:"rgba(251,191,36,.04)",border:"1px solid rgba(251,191,36,.12)"}}>
             <div style={{fontSize:".58rem",fontFamily:"'Syne',sans-serif",fontWeight:700,color:`${C.amber}90`,textTransform:"uppercase",letterSpacing:".1em",marginBottom:4}}>📝 Doctor's Notes</div>
             <div style={{fontSize:".7rem",color:"rgba(255,255,255,.6)",lineHeight:1.65}}>{rx.notes}</div>
@@ -589,9 +581,9 @@ export default function DoctorPrescriptions() {
               </div>
             </div>
 
-          </div>{/* .dc */}
-        </div>{/* .dm */}
-      </div>{/* .dp */}
+          </div>{}
+        </div>{}
+      </div>{}
     </>
   );
 }

@@ -272,7 +272,7 @@ const PatientDetail=({p,onBack})=>{
   const rm=RISK_MAP[p.risk]||RISK_MAP.normal;
   return(
     <div style={{display:"flex",flexDirection:"column",gap:"1rem",animation:"slideIn .32s cubic-bezier(.16,1,.3,1) both"}}>
-      {/* back + header */}
+      {}
       <div style={{display:"flex",alignItems:"center",gap:12}}>
         <button onClick={onBack} style={{padding:"6px 14px",borderRadius:9,background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.09)",color:"rgba(255,255,255,.55)",cursor:"pointer",fontFamily:"'Syne',sans-serif",fontSize:".68rem",fontWeight:700,transition:"all .2s"}}
           onMouseOver={e=>e.currentTarget.style.background="rgba(255,255,255,.08)"} onMouseOut={e=>e.currentTarget.style.background="rgba(255,255,255,.04)"}>← Back to List</button>
@@ -284,7 +284,7 @@ const PatientDetail=({p,onBack})=>{
           <div style={{fontSize:".65rem",color:"rgba(255,255,255,.35)",marginTop:2}}>{p.id} · {p.age}y {p.g} · Blood: {p.blood} · {p.diagnosis}</div>
         </div>
       </div>
-      {/* alerts */}
+      {}
       {p.alerts.length>0&&(
         <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
           {p.alerts.map(a=>(
@@ -295,7 +295,7 @@ const PatientDetail=({p,onBack})=>{
           ))}
         </div>
       )}
-      {/* vitals */}
+      {}
       <div>
         <div className="sh">Current Vitals</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:".6rem"}}>
@@ -315,7 +315,7 @@ const PatientDetail=({p,onBack})=>{
           ))}
         </div>
       </div>
-      {/* charts */}
+      {}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:".85rem"}}>
         <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:18,padding:"1rem 1.1rem"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:".7rem"}}>
@@ -338,7 +338,7 @@ const PatientDetail=({p,onBack})=>{
           <div style={{height:120}}><LineChart data={p.glucose} color={p.glucose[p.glucose.length-1].v>126?C.amber:C.indigo}/></div>
         </div>
       </div>
-      {/* history timeline */}
+      {}
       <div>
         <div className="sh">Medical History Timeline</div>
         <div style={{display:"flex",flexDirection:"column",gap:0}}>
@@ -362,7 +362,7 @@ const PatientDetail=({p,onBack})=>{
           })}
         </div>
       </div>
-      {/* bottom cards */}
+      {}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:".75rem"}}>
         <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:14,padding:"1rem"}}>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:".58rem",fontWeight:800,color:"rgba(255,255,255,.22)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:".6rem"}}>Comorbidities</div>
@@ -406,9 +406,7 @@ const PatientDetail=({p,onBack})=>{
   );
 };
 
-/* ══════════════════════════════════════
-   MAIN EXPORT
-══════════════════════════════════════ */
+
 import DoctorSidebar from "./DoctorSidebar";
 
 export default function DoctorAnalytics() {

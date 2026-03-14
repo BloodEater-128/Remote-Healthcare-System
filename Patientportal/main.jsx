@@ -40,7 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/messages" element={<PatientMessages />} />
 
-                {/* Doctor Portal Routes */}
+                {}
                 <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
                 <Route path="/doctor-appointments" element={<DoctorAppointments />} />
                 <Route path="/doctor-patients" element={<MyPatientsPage />} />

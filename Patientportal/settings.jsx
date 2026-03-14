@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
 
 
-/* ════════════════════════════════════════
-   THEME CONSTANTS (Patient Portal colors)
-   (Same original colors from the patient portal, 
-   but mapped to the doctor portal structure logic)
-════════════════════════════════════════ */
+
 const C = {
   bg:      "#050f1f",
   sidebar: "rgba(5,12,28,.95)",
@@ -32,9 +28,7 @@ const SETTINGS_TABS = [
   { key: "account",       label: "Account",       icon: "🔐" },
 ];
 
-/* ════════════════════════════════════════
-   PATIENT DATA
-════════════════════════════════════════ */
+
 const PATIENT_STATIC = {
   id: "PAT-0042",
   uhid: "UHID-CGH-20240042",
@@ -61,9 +55,7 @@ const PATIENT_EDITABLE_DEFAULT = {
   notifyReminder: true,
 };
 
-/* ════════════════════════════════════════
-   REUSABLE COMPONENTS
-════════════════════════════════════════ */
+
 
 const SectionTitle = ({ icon, title, subtitle }) => (
   <div style={{marginBottom:"1.2rem"}}>
@@ -139,9 +131,7 @@ const SaveBar = ({ dirty, onSave, onDiscard, saving }) => dirty ? (
 ) : null;
 
 
-/* ════════════════════════════════════════
-   SETTINGS SECTIONS
-════════════════════════════════════════ */
+
 
 const ProfileSection = ({ form, setForm, onDirty }) => {
   const set=(key)=>(val)=>{setForm(f=>({...f,[key]:val}));onDirty();};
@@ -149,7 +139,7 @@ const ProfileSection = ({ form, setForm, onDirty }) => {
     <div style={{display:"flex",flexDirection:"column",gap:"1.5rem",maxWidth:700}}>
       <SectionTitle icon="👤" title="Personal Profile" subtitle="Your basic demographic and medical information"/>
       
-      {/* Avatar details */}
+      {}
       <div style={{display:"flex",alignItems:"center",gap:18,padding:"1.2rem",borderRadius:16,background:C.card,border:`1px solid ${C.faint}`}}>
         <div style={{position:"relative",flexShrink:0}}>
           <div style={{width:72,height:72,borderRadius:"50%",background:"linear-gradient(135deg,#0066ff,#00c8ff)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.8rem",border:`3px solid rgba(0,200,255,.35)`,boxShadow:`0 0 24px rgba(0,200,255,.2)`}}>👤</div>
@@ -281,7 +271,7 @@ const NotificationsSection = ({ form, setForm, onDirty }) => {
 };
 
 const SecuritySection = () => {
-  // Logic isolated to keep render functions clean. Simulates change logic since form isn't bound back to main state
+  
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
   const [showPwForm, setShowPwForm] = useState(false);
@@ -293,7 +283,7 @@ const SecuritySection = () => {
     <div style={{display:"flex",flexDirection:"column",gap:"1.5rem",maxWidth:700}}>
       <SectionTitle icon="🔒" title="Account Security" subtitle="Manage your password, two-factor authentication and session settings"/>
       
-      {/* change password module */}
+      {}
       <div style={{borderRadius:16,background:C.card,border:`1px solid ${showPwForm?"rgba(0,200,255,.35)":C.faint}`,overflow:"hidden",transition:"border-color .2s"}}>
         <div style={{padding:"14px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
           <div style={{display:"flex",alignItems:"center",gap:12}}>
@@ -336,7 +326,7 @@ const SecuritySection = () => {
         )}
       </div>
 
-      {/* 2FA */}
+      {}
       <div style={{padding:"14px 16px",borderRadius:13,background:C.card,border:`1px solid ${C.faint}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{width:38,height:38,borderRadius:10,background:"rgba(0,255,157,.08)",border:"1px solid rgba(0,255,157,.18)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1rem",flexShrink:0}}>🛡️</div>
@@ -348,7 +338,7 @@ const SecuritySection = () => {
         <span style={{padding:"3px 10px",borderRadius:50,background:"rgba(0,255,157,.1)",border:"1px solid rgba(0,255,157,.22)",color:"#00ff9d",fontSize:".6rem",fontWeight:700}}>Enabled</span>
       </div>
 
-       {/* Active sessions */}
+       {}
       <div style={{padding:"14px 16px",borderRadius:13,background:C.card,border:`1px solid ${C.faint}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{width:38,height:38,borderRadius:10,background:"rgba(0,200,255,.08)",border:"1px solid rgba(0,200,255,.18)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1rem",flexShrink:0}}>📱</div>
@@ -362,7 +352,7 @@ const SecuritySection = () => {
         </button>
       </div>
       
-      {/* Danger Zone */}
+      {}
       <div style={{display:"flex",flexDirection:"column",gap:".6rem",borderTop:"1px solid rgba(255,255,255,.05)",paddingTop:"1.5rem"}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:".62rem",fontWeight:700,color:"rgba(255,107,107,.8)",textTransform:"uppercase",letterSpacing:".09em",marginBottom:4}}>Danger Zone</div>
         <div style={{padding:"13px 16px",borderRadius:12,background:"rgba(255,107,107,.05)",border:"1px solid rgba(255,107,107,.12)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -398,9 +388,7 @@ const SecuritySection = () => {
 };
 
 
-/* ════════════════════════════════════════
-   MAIN PAGE
-════════════════════════════════════════ */
+
 export default function SettingsPage() {
   const [form, setForm] = useState({ ...PATIENT_EDITABLE_DEFAULT });
   const [saved, setSaved] = useState({ ...PATIENT_EDITABLE_DEFAULT });
@@ -416,7 +404,7 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    await new Promise(r => setTimeout(r, 900)); // simulate API call
+    await new Promise(r => setTimeout(r, 900)); 
     setSaved({ ...form });
     setDirty(false);
     setSaving(false);
@@ -460,7 +448,7 @@ export default function SettingsPage() {
         <Sidebar active="settings" />
 
         <div className="dm">
-          {/* topbar */}
+          {}
           <div className="dtb">
             <div>
               <h1 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.2rem",fontWeight:800,color:"#fff"}}>Settings</h1>
@@ -477,10 +465,10 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          {/* ══════════ SETTINGS LAYOUT ══════════ */}
+          {}
           <div className="set-layout">
             
-            {/* ── SETTINGS TAB LIST ── */}
+            {}
             <div className="set-tabs">
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:800,color:"rgba(255,255,255,.22)",textTransform:"uppercase",letterSpacing:".12em",padding:"4px 8px",marginBottom:4}}>Menu</div>
               {SETTINGS_TABS.map(t=>(
@@ -495,7 +483,7 @@ export default function SettingsPage() {
               ))}
             </div>
 
-            {/* ── SETTINGS CONTENT ── */}
+            {}
             <div className="set-content" key={activeTab} style={{animation:"slideIn .28s cubic-bezier(.16,1,.3,1) both"}}>
               {activeTab === "profile"       && <ProfileSection       form={form} setForm={setForm} onDirty={()=>setDirty(true)}/>}
               {activeTab === "contact"       && <ContactSection       form={form} setForm={setForm} onDirty={()=>setDirty(true)}/>}

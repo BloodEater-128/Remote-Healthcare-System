@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import DoctorSidebar from "./DoctorSidebar";
 
-/* ══════════════════════════════════════
-   THEME — exact login.jsx doctor portal
-══════════════════════════════════════ */
+
 const C = {
   bg:       "#070410",
   sidebar:  "rgba(6,3,15,.97)",
@@ -21,9 +19,7 @@ const C = {
   faint:    "rgba(255,255,255,.05)",
 };
 
-/* ══════════════════════════════════════
-   DOCTOR
-══════════════════════════════════════ */
+
 const DOCTOR = {
   name:      "Dr. Sarah Mitchell",
   initials:  "SM",
@@ -36,9 +32,7 @@ const DOCTOR = {
   rating:    "4.9",
 };
 
-/* ══════════════════════════════════════
-   STATS
-══════════════════════════════════════ */
+
 const STATS = [
   { label:"Today's Patients", value:"24",  sub:"+3 walk-ins",         icon:"👥", color:C.glow   },
   { label:"Appointments",     value:"18",  sub:"6 pending review",    icon:"📅", color:C.indigo },
@@ -46,9 +40,7 @@ const STATS = [
   { label:"Avg. Wait Time",   value:"14m", sub:"↓ 4m from yesterday", icon:"⏱", color:C.green  },
 ];
 
-/* ══════════════════════════════════════
-   QUEUE
-══════════════════════════════════════ */
+
 const QUEUE = [
   { token:"T-01", name:"Alex Johnson",    age:37, g:"M", uhid:"CGH-0042", time:"09:00", issue:"HbA1c review + TSH follow-up",      status:"done",    priority:"normal" },
   { token:"T-02", name:"Priya Sharma",    age:29, g:"F", uhid:"CGH-0118", time:"09:20", issue:"Hypothyroid management",             status:"done",    priority:"normal" },
@@ -60,9 +52,7 @@ const QUEUE = [
   { token:"T-08", name:"Fatima Naqvi",    age:23, g:"F", uhid:"CGH-0567", time:"11:20", issue:"New patient – irregular periods",   status:"waiting", priority:"normal" },
 ];
 
-/* ══════════════════════════════════════
-   APPOINTMENTS
-══════════════════════════════════════ */
+
 const APPTS = [
   { time:"02:30 PM", name:"Dinesh Rao",     type:"Follow-up",    mode:"in",   date:"Today"    },
   { time:"04:00 PM", name:"Sunita Agarwal", type:"Consultation", mode:"tele", date:"Today"    },
@@ -71,9 +61,7 @@ const APPTS = [
   { time:"03:00 PM", name:"Pratik Shah",    type:"Telecall",     mode:"tele", date:"Tomorrow" },
 ];
 
-/* ══════════════════════════════════════
-   REPORTS PENDING
-══════════════════════════════════════ */
+
 const REPORTS = [
   { name:"Alex Johnson",    test:"HbA1c + Lipid Profile",  date:"Mar 01", urgent:false },
   { name:"Vikram Choudhry", test:"Adrenal CT Biopsy",      date:"Mar 12", urgent:true  },
@@ -82,9 +70,7 @@ const REPORTS = [
   { name:"Anjali Verma",    test:"Thyroid Ultrasound",     date:"Mar 05", urgent:false },
 ];
 
-/* ══════════════════════════════════════
-   NOTIFICATIONS DATA
-══════════════════════════════════════ */
+
 const NOTIFS = [
   { id:1,  type:"urgent",   icon:"🚨", title:"Critical Report – Vikram Choudhry",       body:"Adrenal CT Biopsy result uploaded. Immediate review required.",           time:"2 min ago",   date:"Today",    read:false, category:"report"      },
   { id:2,  type:"urgent",   icon:"🔴", title:"Abnormal Lab – Meena Krishnan",             body:"Fasting insulin critically elevated at 48 µU/mL. Patient alerted.",       time:"18 min ago",  date:"Today",    read:false, category:"lab"         },
@@ -100,9 +86,7 @@ const NOTIFS = [
   { id:12, type:"message",  icon:"💬", title:"Ward Note – Nurse Deepa",                  body:"Patient CGH-0501 requesting pain review. Please check when available.",   time:"3 days ago",  date:"Mar 11",   read:true,  category:"message"     },
 ];
 
-/* ══════════════════════════════════════
-   BRAIN WAVE CANVAS
-══════════════════════════════════════ */
+
 const BrainWave = () => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -135,9 +119,7 @@ const BrainWave = () => {
   return <canvas ref={ref} style={{width:"100%",height:"54px",display:"block"}}/>;
 };
 
-/* ══════════════════════════════════════
-   PARTICLE BACKGROUND
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -166,9 +148,7 @@ const ParticleBg = () => {
 };
 
 
-/* ══════════════════════════════════════
-   STAT CARD
-══════════════════════════════════════ */
+
 const StatCard = ({s,idx}) => (
   <div style={{background:C.card,border:`1px solid ${s.color}1e`,borderRadius:18,padding:"1.1rem 1.2rem",animation:`fadeUp .4s ${idx*.07}s both`,position:"relative",overflow:"hidden",transition:"border-color .2s,box-shadow .2s",cursor:"default"}}
     onMouseOver={e=>{e.currentTarget.style.borderColor=`${s.color}40`;e.currentTarget.style.boxShadow=`0 0 22px ${s.color}14`;}}
@@ -184,9 +164,7 @@ const StatCard = ({s,idx}) => (
   </div>
 );
 
-/* ══════════════════════════════════════
-   QUEUE ROW
-══════════════════════════════════════ */
+
 const PM = {urgent:{color:C.red,bg:"rgba(248,113,113,.1)",lbl:"URGENT"},high:{color:C.amber,bg:"rgba(251,191,36,.09)",lbl:"HIGH"},normal:{color:"rgba(255,255,255,.2)",bg:"rgba(255,255,255,.04)",lbl:"NORMAL"}};
 const SM = {done:{color:"rgba(255,255,255,.2)",lbl:"Done",dot:"#2e2455"},current:{color:C.ring,lbl:"In Consult",dot:C.ring},waiting:{color:"rgba(255,255,255,.5)",lbl:"Waiting",dot:C.amber}};
 
@@ -211,9 +189,7 @@ const QueueRow = ({p,idx}) => {
   );
 };
 
-/* ══════════════════════════════════════
-   NOTIFICATIONS PAGE COMPONENT
-══════════════════════════════════════ */
+
 const typeMeta = (t) => ({
   urgent:      { color:"#f87171", bg:"rgba(248,113,113,.1)",  border:"rgba(248,113,113,.22)", label:"Urgent"      },
   report:      { color:"#fbbf24", bg:"rgba(251,191,36,.09)",  border:"rgba(251,191,36,.22)",  label:"Report"      },
@@ -248,7 +224,7 @@ const NotificationsPage = ({ notifs }) => {
     n.type === filter
   );
 
-  // Group by date
+  
   const grouped = filtered.reduce((acc, n) => {
     acc[n.date] = acc[n.date] || [];
     acc[n.date].push(n);
@@ -258,7 +234,7 @@ const NotificationsPage = ({ notifs }) => {
   return (
     <div style={{flex:1,display:"flex",flexDirection:"column",gap:"1rem"}}>
 
-      {/* header row */}
+      {}
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div>
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.05rem",fontWeight:800,color:"#fff",display:"flex",alignItems:"center",gap:10}}>
@@ -281,7 +257,7 @@ const NotificationsPage = ({ notifs }) => {
         )}
       </div>
 
-      {/* filter tabs */}
+      {}
       <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
         {CATS.map(({k,l}) => (
           <button key={k}
@@ -294,7 +270,7 @@ const NotificationsPage = ({ notifs }) => {
         ))}
       </div>
 
-      {/* notification list */}
+      {}
       {Object.keys(grouped).length === 0 ? (
         <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:10,color:"rgba(255,255,255,.2)"}}>
           <div style={{fontSize:"2.5rem"}}>🎉</div>
@@ -305,7 +281,7 @@ const NotificationsPage = ({ notifs }) => {
         <div style={{display:"flex",flexDirection:"column",gap:"1.1rem"}}>
           {Object.entries(grouped).map(([date, list]) => (
             <div key={date}>
-              {/* date group label */}
+              {}
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:700,color:"rgba(255,255,255,.22)",textTransform:"uppercase",letterSpacing:".12em",marginBottom:".5rem",display:"flex",alignItems:"center",gap:8}}>
                 {date}
                 <span style={{flex:1,height:1,background:"rgba(255,255,255,.04)",display:"block"}}/>
@@ -318,13 +294,13 @@ const NotificationsPage = ({ notifs }) => {
                     <div key={n.id}
                       style={{display:"flex",alignItems:"flex-start",gap:12,padding:"12px 14px",borderRadius:13,background:n.read?"rgba(255,255,255,.02)":tm.bg,border:n.read?"1px solid rgba(255,255,255,.05)":`1px solid ${tm.border}`,animation:`fadeUp .3s ${i*.04}s both`,transition:"background .2s",position:"relative",overflow:"hidden"}}>
 
-                      {/* unread bar */}
+                      {}
                       {!n.read && <div style={{position:"absolute",left:0,top:0,bottom:0,width:3,background:tm.color,borderRadius:"3px 0 0 3px"}}/>}
 
-                      {/* icon */}
+                      {}
                       <div style={{width:38,height:38,borderRadius:11,background:`${tm.color}14`,border:`1px solid ${tm.color}26`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.1rem",flexShrink:0,marginLeft:n.read?0:4}}>{n.icon}</div>
 
-                      {/* content */}
+                      {}
                       <div style={{flex:1,minWidth:0}}>
                         <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8,marginBottom:3}}>
                           <div style={{fontFamily:"'Syne',sans-serif",fontSize:".78rem",fontWeight: n.read?700:800,color:n.read?"rgba(255,255,255,.6)":"#fff",lineHeight:1.3}}>{n.title}</div>
@@ -361,9 +337,7 @@ const NotificationsPage = ({ notifs }) => {
   );
 };
 
-/* ══════════════════════════════════════
-   NAV ITEMS
-══════════════════════════════════════ */
+
 const NAV = [
   { key: "dashboard",     icon: "⚕",   label: "Dashboard"      },
   { key: "patients",      icon: "👥",  label: "My Patients"    },
@@ -377,9 +351,7 @@ const NAV = [
   { key: "notifications", icon: "🔔",  label: "Notifications" },
 ];
 
-/* ══════════════════════════════════════
-   MAIN
-══════════════════════════════════════ */
+
 export default function DoctorDashboard() {
   const navigate = useNavigate();
   const [active,  setActive]    = useState("dashboard");
@@ -462,13 +434,13 @@ export default function DoctorDashboard() {
       <div className="dp">
         <ParticleBg />
 
-        {/* ══════════ SIDEBAR ══════════ */}
+        {}
         <DoctorSidebar active="dashboard" />
 
-        {/* ══════════ MAIN ══════════ */}
+        {}
         <div className="dm">
 
-          {/* topbar */}
+          {}
           <div className="dtb">
             <div>
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:700,color:`${C.glow}70`,textTransform:"uppercase",letterSpacing:".09em"}}>{greeting}, Doctor</div>
@@ -493,15 +465,15 @@ export default function DoctorDashboard() {
             </div>
           </div>
 
-          {/* ── ANIMATED PAGE CONTENT ── */}
+          {}
           <div className="page">
             <div key={animKey} className="slide" style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
 
-              {/* ── DASHBOARD ── */}
+              {}
               {active === "dashboard" && (
                 <div className="dc">
 
-                  {/* stat cards */}
+                  {}
                   <div>
                     <div className="sh">Overview — {new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long"})}</div>
                     <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:".75rem"}}>
@@ -509,12 +481,12 @@ export default function DoctorDashboard() {
                     </div>
                   </div>
 
-                  {/* mid row — Weekly wider, right two stack evenly */}
+                  {}
                   <div style={{display:"grid",gridTemplateColumns:"1.5fr 1fr 1fr",gap:".85rem"}}>
 
-                    {/* weekly patients — wider card */}
+                    {}
                     <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:18,padding:"1.1rem 1.3rem",animation:"fadeUp .4s .2s both"}}>
-                      {/* header */}
+                      {}
                       <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:".9rem"}}>
                         <div>
                           <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:800,color:"rgba(255,255,255,.25)",textTransform:"uppercase",letterSpacing:".1em",marginBottom:4}}>Weekly Patients</div>
@@ -527,7 +499,7 @@ export default function DoctorDashboard() {
                         </div>
                       </div>
 
-                      {/* bar chart — bigger bars, proper spacing */}
+                      {}
                       <div style={{display:"flex",gap:8,alignItems:"flex-end",height:72,padding:"0 4px",marginBottom:".75rem"}}>
                         {[
                           {d:"Mon",v:18},{d:"Tue",v:22},{d:"Wed",v:16},
@@ -553,7 +525,7 @@ export default function DoctorDashboard() {
                         })}
                       </div>
 
-                      {/* mini stats row */}
+                      {}
                       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:".5rem",paddingTop:".7rem",borderTop:"1px solid rgba(255,255,255,.05)"}}>
                         {[
                           {label:"New",     value:"38", color:C.green  },
@@ -568,7 +540,7 @@ export default function DoctorDashboard() {
                       </div>
                     </div>
 
-                    {/* appointments */}
+                    {}
                     <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:18,padding:"1rem 1.1rem",animation:"fadeUp .4s .27s both"}}>
                       <div style={{fontFamily:"'Syne',sans-serif",fontSize:".63rem",fontWeight:800,color:"rgba(255,255,255,.26)",textTransform:"uppercase",letterSpacing:".09em",marginBottom:".75rem"}}>Next Appointments</div>
                       <div style={{display:"flex",flexDirection:"column",gap:6}}>
@@ -592,7 +564,7 @@ export default function DoctorDashboard() {
                       </div>
                     </div>
 
-                    {/* reports */}
+                    {}
                     <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:18,padding:"1rem 1.1rem",animation:"fadeUp .4s .34s both"}}>
                       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:".75rem"}}>
                         <div style={{fontFamily:"'Syne',sans-serif",fontSize:".63rem",fontWeight:800,color:"rgba(255,255,255,.26)",textTransform:"uppercase",letterSpacing:".09em"}}>Reports to Review</div>
@@ -615,7 +587,7 @@ export default function DoctorDashboard() {
                     </div>
                   </div>
 
-                  {/* queue */}
+                  {}
                   <div>
                     <div className="sh">Today's OPD Queue — {DOCTOR.opd}</div>
                     <div style={{display:"flex",gap:5,marginBottom:".65rem",alignItems:"center",flexWrap:"wrap"}}>

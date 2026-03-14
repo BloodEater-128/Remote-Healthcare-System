@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -41,9 +39,7 @@ const SETTINGS_TABS = [
   { key:"appearance",    icon:"🎨", label:"Appearance"         },
 ];
 
-/* ══════════════════════════════════════
-   PARTICLE BACKGROUND
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null); const raf = useRef(null);
   useEffect(() => {
@@ -70,9 +66,7 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{position:"fixed",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:0}}/>;
 };
 
-/* ══════════════════════════════════════
-   REUSABLE COMPONENTS
-══════════════════════════════════════ */
+
 
 const SectionTitle = ({ icon, title, subtitle }) => (
   <div style={{marginBottom:"1.2rem"}}>
@@ -147,9 +141,7 @@ const SaveBar = ({ dirty, onSave, onDiscard }) => dirty ? (
   </div>
 ) : null;
 
-/* ══════════════════════════════════════
-   SETTINGS SECTIONS
-══════════════════════════════════════ */
+
 
 const ProfileSection = ({ data, setData, onDirty }) => {
   const set = (key, val) => { setData(d=>({...d,[key]:val})); onDirty(); };
@@ -157,7 +149,7 @@ const ProfileSection = ({ data, setData, onDirty }) => {
     <div style={{display:"flex",flexDirection:"column",gap:"1.5rem"}}>
       <SectionTitle icon="👤" title="Personal Profile" subtitle="Your basic personal and professional information"/>
 
-      {/* avatar + bio header */}
+      {}
       <div style={{display:"flex",alignItems:"center",gap:18,padding:"1.2rem",borderRadius:16,background:C.card,border:`1px solid ${C.faint}`}}>
         <div style={{position:"relative",flexShrink:0}}>
           <div style={{width:72,height:72,borderRadius:20,background:`linear-gradient(135deg,#5b21b6,${C.ring})`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Syne',sans-serif",fontSize:"1.4rem",fontWeight:800,color:"#fff",border:`2px solid ${C.ring}50`,boxShadow:`0 0 20px ${C.ring}30`}}>
@@ -177,7 +169,7 @@ const ProfileSection = ({ data, setData, onDirty }) => {
         </div>
       </div>
 
-      {/* form grid */}
+      {}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem"}}>
         <Field label="First Name" value={data.firstName} onChange={v=>set("firstName",v)} placeholder="First name"/>
         <Field label="Last Name"  value={data.lastName}  onChange={v=>set("lastName",v)}  placeholder="Last name"/>
@@ -330,7 +322,7 @@ const SecuritySection = ({ data, setData, onDirty }) => {
   return(
     <div style={{display:"flex",flexDirection:"column",gap:"1.5rem"}}>
       <SectionTitle icon="🔒" title="Security" subtitle="Manage your password, two-factor authentication and session settings"/>
-      {/* password */}
+      {}
       <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:16,padding:"1.1rem 1.2rem"}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:".72rem",fontWeight:800,color:"rgba(255,255,255,.55)",marginBottom:"1rem"}}>Change Password</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem"}}>
@@ -352,7 +344,7 @@ const SecuritySection = ({ data, setData, onDirty }) => {
           </div>
           <Field label="Confirm New Password" value={data.confirmPw} onChange={v=>set("confirmPw",v)} type="password" placeholder="••••••••"/>
         </div>
-        {/* strength bar */}
+        {}
         {data.newPw && (
           <div style={{marginTop:"1rem"}}>
             <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
@@ -367,7 +359,7 @@ const SecuritySection = ({ data, setData, onDirty }) => {
           </div>
         )}
       </div>
-      {/* 2FA + session */}
+      {}
       <div style={{display:"flex",flexDirection:"column",gap:8}}>
         {[
           {key:"twoFactor",  label:"Two-Factor Authentication",    sub:"Require OTP on every login — highly recommended"},
@@ -376,7 +368,7 @@ const SecuritySection = ({ data, setData, onDirty }) => {
           {key:"loginAlerts",label:"Login Alerts",                  sub:"Email notification on new device login"},
         ].map(t=><Toggle key={t.key} label={t.label} sublabel={t.sub} value={data[t.key]} onChange={v=>set(t.key,v)}/>)}
       </div>
-      {/* active sessions */}
+      {}
       <div style={{background:C.card,border:`1px solid ${C.faint}`,borderRadius:16,padding:"1.1rem 1.2rem"}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:".72rem",fontWeight:800,color:"rgba(255,255,255,.55)",marginBottom:".8rem"}}>Active Sessions</div>
         {[
@@ -415,7 +407,7 @@ const AppearanceSection = ({ data, setData, onDirty }) => {
   return(
     <div style={{display:"flex",flexDirection:"column",gap:"1.5rem"}}>
       <SectionTitle icon="🎨" title="Appearance" subtitle="Customise the look and feel of your portal"/>
-      {/* theme */}
+      {}
       <div>
         <label style={{fontFamily:"'Syne',sans-serif",fontSize:".62rem",fontWeight:700,color:"rgba(255,255,255,.4)",textTransform:"uppercase",letterSpacing:".08em",display:"block",marginBottom:10}}>Colour Theme</label>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:".75rem"}}>
@@ -430,7 +422,7 @@ const AppearanceSection = ({ data, setData, onDirty }) => {
           ))}
         </div>
       </div>
-      {/* accent */}
+      {}
       <div>
         <label style={{fontFamily:"'Syne',sans-serif",fontSize:".62rem",fontWeight:700,color:"rgba(255,255,255,.4)",textTransform:"uppercase",letterSpacing:".08em",display:"block",marginBottom:10}}>Accent Colour</label>
         <div style={{display:"flex",gap:10}}>
@@ -440,7 +432,7 @@ const AppearanceSection = ({ data, setData, onDirty }) => {
           ))}
         </div>
       </div>
-      {/* display prefs */}
+      {}
       <div style={{display:"flex",flexDirection:"column",gap:8}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:".62rem",fontWeight:700,color:"rgba(255,255,255,.28)",textTransform:"uppercase",letterSpacing:".09em",marginBottom:4}}>Display Preferences</div>
         {[
@@ -470,7 +462,7 @@ export default function DoctorSettings() {
   const [dirty, setDirty] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  /* ── state for each section ── */
+  
   const [profile, setProfile] = useState({
     firstName: "Sarah", lastName: "Mitchell",
     dob: "1982-05-14", gender: "female",
@@ -548,7 +540,7 @@ export default function DoctorSettings() {
         @media(max-width:768px){.sidebar{display:none}.set-tabs{display:none}.set-content{padding:1rem}}
       `}</style>
 
-      {/* saved toast */}
+      {}
       {saved && (
         <div style={{ position: "fixed", bottom: 24, right: 24, zIndex: 300, padding: "10px 18px", borderRadius: 12, background: `rgba(52,211,153,.12)`, border: `1px solid rgba(52,211,153,.3)`, color: C.green, fontFamily: "'Syne',sans-serif", fontSize: ".72rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8, boxShadow: `0 0 24px rgba(52,211,153,.2)`, animation: "toastIn .3s both" }}>
           ✅ Settings saved successfully
@@ -561,7 +553,7 @@ export default function DoctorSettings() {
         <DoctorSidebar active="settings" />
 
         <div className="dm">
-          {/* topbar */}
+          {}
           <div className="dtb">
             <div>
               <div style={{fontFamily:"'Syne',sans-serif",fontSize:".6rem",fontWeight:700,color:`${C.glow}70`,textTransform:"uppercase",letterSpacing:".09em"}}>{greeting}, Doctor</div>
@@ -618,9 +610,9 @@ export default function DoctorSettings() {
               <SaveBar dirty={dirty} onSave={onSave} onDiscard={onDiscard}/>
             </div>
 
-          </div>{/* .set-layout */}
-        </div>{/* .dm */}
-      </div>{/* .dp */}
+          </div>{}
+        </div>{}
+      </div>{}
     </>
   );
 }

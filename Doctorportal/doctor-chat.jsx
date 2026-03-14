@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ════════════════════════════════════════
-   THEME — exact doctor portal purple
-   ════════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -20,9 +18,7 @@ const C = {
   faint:   "rgba(255,255,255,.05)",
 };
 
-/* ════════════════════════════════════════
-   DOCTOR CONTEXT
-   ════════════════════════════════════════ */
+
 const DOCTOR = {
   name: "Dr. Sarah Mitchell",
   initials: "SM",
@@ -30,9 +26,7 @@ const DOCTOR = {
   hospital: "City General Hospital",
 };
 
-/* ════════════════════════════════════════
-   QUICK PROMPTS (Doctor Focus)
-   ════════════════════════════════════════ */
+
 const QUICK_PROMPTS = [
   { icon: "🔬", label: "Analyze Labs", text: "How should I interpret a fasting insulin of 48 µU/mL in a PCOD patient?" },
   { icon: "💊", label: "Drug Interactions", text: "Are there any major interactions between Metformin and the newer SGLT2 inhibitors?" },
@@ -44,9 +38,7 @@ const QUICK_PROMPTS = [
   { icon: "🧪", label: "Marker Review", text: "Explain the clinical significance of elevated TPO antibodies with normal TSH." },
 ];
 
-/* ════════════════════════════════════════
-   SYSTEM PROMPT for Clinical Assistant
-   ════════════════════════════════════════ */
+
 const buildSystemPrompt = () => `
 You are Jarvis Clinical AI — a highly advanced, medical intelligence assistant designed specifically for Dr. Sarah Mitchell, an Endocrinologist at City General Hospital.
 
@@ -68,9 +60,7 @@ Hyper-intelligent, efficient, and professional.
 Always include a subtle reminder that your output is for decision support and clinical judgement belongs to the physician.
 `;
 
-/* ════════════════════════════════════════
-   TYPING INDICATOR
-   ════════════════════════════════════════ */
+
 const TypingIndicator = () => (
   <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "1rem", animation: "fadeUp .3s both" }}>
     <div style={{ width: 38, height: 38, borderRadius: "50%", background: `linear-gradient(135deg,${C.accent},${C.ring})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, border: `2px solid ${C.ring}60`, boxShadow: `0 0 18px ${C.ring}40` }}>⚕</div>
@@ -84,16 +74,14 @@ const TypingIndicator = () => (
   </div>
 );
 
-/* ════════════════════════════════════════
-   MESSAGE BUBBLE
-   ════════════════════════════════════════ */
+
 const MessageBubble = ({ msg }) => {
   const isUser = msg.role === "user";
 
   const renderMarkdown = (text) => {
-    // Bold
+    
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff;font-weight:700">$1</strong>');
-    // Bullet points
+    
     const lines = text.split("\n");
     let html = "";
     let inList = false;
@@ -113,7 +101,7 @@ const MessageBubble = ({ msg }) => {
 
   return (
     <div style={{ display: "flex", alignItems: "flex-end", gap: 10, marginBottom: ".9rem", flexDirection: isUser ? "row-reverse" : "row", animation: "fadeUp .3s both" }}>
-      {/* avatar */}
+      {}
       {!isUser && (
         <div style={{ width: 38, height: 38, borderRadius: "50%", background: `linear-gradient(135deg,${C.accent},${C.ring})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, border: `2px solid ${C.ring}60`, boxShadow: `0 0 18px ${C.ring}35`, marginBottom: 2 }}>⚕</div>
       )}
@@ -122,11 +110,11 @@ const MessageBubble = ({ msg }) => {
       )}
 
       <div style={{ maxWidth: "72%", display: "flex", flexDirection: "column", alignItems: isUser ? "flex-end" : "flex-start" }}>
-        {/* name tag */}
+        {}
         <div style={{ fontSize: ".57rem", fontFamily: "'Syne',sans-serif", fontWeight: 700, color: isUser ? "rgba(255,255,255,.3)" : `${C.ring}80`, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 4 }}>
           {isUser ? DOCTOR.name : "Jarvis Clinical AI"}
         </div>
-        {/* bubble */}
+        {}
         <div style={{
           padding: "13px 18px",
           borderRadius: isUser ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
@@ -141,7 +129,7 @@ const MessageBubble = ({ msg }) => {
         }}
           dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }}
         />
-        {/* timestamp */}
+        {}
         <div style={{ fontSize: ".55rem", color: "rgba(255,255,255,.2)", marginTop: 4 }}>
           {msg.time}
         </div>
@@ -150,9 +138,7 @@ const MessageBubble = ({ msg }) => {
   );
 };
 
-/* ════════════════════════════════════════
-   NAV ITEMS
-   ════════════════════════════════════════ */
+
 const NAV = [
   { key:"dashboard",     icon:"⚕",   label:"Dashboard"      },
   { key:"patients",      icon:"👥",  label:"My Patients"    },
@@ -165,9 +151,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"       },
 ];
 
-/* ════════════════════════════════════════
-   MAIN PAGE
-   ════════════════════════════════════════ */
+
 import DoctorSidebar from "./DoctorSidebar";
 
 export default function DoctorChat() {

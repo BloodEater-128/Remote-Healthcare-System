@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME — exact doctor portal purple
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -28,9 +26,7 @@ const DOCTOR = {
   opd:       "OPD 4, Second Floor",
 };
 
-/* ══════════════════════════════════════
-   NAV
-══════════════════════════════════════ */
+
 const NAV = [
   { key:"dashboard",     icon:"⚕",   label:"Dashboard"     },
   { key:"patients",      icon:"👥",  label:"My Patients"   },
@@ -43,9 +39,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"      },
 ];
 
-/* ══════════════════════════════════════
-   APPOINTMENTS DATA
-══════════════════════════════════════ */
+
 const INIT_APPTS = [
   { id:"APT-0001", patient:"Alex Johnson",    pid:"CGH-0042", age:37, gender:"M", date:"2026-03-14", time:"09:00 AM", type:"Follow-up",     mode:"In-person", dept:"Endocrinology", reason:"HbA1c review + TSH follow-up",         status:"Completed", notes:"HbA1c 7.2% — dose review discussed.",     priority:"high"   },
   { id:"APT-0002", patient:"Priya Sharma",    pid:"CGH-0118", age:29, gender:"F", date:"2026-03-14", time:"09:20 AM", type:"Follow-up",     mode:"In-person", dept:"Endocrinology", reason:"Hypothyroid management check",          status:"Completed", notes:"TSH normalising. Continue current dose.",  priority:"normal" },
@@ -64,9 +58,7 @@ const INIT_APPTS = [
   { id:"APT-0015", patient:"Ravi Sharma",     pid:"CGH-1218", age:60, gender:"M", date:"2026-03-16", time:"12:00 PM", type:"Review",        mode:"In-person", dept:"Endocrinology", reason:"Annual diabetes + lipid review",       status:"Scheduled", notes:"",                                         priority:"normal" },
 ];
 
-/* ══════════════════════════════════════
-   PATIENT LIST (for booking dropdown)
-══════════════════════════════════════ */
+
 const PATIENT_LIST = [
   "Alex Johnson (CGH-0042)",    "Priya Sharma (CGH-0118)",
   "Rajan Mehta (CGH-0231)",     "Anjali Verma (CGH-0304)",
@@ -78,9 +70,7 @@ const PATIENT_LIST = [
   "Ravi Sharma (CGH-1218)",     "New Patient",
 ];
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
+
 const statusMeta = (s) => ({
   "Completed":    { color:"rgba(255,255,255,.3)",  bg:"rgba(255,255,255,.06)", border:"rgba(255,255,255,.1)",  dot:"#555" },
   "In Progress":  { color:C.ring,                  bg:`${C.ring}12`,           border:`${C.ring}30`,           dot:C.ring  },
@@ -109,9 +99,7 @@ const labelDate = (d) =>
   d === TOMORROW  ? "Tomorrow" :
   d === DAY_AFTER ? "Mar 16" : d;
 
-/* ══════════════════════════════════════
-   PARTICLE BG
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null), raf = useRef(null);
   useEffect(() => {
@@ -137,9 +125,7 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{ position:"fixed", inset:0, width:"100%", height:"100%", pointerEvents:"none", zIndex:0 }}/>;
 };
 
-/* ══════════════════════════════════════
-   APPOINTMENT DETAIL MODAL
-══════════════════════════════════════ */
+
 const ApptModal = ({ appt, onClose, onCancel }) => {
   const sm = statusMeta(appt.status);
   const tm = typeMeta(appt.type);
@@ -155,7 +141,7 @@ const ApptModal = ({ appt, onClose, onCancel }) => {
 
         <div style={{ position:"absolute", top:-40, right:-40, width:200, height:200, borderRadius:"50%", background:C.ring, filter:"blur(90px)", opacity:.07, pointerEvents:"none" }}/>
 
-        {/* header */}
+        {}
         <div style={{ position:"sticky", top:0, zIndex:2, background:"#0e0820", borderBottom:"1px solid rgba(255,255,255,.07)", padding:"1.2rem 1.6rem .9rem", borderRadius:"22px 22px 0 0" }}>
           <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between" }}>
             <div style={{ display:"flex", alignItems:"center", gap:12 }}>
@@ -177,7 +163,7 @@ const ApptModal = ({ appt, onClose, onCancel }) => {
 
         <div style={{ padding:"1.3rem 1.6rem" }}>
 
-          {/* appointment details grid */}
+          {}
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:".7rem", marginBottom:"1rem" }}>
             {[
               { l:"Date",        v:labelDate(appt.date) + (appt.date === TODAY ? " (Today)" : "") },
@@ -194,13 +180,13 @@ const ApptModal = ({ appt, onClose, onCancel }) => {
             ))}
           </div>
 
-          {/* reason */}
+          {}
           <div style={{ padding:"11px 14px", borderRadius:12, background:`${C.ring}0a`, border:`1px solid ${C.ring}20`, marginBottom:"1rem" }}>
             <div style={{ fontSize:".56rem", color:C.ring, fontWeight:700, textTransform:"uppercase", letterSpacing:".09em", marginBottom:5 }}>📋 Reason for Visit</div>
             <div style={{ fontSize:".8rem", color:"rgba(255,255,255,.72)", lineHeight:1.65 }}>{appt.reason}</div>
           </div>
 
-          {/* doctor notes */}
+          {}
           <div style={{ marginBottom:"1rem" }}>
             <div style={{ fontFamily:"'Syne',sans-serif", fontSize:".58rem", fontWeight:700, color:"rgba(255,255,255,.28)", textTransform:"uppercase", letterSpacing:".1em", marginBottom:7 }}>📝 Doctor's Notes</div>
             <textarea

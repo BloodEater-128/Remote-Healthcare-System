@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* ══════════════════════════════════════
-   THEME — exact doctor portal purple
-══════════════════════════════════════ */
+
 const C = {
   bg:      "#070410",
   sidebar: "rgba(6,3,15,.97)",
@@ -27,9 +25,7 @@ const DOCTOR = {
   hospital:  "City General Hospital",
 };
 
-/* ══════════════════════════════════════
-   NAV ITEMS
-══════════════════════════════════════ */
+
 const NAV = [
   { key:"dashboard",     icon:"⚕",   label:"Dashboard"      },
   { key:"patients",      icon:"👥",  label:"My Patients"    },
@@ -42,9 +38,7 @@ const NAV = [
   { key:"settings",      icon:"⚙️", label:"Settings"       },
 ];
 
-/* ══════════════════════════════════════
-   PATIENTS DATA
-══════════════════════════════════════ */
+
 const PATIENTS = [
   {
     id:"CGH-0042", name:"Alex Johnson",    age:37, gender:"Male",   blood:"O+",
@@ -168,15 +162,11 @@ const PATIENTS = [
   },
 ];
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
+
 const pCol = (p) => ({ urgent:C.red, high:C.amber, normal:"rgba(255,255,255,.18)" })[p] || "rgba(255,255,255,.18)";
 const fCol = (f) => ({ H:C.red, L:C.amber, N:"rgba(255,255,255,.38)" })[f] || "rgba(255,255,255,.38)";
 
-/* ══════════════════════════════════════
-   PARTICLE BG
-══════════════════════════════════════ */
+
 const ParticleBg = () => {
   const ref = useRef(null), raf = useRef(null);
   useEffect(() => {
@@ -202,18 +192,16 @@ const ParticleBg = () => {
   return <canvas ref={ref} style={{ position:"fixed", inset:0, width:"100%", height:"100%", pointerEvents:"none", zIndex:0 }}/>;
 };
 
-/* ══════════════════════════════════════
-   PATIENT DETAIL MODAL
-══════════════════════════════════════ */
+
 const PatientModal = ({ p, onClose }) => (
   <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.82)", backdropFilter:"blur(14px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"1.2rem", animation:"fadeIn .2s both" }}
     onClick={e => e.target === e.currentTarget && onClose()}>
     <div style={{ background:"linear-gradient(155deg,#0e0820,#070410)", border:`1px solid ${C.ring}28`, borderRadius:22, width:"100%", maxWidth:700, maxHeight:"92vh", overflowY:"auto", position:"relative" }}>
 
-      {/* glow */}
+      {}
       <div style={{ position:"absolute", top:-40, right:-40, width:200, height:200, borderRadius:"50%", background:C.ring, filter:"blur(90px)", opacity:.08, pointerEvents:"none" }}/>
 
-      {/* header */}
+      {}
       <div style={{ position:"sticky", top:0, zIndex:2, background:"#0e0820", borderBottom:"1px solid rgba(255,255,255,.07)", padding:"1.3rem 1.8rem 1rem", borderRadius:"22px 22px 0 0" }}>
         <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between" }}>
           <div style={{ display:"flex", alignItems:"center", gap:14 }}>
@@ -232,7 +220,7 @@ const PatientModal = ({ p, onClose }) => (
 
       <div style={{ padding:"1.4rem 1.8rem" }}>
 
-        {/* 2 col info */}
+        {}
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:".8rem", marginBottom:"1.1rem" }}>
           <div style={{ padding:"12px 14px", borderRadius:13, background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)" }}>
             <div style={{ fontFamily:"'Syne',sans-serif", fontSize:".58rem", fontWeight:700, color:"rgba(255,255,255,.28)", textTransform:"uppercase", letterSpacing:".1em", marginBottom:8 }}>📞 Contact</div>
@@ -254,13 +242,13 @@ const PatientModal = ({ p, onClose }) => (
           </div>
         </div>
 
-        {/* condition */}
+        {}
         <div style={{ padding:"11px 14px", borderRadius:12, background:`${C.ring}0a`, border:`1px solid ${C.ring}20`, marginBottom:"1rem" }}>
           <div style={{ fontSize:".58rem", color:C.ring, fontWeight:700, textTransform:"uppercase", letterSpacing:".09em", marginBottom:5 }}>⚕ Condition</div>
           <div style={{ fontSize:".8rem", color:"rgba(255,255,255,.72)", lineHeight:1.7 }}>{p.condition}</div>
         </div>
 
-        {/* vitals */}
+        {}
         <div style={{ marginBottom:"1rem" }}>
           <div style={{ fontFamily:"'Syne',sans-serif", fontSize:".58rem", fontWeight:700, color:"rgba(255,255,255,.28)", textTransform:"uppercase", letterSpacing:".1em", marginBottom:7 }}>🧬 Recent Lab Values</div>
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
@@ -281,7 +269,7 @@ const PatientModal = ({ p, onClose }) => (
           </div>
         </div>
 
-        {/* medications */}
+        {}
         <div style={{ marginBottom:"1rem" }}>
           <div style={{ fontFamily:"'Syne',sans-serif", fontSize:".58rem", fontWeight:700, color:"rgba(255,255,255,.28)", textTransform:"uppercase", letterSpacing:".1em", marginBottom:7 }}>💊 Current Medications</div>
           <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
@@ -291,7 +279,7 @@ const PatientModal = ({ p, onClose }) => (
           </div>
         </div>
 
-        {/* notes */}
+        {}
         <div style={{ padding:"12px 14px", borderRadius:12, background:"rgba(255,255,255,.025)", border:"1px solid rgba(255,255,255,.07)", marginBottom:"1.1rem" }}>
           <div style={{ fontFamily:"'Syne',sans-serif", fontSize:".58rem", fontWeight:700, color:"rgba(255,255,255,.28)", textTransform:"uppercase", letterSpacing:".1em", marginBottom:6 }}>📝 Doctor's Notes</div>
           <div style={{ fontSize:".78rem", color:"rgba(255,255,255,.65)", lineHeight:1.75, fontStyle:"italic" }}>"{p.notes}"</div>
