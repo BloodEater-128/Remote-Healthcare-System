@@ -261,31 +261,77 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [animKey, setAnimKey] = useState(0);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [pwErrorMsg, setPwErrorMsg] = useState("");
   const [form, setForm] = useState({ email: "", pw: "", name: "", patientId: "", confirmPw: "" });
   const isP = portal === "patient";
   const isLogin = page === "login";
 
-  const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); };
+  const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };
 
   const handleLogin = async () => {
+    setErrorMsg("");
+    setPwErrorMsg("");
+    
+    // Strict email format checking
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim()) {
+      setErrorMsg("Please enter your email.");
+      return;
+    }
+    if (!emailRegex.test(form.email.trim())) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    if (!form.pw) {
+      setPwErrorMsg("Please enter your password.");
+      return;
+    }
+    if (form.pw.length < 6) {
+      setPwErrorMsg("Password must contain at least 6 characters.");
+      return;
+    }
+
     setLoading(true);
     // Mock auth – navigate directly to dashboard
     setTimeout(() => {
       setLoading(false);
-      navigate("/dashboard");
+      navigate(isP ? "/dashboard" : "/doctor-dashboard");
     }, 800);
   };
 
   const handleSignup = async () => {
+    setErrorMsg("");
+    setPwErrorMsg("");
+    
+    if (!form.name.trim() || !form.email.trim()) {
+      setErrorMsg("Please fill in all required fields.");
+      return;
+    }
+    // Strict email format checking
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email.trim())) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+    if (!form.pw) {
+      setPwErrorMsg("Please enter a password.");
+      return;
+    }
+    if (form.pw.length < 6) {
+      setPwErrorMsg("Password must contain at least 6 characters.");
+      return;
+    }
     if (form.pw !== form.confirmPw) {
-      alert("Passwords do not match!");
+      setPwErrorMsg("Passwords do not match!");
       return;
     }
     setLoading(true);
     // Mock signup – navigate directly to dashboard
     setTimeout(() => {
       setLoading(false);
-      navigate("/dashboard");
+      navigate(isP ? "/dashboard" : "/doctor-dashboard");
     }, 800);
   };
 
@@ -294,12 +340,12 @@ export default function App() {
     // Mock Google sign-in – navigate directly to dashboard
     setTimeout(() => {
       setLoading(false);
-      navigate("/dashboard");
+      navigate(isP ? "/dashboard" : "/doctor-dashboard");
     }, 800);
   };
 
-  const goSignup = () => { setPage("signup"); setAnimKey(k => k + 1); setShowPw(false); };
-  const goLogin = () => { setPage("login"); setAnimKey(k => k + 1); setShowPw(false); };
+  const goSignup = () => { setPage("signup"); setAnimKey(k => k + 1); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };
+  const goLogin = () => { setPage("login"); setAnimKey(k => k + 1); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };
 
   const T = isP ? {
     appBg: "#050f1f", lpBg: "linear-gradient(135deg,#050f1f 0%,#0a1f3e 50%,#041525 100%)",
@@ -485,6 +531,7 @@ export default function App() {
                     <span className="greeting" style={{ color: T.greet }}>Welcome Back</span>
                     <div className="ftitle">Sign in to your account</div>
                   </div>
+                  {errorMsg && <div style={{background:"rgba(255,80,80,.1)",border:"1px solid rgba(255,80,80,.25)",color:"#ff6b6b",padding:"10px 14px",borderRadius:10,fontSize:".75rem",fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:".8rem",display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:".9rem"}}>⚠️</span> {errorMsg}</div>}
                   <div className="psw">
                     <button className={`pbtn ${isP ? "ap" : ""}`} onClick={() => switchPortal("patient")}>🧑‍⚕️ Patient</button>
                     <button className={`pbtn ${!isP ? "ad" : ""}`} onClick={() => switchPortal("doctor")}>👨‍⚕️ Doctor</button>
@@ -500,10 +547,11 @@ export default function App() {
                     <label className="flbl">Password</label>
                     <div className="fwrap">
                       <span className="fico">🔒</span>
-                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" value={form.pw} onChange={e => setForm({ ...form, pw: e.target.value })} />
+                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" value={form.pw} onChange={e => { setForm({ ...form, pw: e.target.value }); setPwErrorMsg(""); }} style={{ borderColor: pwErrorMsg ? "rgba(255,80,80,.5)" : undefined, boxShadow: pwErrorMsg ? "0 0 0 2px rgba(255,80,80,.2)" : undefined }} />
                       <button className="ptoggle" onClick={() => setShowPw(!showPw)}>{showPw ? "🙈" : "👁️"}</button>
                     </div>
-                    <span className="forgot">Forgot password?</span>
+                    {pwErrorMsg && <div style={{ fontSize: ".7rem", color: "#ff6b6b", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}><span>⚠️</span> {pwErrorMsg}</div>}
+                    {!pwErrorMsg && <span className="forgot">Forgot password?</span>}
                   </div>
                   <button className="sbtn" onClick={handleLogin}>
                     <div className="shimmer" />
@@ -525,6 +573,7 @@ export default function App() {
                     <span className="greeting" style={{ color: T.greet }}>Join Us</span>
                     <div className="ftitle">Create your account</div>
                   </div>
+                  {errorMsg && <div style={{background:"rgba(255,80,80,.1)",border:"1px solid rgba(255,80,80,.25)",color:"#ff6b6b",padding:"10px 14px",borderRadius:10,fontSize:".75rem",fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:".8rem",display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:".9rem"}}>⚠️</span> {errorMsg}</div>}
                   <div className="field">
                     <label className="flbl">Full Name</label>
                     <div className="fwrap">
@@ -550,9 +599,10 @@ export default function App() {
                     <label className="flbl">Password</label>
                     <div className="fwrap">
                       <span className="fico">🔒</span>
-                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" value={form.pw} onChange={e => setForm({ ...form, pw: e.target.value })} />
+                      <input className="finp" type={showPw ? "text" : "password"} placeholder="••••••••" value={form.pw} onChange={e => { setForm({ ...form, pw: e.target.value }); setPwErrorMsg(""); }} style={{ borderColor: pwErrorMsg ? "rgba(255,80,80,.5)" : undefined, boxShadow: pwErrorMsg ? "0 0 0 2px rgba(255,80,80,.2)" : undefined }} />
                       <button className="ptoggle" onClick={() => setShowPw(!showPw)}>{showPw ? "🙈" : "👁️"}</button>
                     </div>
+                    {pwErrorMsg && <div style={{ fontSize: ".7rem", color: "#ff6b6b", marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}><span>⚠️</span> {pwErrorMsg}</div>}
                   </div>
                   <div className="field">
                     <label className="flbl">Confirm Password</label>

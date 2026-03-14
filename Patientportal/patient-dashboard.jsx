@@ -408,6 +408,7 @@ export default function PatientDashboard() {
               { icon: "💊", label: "Medications", key: "meds" },
               { icon: "📋", label: "Reports", key: "reports" },
               { icon: "💬", label: "AI Chat", key: "chat" },
+              { icon: "✉️", label: "Messages", key: "messages" },
               { icon: "⚙️", label: "Settings", key: "settings" },
             ].map(({ icon, label, key }) => (
               <button key={key} className={`sb-item${activeNav === key ? " active" : ""}`} onClick={() => {
@@ -418,6 +419,7 @@ export default function PatientDashboard() {
                 else if (key === "chat") navigate("/jarvis-chat");
                 else if (key === "settings") navigate("/settings");
                 else if (key === "meds") navigate("/medication");
+                else if (key === "messages") navigate("/messages");
               }}>
                 <span className="sb-item-icon">
                   {icon}
@@ -619,6 +621,7 @@ export default function PatientDashboard() {
                     </div>
                   ))}
                   <button style={{ width: "100%", marginTop: ".9rem", padding: "10px", borderRadius: 10, background: "rgba(167,139,250,.1)", border: "1px solid rgba(167,139,250,.22)", color: "#a78bfa", fontFamily: "'Syne',sans-serif", fontSize: ".76rem", fontWeight: 700, cursor: "pointer", transition: "all .2s" }}
+                    onClick={() => navigate("/messages")}
                     onMouseOver={e => e.currentTarget.style.background = "rgba(167,139,250,.2)"}
                     onMouseOut={e => e.currentTarget.style.background = "rgba(167,139,250,.1)"}>
                     💬 Message Doctor
