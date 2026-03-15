@@ -110,11 +110,11 @@ Doctor / Patient Monitoring
 
 The system can monitor multiple vital health parameters:
 
-• Heart Rate ❤️
-• Body Temperature 🌡️
-• Blood Oxygen Level (SpO2) 🫁
-• Blood Pressure 🩸
-• Activity Level 🚶
+• Heart Rate 
+• Body Temperature 
+• Blood Oxygen Level (SpO2) 
+• Blood Pressure 
+• Activity Level 
 
 These metrics help detect early health risks and improve patient care.
 
