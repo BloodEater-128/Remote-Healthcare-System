@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
+const API_URL = "https://healthtest-production-3366.up.railway.app";
 
 
 const ECGCanvas = ({ color = "#00ff9d", glowColor = "#00ff9d" }) => {
@@ -270,8 +270,37 @@ export default function App() {
   const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };
 
   const handleLogin = async () => {
-    setErrorMsg("");
-    setPwErrorMsg("");
+  setErrorMsg("");
+  setPwErrorMsg("");
+  setLoading(true);
+
+  try {
+    const res = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: form.email,
+        password: form.pw,
+        role: portal,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem("token", data.token || "");
+      navigate(portal === "patient" ? "/dashboard" : "/doctor-dashboard");
+    } else {
+      setErrorMsg(data.message || "Login failed");
+    }
+  } catch (err) {
+    setErrorMsg("Backend not working");
+  }
+
+  setLoading(false);
+};
     
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
