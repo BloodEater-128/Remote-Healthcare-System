@@ -269,9 +269,32 @@ export default function App() {
 
   const switchPortal = p => { if (p === portal) return; setPortal(p); setAnimKey(k => k + 1); setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" }); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };
 
-  const handleLogin = async () => {
+ const handleLogin = async () => {
   setErrorMsg("");
   setPwErrorMsg("");
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!form.email.trim()) {
+    setErrorMsg("Please enter your email.");
+    return;
+  }
+
+  if (!emailRegex.test(form.email.trim())) {
+    setErrorMsg("Please enter a valid email address.");
+    return;
+  }
+
+  if (!form.pw) {
+    setPwErrorMsg("Please enter your password.");
+    return;
+  }
+
+  if (form.pw.length < 6) {
+    setPwErrorMsg("Password must contain at least 6 characters.");
+    return;
+  }
+
   setLoading(true);
 
   try {
@@ -300,8 +323,7 @@ export default function App() {
   }
 
   setLoading(false);
-};
-    
+}; 
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email.trim()) {
