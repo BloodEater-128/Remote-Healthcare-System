@@ -140,7 +140,9 @@ const NavItem = ({ icon, label, active, onClick }) => (
 );
 
 import { useNavigate } from "react-router-dom";
-
+import {
+  fetchDashboardSummary, fetchVitalsHistory, fetchNotifications, fetchDeviceStatus, markAllNotificationsRead
+} from "../src/api/dashboardApi.js";
 
 export default function PatientDashboard() {
   const navigate = useNavigate();
@@ -149,52 +151,81 @@ export default function PatientDashboard() {
   const [showNotif, setShowNotif] = useState(false);
   const [showAllNotif, setShowAllNotif] = useState(false);
 
-  const notifications = [
-    { icon: "⚠️", title: "Elevated Heart Rate", desc: "HR reached 82 BPM during rest at 2:14 PM.", time: "2 hrs ago", color: "#fbbf24", bg: "rgba(251,191,36,.12)", unread: true },
-    { icon: "💊", title: "Medication Reminder", desc: "Time to take Metoprolol 25mg with water after meal.", time: "30 min ago", color: "#00c8ff", bg: "rgba(0,200,255,.12)", unread: true },
-    { icon: "✅", title: "Daily Goal Achieved", desc: "You hit your 8,000 steps goal for today!", time: "1 hr ago", color: "#00ff9d", bg: "rgba(0,255,157,.12)", unread: true },
-    { icon: "🩺", title: "Doctor Review", desc: "Dr. Priya reviewed your weekly ECG report.", time: "3 hrs ago", color: "#a78bfa", bg: "rgba(167,139,250,.12)", unread: false },
-    { icon: "📋", title: "Report Ready", desc: "Your weekly health summary is ready to download.", time: "Today", color: "#f472b6", bg: "rgba(244,114,182,.12)", unread: false },
-  ];
-  const [time, setTime] = useState(new Date());
-  const [heartRate, setHeartRate] = useState(72);
-  const [spo2] = useState(98);
-  const [temp] = useState(36.6);
-  const [bp] = useState("118/76");
+  // 1. STATE VARIABLES FOR REAL DATA
+  const [patient, setPatient] = useState(null);
+  const [latestVitals, setLatestVitals] = useState(null);
+  const [apiAlerts, setApiAlerts] = useState([]);
+  const [apiPrescriptions, setApiPrescriptions] = useState([]);
+  const [doctor, setDoctor] = useState(null);
+  const [apiNotifications, setApiNotifications] = useState([]);
+  const [hrHistoryData, setHrHistoryData] = useState([]);
+  const [spo2HistoryData, setSpo2HistoryData] = useState([]);
+  const [device, setDevice] = useState({ isOnline: false });
+  const [loading, setLoading] = useState(true);
 
-  
+  const [time, setTime] = useState(new Date());
+
   useEffect(() => {
     const id = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  
+  // 2. FETCH DATA ON MOUNT
   useEffect(() => {
-    const id = setInterval(() => setHeartRate(70 + Math.floor(Math.random() * 8)), 2000);
-    return () => clearInterval(id);
+    const loadData = async () => {
+      try {
+        const [sum, hist, notifs, dev] = await Promise.all([
+          fetchDashboardSummary(), fetchVitalsHistory(), fetchNotifications(), fetchDeviceStatus()
+        ].map(p => p.catch(() => ({ success: false }))));
+
+        if (sum.success && sum.data) {
+          setPatient(sum.data.patient);
+          setLatestVitals(sum.data.latestVitals);
+          setApiAlerts(sum.data.alerts || []);
+          setApiPrescriptions(sum.data.prescriptions || []);
+          setDoctor(sum.data.doctor);
+        }
+        if (hist.success && hist.data) {
+          setHrHistoryData(hist.data.hrHistory || []);
+          setSpo2HistoryData(hist.data.spo2History || []);
+        }
+        if (notifs.success && notifs.data) {
+          setApiNotifications(notifs.data || []);
+        }
+        if (dev.success && dev.device) {
+          setDevice(dev.device);
+        }
+      } catch (err) { } finally { setLoading(false); }
+    };
+    loadData();
   }, []);
 
-  const hrHistory = [68, 71, 74, 70, 72, 75, 73, 72, 76, 74, 72, 73, 71, 74, 72, heartRate];
-  const spo2History = [97, 98, 98, 99, 98, 97, 98, 98, 99, 98, 98, 97, 98, 99, 98, spo2];
+  // 3. MAP STATE TO UI VARIABLES (Fallbacks to dummy if empty, so UI looks rich)
+  const notifications = apiNotifications.length ? apiNotifications : [
+    { icon: "✅", title: "No new notifications", desc: "You're all caught up.", time: "Now", color: "#00ff9d", bg: "rgba(0,255,157,.12)", unread: false }
+  ];
+
+  const currentHr = latestVitals?.heartRate || 72;
+  const currentSpo2 = latestVitals?.spo2 || 98;
+  const currentTemp = latestVitals?.temperature || 36.6;
+  const currentBp = latestVitals?.bloodPressure || "118/76";
+  
+  const hrHistory = hrHistoryData.length ? hrHistoryData : [68, 71, 74, 70, 72, 75, 73, 72, 76, 74, 72, 73, 71, 74, 72, currentHr];
+  const spo2History = spo2HistoryData.length ? spo2HistoryData : [97, 98, 98, 99, 98, 97, 98, 98, 99, 98, 98, 97, 98, 99, 98, currentSpo2];
 
   const vitals = [
-    { icon: <HeartSVG color="#ff6b6b" />, label: "Heart Rate", value: heartRate, unit: "BPM", color: "#ff6b6b", sub: "Normal range", data: hrHistory },
-    { icon: "🩸", label: "SpO₂", value: spo2, unit: "%", color: "#00c8ff", sub: "Excellent", data: spo2History },
-    { icon: "🌡️", label: "Temperature", value: temp, unit: "°C", color: "#ffd93d", sub: "Normal", data: [36.4, 36.5, 36.6, 36.5, 36.7, 36.6, 36.6, 36.5, 36.6, 36.7, 36.6, 36.6, 36.5, 36.6, 36.6, temp] },
-    { icon: "💉", label: "Blood Pressure", value: bp, unit: "mmHg", color: "#a78bfa", sub: "Optimal", data: [115, 118, 120, 116, 118, 119, 117, 118, 120, 118, 117, 119, 118, 118, 117, 118] },
+    { icon: <HeartSVG color="#ff6b6b" />, label: "Heart Rate", value: currentHr, unit: "BPM", color: "#ff6b6b", sub: "Normal range", data: hrHistory },
+    { icon: "🩸", label: "SpO₂", value: currentSpo2, unit: "%", color: "#00c8ff", sub: "Excellent", data: spo2History },
+    { icon: "🌡️", label: "Temperature", value: currentTemp, unit: "°C", color: "#ffd93d", sub: "Normal", data: [36.4, 36.5, 36.6, 36.5, 36.7, 36.6, 36.6, 36.5, 36.6, 36.7, 36.6, 36.6, 36.5, 36.6, 36.6, currentTemp] },
+    { icon: "💉", label: "Blood Pressure", value: currentBp, unit: "mmHg", color: "#a78bfa", sub: "Optimal", data: [115, 118, 120, 116, 118, 119, 117, 118, 120, 118, 117, 119, 118, 118, 117, parseInt(currentBp.split('/')[0]) || 118] },
   ];
 
-  const alerts = [
-    { icon: "⚠️", title: "Elevated Heart Rate Detected", desc: "HR reached 82 BPM during rest at 2:14 PM. Monitor activity level.", time: "2h ago", color: "#fbbf24", urgent: true },
-    { icon: "💊", title: "Medication Reminder", desc: "Time to take Metoprolol 25mg. Take with water after meal.", time: "30m ago", color: "#00c8ff", urgent: false },
-    { icon: "✅", title: "Daily Goal Achieved", desc: "You hit your 8,000 steps goal for today. Great work!", time: "1h ago", color: "#00ff9d", urgent: false },
-    { icon: "📋", title: "Report Ready", desc: "Your weekly health summary is available. Tap to download.", time: "Today", color: "#a78bfa", urgent: false },
+  const alerts = apiAlerts.length ? apiAlerts : [
+    { icon: "✅", title: "All Clear", desc: "No active health alerts.", time: "Now", color: "#00ff9d", urgent: false }
   ];
 
-  const prescriptions = [
-    { name: "Metoprolol", dose: "25mg", freq: "Once daily - Morning", days: 12, color: "#00c8ff" },
-    { name: "Aspirin", dose: "75mg", freq: "Once daily - Evening", days: 25, color: "#ff6b6b" },
-    { name: "Vitamin D3", dose: "1000IU", freq: "Twice daily", days: 8, color: "#ffd93d" },
+  const prescriptions = apiPrescriptions.length ? apiPrescriptions : [
+    { name: "Consult your doctor for prescriptions.", dose: "", freq: "", days: 0, color: "#888" }
   ];
 
   const today = time.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
@@ -382,8 +413,8 @@ export default function PatientDashboard() {
           <div className="sb-profile">
             <div className="sb-avatar">👤</div>
             <div className="sb-profile-info">
-              <span className="sb-name">Alex Johnson</span>
-              <span className="sb-role">Patient · ID: PAT-0042</span>
+              <span className="sb-name">{patient?.name || "Loading..."}</span>
+              <span className="sb-role">Patient · ID: {patient?.patientId || "N/A"}</span>
             </div>
           </div>
 
@@ -449,13 +480,22 @@ export default function PatientDashboard() {
           {}
           <div className="topbar" style={{ position: "relative" }}>
             <div className="topbar-left">
-              <h1>Good Morning, Alex 👋</h1>
+              <h1>Good Morning, {patient?.name ? patient.name.split(' ')[0] : "there"} 👋</h1>
               <p>Here's your health summary for today</p>
             </div>
             <div className="topbar-right">
-              <div className="status-pill">
-                <span className="status-dot" />
-                <span>Device Active</span>
+              <div className="status-pill" style={{
+                borderColor: device.isOnline ? "rgba(0,255,157,.2)" : "rgba(255,80,80,.2)",
+                background:  device.isOnline ? "rgba(0,255,157,.06)" : "rgba(255,80,80,.06)"
+              }}>
+                <span className="status-dot" style={{
+                  background:  device.isOnline ? "#00ff9d" : "#ff4444",
+                  boxShadow:   device.isOnline ? "0 0 6px #00ff9d" : "0 0 6px #ff4444",
+                  animation:   device.isOnline ? "blink 1.2s step-start infinite" : "none"
+                }} />
+                <span style={{ color: device.isOnline ? "#00ff9d" : "#ff4444" }}>
+                  {device.isOnline ? "Device Active" : "Device Offline"}
+                </span>
               </div>
               <div className="time-badge">
                 <span className="t">{timeStr}</span>
@@ -505,17 +545,21 @@ export default function PatientDashboard() {
                   <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
                     <div style={{ width: 76, height: 76, borderRadius: "50%", background: "linear-gradient(135deg,#0066ff,#00c8ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.2rem", flexShrink: 0, border: "3px solid rgba(0,200,255,.3)", boxShadow: "0 0 28px rgba(0,200,255,.22)" }}>👤</div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "1.25rem", fontWeight: 800, color: "#fff", marginBottom: 3 }}>Alex Johnson</div>
-                      <div style={{ fontSize: ".72rem", color: "rgba(0,200,255,.65)", marginBottom: 9 }}>Patient ID: PAT-0042</div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: "1.25rem", fontWeight: 800, color: "#fff", marginBottom: 3 }}>{patient?.name || "Loading..."}</div>
+                      <div style={{ fontSize: ".72rem", color: "rgba(0,200,255,.65)", marginBottom: 9 }}>Patient ID: {patient?.patientId || "N/A"}</div>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                        {[["O+", "#ff6b6b"], ["Male", "#00c8ff"], ["28 yrs", "#ffd93d"], ["Chennai, TN", "#00ff9d"], ["Hypertension", "#fbbf24"], ["Mild Arrhythmia", "#a78bfa"]].map(([t, c]) => (
+                        {[
+                          [patient?.bloodType || "O+", "#ff6b6b"], 
+                          [patient?.gender || "Not Set", "#00c8ff"], 
+                          [patient?.age ? `${patient.age} yrs` : "Age N/A", "#ffd93d"]
+                        ].map(([t, c]) => (
                           <span key={t} style={{ padding: "3px 11px", borderRadius: 50, background: `${c}15`, color: c, border: `1px solid ${c}28`, fontSize: ".64rem", fontWeight: 600 }}>{t}</span>
                         ))}
                       </div>
                     </div>
                     <div style={{ flexShrink: 0, textAlign: "right", borderLeft: "1px solid rgba(255,255,255,.06)", paddingLeft: 20 }}>
-                      <div style={{ fontSize: ".6rem", color: "rgba(255,255,255,.25)", marginBottom: 3, textTransform: "uppercase", letterSpacing: ".08em" }}>Last Updated</div>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".8rem", color: "#fff", fontWeight: 600, marginBottom: 12 }}>Mar 09, 2026</div>
+                      <div style={{ fontSize: ".6rem", color: "rgba(255,255,255,.25)", marginBottom: 3, textTransform: "uppercase", letterSpacing: ".08em" }}>Patient Since</div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".8rem", color: "#fff", fontWeight: 600, marginBottom: 12 }}>{patient?.createdAt || "Recent"}</div>
                       <div style={{ fontSize: ".6rem", color: "rgba(255,255,255,.25)", marginBottom: 3, textTransform: "uppercase", letterSpacing: ".08em" }}>Status</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 5, justifyContent: "flex-end" }}>
                         <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ff9d", boxShadow: "0 0 6px #00ff9d", display: "inline-block" }} />
@@ -529,12 +573,12 @@ export default function PatientDashboard() {
                 <div className="card" style={{ animationDelay: ".14s" }}>
                   <div className="card-hd"><span>Personal Information</span></div>
                   {[
-                    ["Full Name", "Alex Johnson"],
-                    ["Date of Birth", "Jan 15, 1998"],
-                    ["Age", "28 years"],
-                    ["Gender", "Male"],
-                    ["Nationality", "Indian"],
-                    ["Language", "Tamil, English"],
+                    ["Full Name", patient?.name || "N/A"],
+                    ["Date of Birth", patient?.dob || "N/A"],
+                    ["Age", patient?.age ? `${patient.age} years` : "N/A"],
+                    ["Gender", patient?.gender || "N/A"],
+                    ["Nationality", patient?.nationality || "N/A"],
+                    ["Language", patient?.language || "N/A"],
                   ].map(([l, v]) => (
                     <div className="pp-row" key={l}>
                       <span className="pp-row-label">{l}</span>
@@ -546,12 +590,12 @@ export default function PatientDashboard() {
                 <div className="card" style={{ animationDelay: ".18s" }}>
                   <div className="card-hd"><span>Physical Details</span></div>
                   {[
-                    ["Height", "175 cm"],
-                    ["Weight", "70 kg"],
-                    ["BMI", "22.9 — Normal"],
-                    ["Blood Type", "O Positive"],
-                    ["Allergies", "Penicillin"],
-                    ["Organ Donor", "Yes"],
+                    ["Height", patient?.height ? `${patient.height} cm` : "N/A"],
+                    ["Weight", patient?.weight ? `${patient.weight} kg` : "N/A"],
+                    ["BMI", patient?.bmi || "N/A"],
+                    ["Blood Type", patient?.bloodType || "N/A"],
+                    ["Allergies", patient?.allergies || "None Reported"],
+                    ["Organ Donor", patient?.organDonor || "N/A"],
                   ].map(([l, v]) => (
                     <div className="pp-row" key={l}>
                       <span className="pp-row-label">{l}</span>
@@ -563,12 +607,12 @@ export default function PatientDashboard() {
                 <div className="card" style={{ animationDelay: ".22s" }}>
                   <div className="card-hd"><span>Contact Details</span></div>
                   {[
-                    ["📧", "Email", "alex@email.com"],
-                    ["📱", "Phone", "+91 98765 43210"],
-                    ["📞", "Emergency", "+91 91234 56789"],
-                    ["📍", "Address", "12, Anna Nagar"],
-                    ["🏙️", "City", "Chennai, TN"],
-                    ["📮", "Pin Code", "600040"],
+                    ["📧", "Email", patient?.email || "N/A"],
+                    ["📱", "Phone", patient?.phone || "N/A"],
+                    ["📞", "Emergency", patient?.emergencyContact || "N/A"],
+                    ["📍", "Address", patient?.address || "N/A"],
+                    ["🏙️", "City", patient?.city || "N/A"],
+                    ["📮", "Zip Code", patient?.zipCode || "N/A"],
                   ].map(([icon, l, v]) => (
                     <div key={l} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,.04)" }}>
                       <span style={{ fontSize: ".67rem", color: "rgba(255,255,255,.35)", display: "flex", alignItems: "center", gap: 5 }}><span>{icon}</span>{l}</span>
@@ -584,18 +628,18 @@ export default function PatientDashboard() {
                     <div>
                       <div style={{ fontSize: ".62rem", color: "rgba(255,255,255,.28)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 6 }}>Diagnosed Conditions</div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: "1rem" }}>
-                        {[["Hypertension", "#ff6b6b"], ["Mild Arrhythmia", "#fbbf24"], ["Vitamin D Deficiency", "#ffd93d"]].map(([t, c]) => (
-                          <span key={t} style={{ padding: "3px 10px", borderRadius: 50, background: `${c}12`, color: c, border: `1px solid ${c}28`, fontSize: ".62rem", fontWeight: 600 }}>{t}</span>
-                        ))}
+                        {(patient?.conditions || []).length > 0 ? patient.conditions.map(c => (
+                          <span key={c} style={{ padding: "3px 10px", borderRadius: 50, background: "rgba(255,107,107,.12)", color: "#ff6b6b", border: "1px solid rgba(255,107,107,.28)", fontSize: ".62rem", fontWeight: 600 }}>{c}</span>
+                        )) : <span style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)" }}>No conditions reported</span>}
                       </div>
                       <div style={{ fontSize: ".62rem", color: "rgba(255,255,255,.28)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>Past Surgeries</div>
-                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>Appendectomy — 2018<br />No other major surgeries</div>
+                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>{patient?.surgeries || "No major surgeries"}</div>
                     </div>
                     <div>
                       <div style={{ fontSize: ".62rem", color: "rgba(255,255,255,.28)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>Family History</div>
-                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6, marginBottom: "1rem" }}>Father: Hypertension, Diabetes<br />Mother: No significant history</div>
+                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6, marginBottom: "1rem" }}>{patient?.familyHistory || "No significant history"}</div>
                       <div style={{ fontSize: ".62rem", color: "rgba(255,255,255,.28)", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>Current Medications</div>
-                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>Metoprolol 25mg · Aspirin 75mg<br />Vitamin D3 1000IU</div>
+                      <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.45)", lineHeight: 1.6 }}>{prescriptions.map(p => p.name).join(" · ") || "None"}</div>
                     </div>
                   </div>
                 </div>
@@ -605,15 +649,15 @@ export default function PatientDashboard() {
                   <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: ".9rem" }}>
                     <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg,#7c3aed,#a78bfa)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", flexShrink: 0, border: "2px solid rgba(167,139,250,.3)" }}>👩‍⚕️</div>
                     <div>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".88rem", fontWeight: 700, color: "#fff" }}>Dr. Priya Sharma</div>
-                      <div style={{ fontSize: ".65rem", color: "rgba(167,139,250,.8)", marginTop: 1 }}>Cardiologist · MBBS, MD</div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: ".88rem", fontWeight: 700, color: "#fff" }}>{doctor?.name || "Unassigned"}</div>
+                      <div style={{ fontSize: ".65rem", color: "rgba(167,139,250,.8)", marginTop: 1 }}>{doctor?.specialty || "General Physician"}</div>
                     </div>
                   </div>
                   {[
-                    ["Hospital", "Apollo Chennai"],
-                    ["Reg. No", "MCI-48291"],
-                    ["Last Visit", "Feb 28, 2026"],
-                    ["Next Visit", "Mar 15, 2026"],
+                    ["Hospital", doctor?.hospital || "N/A"],
+                    ["Reg. No", doctor?.registration || "N/A"],
+                    ["Consultation", doctor?.phone || "N/A"],
+                    ["Email", doctor?.email || "N/A"],
                   ].map(([l, v]) => (
                     <div className="pp-row" key={l}>
                       <span className="pp-row-label">{l}</span>
@@ -632,16 +676,16 @@ export default function PatientDashboard() {
                 <div className="card" style={{ animationDelay: ".34s" }}>
                   <div className="card-hd"><span>Insurance Details</span></div>
                   {[
-                    ["Provider", "Star Health India"],
-                    ["Policy No", "SHI-2024-00421"],
-                    ["Valid Until", "Dec 31, 2026"],
-                    ["Coverage", "₹5,00,000"],
-                    ["Type", "Family Floater"],
-                    ["Status", "Active ✓"],
+                    ["Provider", patient?.insuranceProvider || "N/A"],
+                    ["Policy No", patient?.insurancePolicy || "N/A"],
+                    ["Valid Until", patient?.insuranceValidUntil || "N/A"],
+                    ["Coverage", patient?.insuranceCoverage || "N/A"],
+                    ["Type", patient?.insuranceType || "N/A"],
+                    ["Status", patient?.insuranceStatus || "N/A"],
                   ].map(([l, v]) => (
                     <div className="pp-row" key={l}>
                       <span className="pp-row-label">{l}</span>
-                      <span className="pp-row-val" style={{ fontSize: ".74rem", color: l === "Status" ? "#00ff9d" : "#fff" }}>{v}</span>
+                      <span className="pp-row-val" style={{ fontSize: ".74rem", color: l === "Status" && v !== "N/A" ? "#00ff9d" : "#fff" }}>{v}</span>
                     </div>
                   ))}
                 </div>

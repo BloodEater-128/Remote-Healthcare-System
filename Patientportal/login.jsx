@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, provider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, db, doc, setDoc, getDoc } from "../src/firebaseConfig.js";
 
 
 
@@ -273,7 +274,6 @@ export default function App() {
     setErrorMsg("");
     setPwErrorMsg("");
     
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email.trim()) {
       setErrorMsg("Please enter your email.");
@@ -294,11 +294,39 @@ export default function App() {
     }
 
     setLoading(true);
-    
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, form.email.trim(), form.pw);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+      
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          role: isP ? "patient" : "doctor"
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
       navigate(isP ? "/dashboard" : "/doctor-dashboard");
-    }, 800);
+    } catch (error) {
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        setErrorMsg("Incorrect email or password. If you don't have an account, please Sign Up.");
+      } else {
+        setErrorMsg(error.message || "Failed to sign in.");
+      }
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -327,21 +355,82 @@ export default function App() {
       setPwErrorMsg("Passwords do not match!");
       return;
     }
-    setLoading(true);
     
-    setTimeout(() => {
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, form.email.trim(), form.pw);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+
+      const payload = {
+        name: form.name.trim(),
+        role: isP ? "patient" : "doctor",
+        patientId: form.patientId || null
+      };
+
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create account.");
+      }
+
+      // Show success message
+      alert("Account is created successfully");
+      
+      // Clear form and go back to sign in page
+      setForm({ email: "", pw: "", name: "", patientId: "", confirmPw: "" });
+      goLogin();
+    } catch (error) {
+      if (error.message && error.message.includes('email-already-in-use')) {
+        setErrorMsg("An account with this email already exists. Please Sign In.");
+      } else {
+        setErrorMsg(error.message || "Failed to create account.");
+      }
+      console.error("Signup error:", error);
+    } finally {
       setLoading(false);
-      navigate(isP ? "/dashboard" : "/doctor-dashboard");
-    }, 800);
+    }
   };
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
-    
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+      
+      const response = await fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          role: isP ? "patient" : "doctor"
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Google sign-in failed.");
+      }
+
       navigate(isP ? "/dashboard" : "/doctor-dashboard");
-    }, 800);
+    } catch (error) {
+      setErrorMsg(error.message || "Google sign-in failed.");
+      console.error("Google sign-in error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const goSignup = () => { setPage("signup"); setAnimKey(k => k + 1); setShowPw(false); setErrorMsg(""); setPwErrorMsg(""); };

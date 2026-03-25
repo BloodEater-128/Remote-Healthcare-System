@@ -1,16 +1,17 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCmZ06N5rY-b_OgilYhFfkLrwBcENmS6Qk",
-    authDomain: "health-care-monitoring-0128.firebaseapp.com",
-    projectId: "health-care-monitoring-0128",
-    storageBucket: "health-care-monitoring-0128.firebasestorage.app",
-    messagingSenderId: "669741710545",
-    appId: "1:669741710545:web:1dcc4ed89d55a29d05d9f0",
-    measurementId: "G-4YVYMV5QGT"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 
@@ -18,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 
 
 export const auth = getAuth(app);
+export const db = getFirestore(app, "users");
 export const provider = new GoogleAuthProvider();
 
-export { signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword };
+export { signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, doc, setDoc, getDoc };
